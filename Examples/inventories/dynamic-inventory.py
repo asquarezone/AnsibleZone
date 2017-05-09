@@ -46,7 +46,7 @@ class OurInventory(object):
     def our_inventory(self):
         return {
             'group': {
-                'hosts': ['YOURHOST1', 'YOURHOST2', 'YOURHOST3'],
+                'hosts': ['ip-172-31-17-6.us-west-2.compute.internal', 'ip-172-31-20-252.us-west-2.compute.internal', 'localhost'],
                 'vars': {
                     'ansible_user': 'ansible',
                     'test_variable': 'nonspecific_value'
@@ -54,10 +54,10 @@ class OurInventory(object):
             },
             '_meta': {
                 'hostvars': {
-                    'YOURHOST1': {
+                    'ip-172-31-17-6.us-west-2.compute.internal': {
                         'logs_folder': '/var/log'
                     },
-                    'YOURHOST2': {
+                    'ip-172-31-20-252.us-west-2.compute.internal': {
                         'logs_folder': '/var/log2'
                     }
                 }
