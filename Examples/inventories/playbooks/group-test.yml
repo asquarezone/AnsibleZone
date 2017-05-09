@@ -1,0 +1,10 @@
+---
+- hosts: redhat
+  tasks: 
+    - name: "ping all machines in redhat"
+      ping: 
+    
+    - name: "install latest git"
+      yum:
+        name: git
+        state: latest
