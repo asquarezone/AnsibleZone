@@ -9,9 +9,3 @@ ip-172-31-17-6.us-west-2.compute.internal
 [redhat]
 ip-172-31-20-252.us-west-2.compute.internal
 ip-172-31-17-6.us-west-2.compute.internal
-
-[database:vars]
-log_folders=/opt/logs
-
-[redhat:vars]
-software=git
