@@ -1,0 +1,5 @@
+---
+- hosts: remote
+  tasks:
+    - name: data into file
+      shell: echo "testing" > testfile.txt
