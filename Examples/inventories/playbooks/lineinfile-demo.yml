@@ -19,3 +19,9 @@
 
     - name: Test the contents of the hostname.conf
       command: 'cat /home/ansible/hostname.conf'
+      register: result
+
+    - name: Print the result
+      debug: 
+        var: result
+        verbosity: 2
