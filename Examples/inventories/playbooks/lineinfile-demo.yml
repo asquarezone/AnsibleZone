@@ -18,4 +18,4 @@
         line: Hostname={{ ansible_hostname }}
 
     - name: Test the contents of the hostname.conf
-      shell: 'cat /home/ansible/hostname.conf'
+      command: 'cat /home/ansible/hostname.conf'
