@@ -1,5 +1,6 @@
 ---
 - hosts: database
+  become: true
   tasks:
     - name: Copying the hostname to destination directory 
       copy: 
@@ -15,3 +16,6 @@
         insertafter: ^Hostname=.*
         # ansible_hostname is fact
         line: Hostname={{ ansible_hostname }}
+
+    - name: Test the contents of the hostname.conf
+      shell: 'cat /home/ansible/hostname.conf'
