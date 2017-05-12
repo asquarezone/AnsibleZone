@@ -5,13 +5,13 @@
     - name: Copying the hostname to destination directory 
       copy: 
         src: hostname.conf
-        dest: {{ config_location }}
+        dest: "{{ config_location }}"
         mode: 0644
         owner: ansible
 
     - name: add hostname to config
       lineinfile:
-        dest: {{ config_location }}
+        dest: "{{ config_location }}"
         regexp: ^Hostname=.*
         insertafter: ^Hostname=.*
         # ansible_hostname is fact
