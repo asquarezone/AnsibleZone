@@ -1,0 +1,8 @@
+---
+- hosts: local
+  tasks:
+    - name: "create a configuration file"
+      template: 
+        src: testme.j2
+        dest: /home/ansible/testme.conf
+        
