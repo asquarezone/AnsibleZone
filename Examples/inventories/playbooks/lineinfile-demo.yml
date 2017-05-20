@@ -1,5 +1,5 @@
 ---
-- hosts: database
+- hosts: local
   become: true
   tasks:
     - name: Copying the hostname to destination directory 

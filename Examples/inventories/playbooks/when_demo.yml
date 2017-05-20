@@ -1,0 +1,24 @@
+---
+- hosts: local
+  tasks: 
+    - name: Execute only on RedHat
+      command: "ls -al /home/ansible"
+      register: redhat_result
+      when: ansible_distribution == "RedHat"
+    
+    - name: "Print Variable From RedhHat task"
+      debug:
+        var: redhat_result
+
+    - name: "Output"
+      debug:
+        msg: "output is  {{ redhat_result.stdout }}"
+   
+    - name: Error from Redhat task Execution
+      debug:
+        msg: "error is {{ redhat_result.stderr }}"
+
+    - name: Execute only on Debian
+      command: "echo hello"
+      register: debian_result
+      when: ansible_distribution == "Debian"

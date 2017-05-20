@@ -1,0 +1,14 @@
+---
+- hosts: local
+  tasks:
+    - name: Display all items
+      command: "echo {{ item }}"
+      with_items: [ 1,2,3,4,5,6,7,8,9,10]
+    - name: Install applications for RedHat
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items: [ "git", "tree",  "wget" ]
+      when: 
+        - ansible_distribution == "RedHat" 
+        - item == "tree"
