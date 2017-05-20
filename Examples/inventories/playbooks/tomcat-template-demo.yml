@@ -1,0 +1,13 @@
+---
+- hosts: local
+  become: yes
+  tasks: 
+    - name: install tomcat
+      yum: 
+        name: tomcat
+        state: present
+      when: ansible_distribution == "Redhat"
+    - name: "Modify Java Opts"
+      template: 
+        src: tomcat.j2
+        dest: /usr/share/tomcat/conf/tomcat.conf
