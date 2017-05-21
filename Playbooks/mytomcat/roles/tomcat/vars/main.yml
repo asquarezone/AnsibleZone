@@ -1,2 +1,4 @@
 ---
 # vars file for tomcat
+username: admin
+password: test123

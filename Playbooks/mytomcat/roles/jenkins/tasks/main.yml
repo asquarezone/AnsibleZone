@@ -1,0 +1,6 @@
+---
+# tasks file for jenkins
+- name: Copying jenkins 
+  get_url:
+    url: http://ftp.yz.yamagata-u.ac.jp/pub/misc/jenkins/war-stable/2.46.2/jenkins.war
+    dest: /usr/share/tomcat/webapps/jenkins.war
