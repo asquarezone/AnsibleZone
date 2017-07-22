@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: remove dir
+      command: "rm -rf /var/logs"
+      tags: 
+        - prep
+    - name: install tomcat
+      yum: 
+        name: tomcat
+        state: present
+      tags:
+        - install
+        
