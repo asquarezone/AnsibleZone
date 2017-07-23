@@ -1,0 +1,5 @@
+[appserver]
+ip-172-31-2-31.us-west-2.compute.internal
+
+[local]
+localhost
