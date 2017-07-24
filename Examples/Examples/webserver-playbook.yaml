@@ -1,0 +1,8 @@
+---
+- hosts: webserver
+  become: yes
+  tasks:
+  - name: Install webserver
+    yum:
+      name: "{{ webserver_package }}"
+      state: present
