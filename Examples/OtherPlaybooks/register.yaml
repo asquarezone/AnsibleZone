@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  tasks:
+  - name: print contents of file
+    command: cat /home/ansible/test
+    register: cat_contents
+    ignore_errors: yes
+  - name: display contents
+    debug:
+      msg: "{{cat_contents}}"
+  - name: display content
+    debug:
+      msg: "{{cat_contents.stdout}}"
+    when: cat_contents.stderr == ""
+  - name: display error
+    debug:
+      msg: "{{cat_contents.stderr}}"
+    when: not cat_contents.stderr == ""

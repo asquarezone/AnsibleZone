@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - name: install apache on RedHat Server
+    yum: 
+      name: httpd
+      state: present
+    when: ansible_os_family == "RedHat"
+    tags:
+      - install
+  - name: install apache on Ubuntu server
+    apt:
+      name: apache2
+      state: present
+    when: ansible_os_family == "Debian"
+    tags:
+      - install
+      - service
+  - name: print free memory
+    debug:
+      msg: "free memory is {{ansible_memory_mb.real.free}}"
+    tags:
+      - debug

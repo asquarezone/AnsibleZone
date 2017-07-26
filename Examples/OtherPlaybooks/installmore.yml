@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  become: yes
+  tasks: 
+  - name: install "{{ item }}"
+    yum: 
+      name: {{ item }}
+    with_items:
+    - git
+    - tree
+    - wget
