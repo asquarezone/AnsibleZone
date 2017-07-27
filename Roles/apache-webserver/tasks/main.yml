@@ -30,5 +30,5 @@
 - name: enable service 
   service:
     name: "{{service_name}}"
-    enable: true
+    enabled: true
     state: started
