@@ -1,2 +1,4 @@
 ---
 # vars file for apache-webserver
+apache_pack_deb: apache2
+apache_pack_rhel: httpd

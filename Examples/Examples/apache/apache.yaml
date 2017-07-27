@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: install apache webserver
+    yum:
+      name: httpd
+    notify: Restart HTTPD
+  handlers:
+  - name: Restart HTTPD
+    service: 
+      name: httpd
+      state: restarted 

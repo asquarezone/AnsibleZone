@@ -1,2 +1,31 @@
 ---
 # tasks file for apache-webserver
+- name: update the packages for ubuntu  
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+- name: install apache on ubuntu
+  apt:
+    name: "{{apache_pack_deb}}"
+    state: present
+  notify: restart apache2
+  when: ansible_os_family == "Debian"
+- name: install apache on rhel
+  yum:
+    name: "{{apache_pack_rhel}}"
+    state: present
+  notify:  restart httpd
+  when: ansible_os_family == "RedHat"
+- name: set service name in case of redhat
+  set_fact:
+    service_name: "{{apache_pack_rhel}}"
+  when: ansible_os_family == "RedHat"
+- name: set service name in case of debian
+  set_fact:
+    service_name: "{{apache_pack_deb}}"
+  when: ansible_os_family == "Debian"
+- name: enable service 
+  service:
+    name: "{{service_name}}"
+    enable: true
+    state: started
