@@ -24,6 +24,9 @@
   set_fact:
     service_name: "{{apache_pack_deb}}"
   when: ansible_os_family == "Debian"
+- name: display service name
+  debug:
+    msg: "{{service_name}}"
 - name: enable service 
   service:
     name: "{{service_name}}"
