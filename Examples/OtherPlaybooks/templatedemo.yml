@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  vars:
+    description: This is a test
+  tasks:
+  - name: create a file with hostname & os info
+    template:
+      src: info.j2
+      dest: /home/ansible/info
