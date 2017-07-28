@@ -1,0 +1,31 @@
+---
+# tasks file for asquarezone.apache
+- name: install apache on debian
+  apt:
+    name: "{{apache_package_deb}}"
+    state: present
+  when: ansible_os_family == "Debian"
+- name: install apache on rhel
+  yum:
+    name: "{{apache_package_rhel}}"
+    state: present
+  when: ansible_os_family == "RedHat"
+- name: set service name for Debian
+  set_fact:
+    apache_package: "{{apache_package_deb}}"
+  when: ansible_os_family == "Debian"
+- name: set service name for RedHat
+  set_fact:
+    apache_package: "{{apache_package_rhel}}"
+  when: ansible_os_family == "RedHat"
+- name: Service enable and start
+  service:
+    name: "{{apache_package}}"
+    enabled: yes
+    state: started
+- name: test by print
+  debug:
+    msg: firing notification for redhat
+  notify: restart rhel apache
+  when: ansible_os_family == "RedHat"
+

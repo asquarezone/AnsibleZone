@@ -1,0 +1,10 @@
+---
+# handlers file for asquarezone.apache
+- name: restart debian apache
+  service: 
+    name: "{{apache_package_deb}}"
+    state: restarted
+- name: restart rhel apache
+  service:
+    name: "{{apache_package_rhel}}"
+    state: restarted

@@ -1,0 +1,5 @@
+---
+# vars file for asquarezone.apache
+apache_package_deb: apache2
+apache_package_rhel: httpd
+apache_homepage_path: /var/www/html/index.html
