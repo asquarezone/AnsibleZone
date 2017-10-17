@@ -1,0 +1,8 @@
+---
+- hosts: ubuntu
+  become: yes
+  tasks:
+  - apt:
+      name: tomcat7
+      state: present
+      update_cache: yes

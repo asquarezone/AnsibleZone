@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Copy module
+    copy:
+      src: /home/ansible/myinv
+      dest: /home/ansible/myinvcopied
+  - name: Get_url for downloading from http
+    get_url:
+       url: http://ftp.yz.yamagata-u.ac.jp/pub/misc/jenkins/war-stable/2.73.2/jenkins.war
+       dest: /home/ansible/jenkins.war

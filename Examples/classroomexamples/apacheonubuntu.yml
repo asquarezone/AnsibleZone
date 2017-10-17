@@ -1,0 +1,12 @@
+---
+- hosts: ubuntu
+  become: yes
+  tasks:
+  - name: update the cache
+    apt:
+      name: update
+      update_cache: yes
+  - name: This will install apache
+    apt:
+      name: apache2
+      state: present

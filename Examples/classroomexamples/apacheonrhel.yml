@@ -1,0 +1,10 @@
+---
+- hosts: dbserver
+  become: yes
+  tasks:
+  - yum:
+      name: httpd
+      state: present
+  - service:
+      name: httpd
+      state: started
