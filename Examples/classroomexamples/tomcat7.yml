@@ -6,3 +6,15 @@
       name: tomcat7
       state: present
       update_cache: yes
+    notify: 
+    - restart tomcat
+  - copy:
+      src: /home/ansible/myinv
+      dest: /home/ansible/myinvcopied
+    notify: 
+    - restart tomcat
+  handlers:
+  - name: restart tomcat
+    service:
+      name: tomcat7
+      state: restarted

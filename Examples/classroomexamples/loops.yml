@@ -1,0 +1,10 @@
+---
+- hosts: ubuntu
+  become: yes
+  tasks:
+  - name: install utilities
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items: ["git","nano","tree","wget"]
+  
