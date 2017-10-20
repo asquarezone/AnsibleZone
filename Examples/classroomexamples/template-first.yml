@@ -1,0 +1,8 @@
+--- 
+- hosts: all
+  become: yes
+  tasks:
+  - name: first template task
+    template:
+      src: first.j2
+      dest: /home/ansible/first
