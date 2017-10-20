@@ -10,3 +10,7 @@
     template:
       src: second.j2
       dest: /home/ansible/second
+  - name: tomcat7 default settings
+    template:
+      src: tomcat7.j2
+      dest: /etc/default/tomcat7
