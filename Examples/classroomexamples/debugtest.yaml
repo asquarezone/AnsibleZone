@@ -1,5 +1,9 @@
 ---
 - hosts: dbserver
+  vars_prompt:
+  - name: "some_password"
+    prompt: "Enter password"
+    private: yes
   tasks:
   - name: execute any basic linux command
     command: hostname -f 
@@ -17,6 +21,5 @@
     when: cmd_content.stderr != ""
   - debug:
       msg: "System {{ inventory_hostname }} has uuid {{ ansible_product_uuid }}"
-  - name: "some_password"
-    prompt: "Enter password"
-    private: yes
+  
+  
