@@ -1,2 +1,7 @@
 ---
 # tasks file for common
+- name: update packages on ubuntu
+  command: apt-get update
+  when: ansible_os_family == "Debian"
+- name: update packages on Redhat
+  command: yum update
