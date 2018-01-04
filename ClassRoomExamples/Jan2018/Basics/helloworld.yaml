@@ -1,0 +1,5 @@
+---
+- hosts: ip
+  tasks:
+  - name: ping machines
+    ping:
