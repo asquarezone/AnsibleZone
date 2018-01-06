@@ -11,5 +11,17 @@
       state: present
   - name: Create the home page
     file:
-      path: /var/www/html/index.html
+      path: /home/ansible/index.html
       state: file
+  - name: stop apache
+    service:
+      name: apache2
+      state: stopped
+  - name: Copy the Home Page to server
+    file:
+      src: /home/ansible/index.html
+      dest: /var/www/html/index.html
+  - name: Start the apache
+    service: 
+      name: apache2
+      state: started
