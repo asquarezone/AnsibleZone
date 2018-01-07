@@ -2,26 +2,37 @@
 - hosts: webserver
   become: yes
   tasks:
-  - name: update packages
+  - name: update packages for Debian
     apt:
       update_cache: yes
-  - name: install apache
+    when: ansible_os_family == "Debian"
+  - name: install apache for Debain
     apt:
       name: apache2
       state: present
+    notify:
+    - Restart Apache2
+    when: ansible_os_family =="Debian"
+  - name: install apache for RedHat
+    yum:
+      name: httpd
+      state: present
+    notify:
+    - Restart Httpd
+    when: ansible_os_family == "RedHat"
   - name: Create the home page
-    file:
-      path: /home/ansible/index.html
-      state: file
-  - name: stop apache
+    copy:
+      dest: /var/www/html/index.html
+      content: "<h1> Welcome To Apache (Controlled By Ansible) </h1>"
+    #notify:
+    #- Restart Apache
+  handlers:
+  - name: Restart Apache2
     service:
       name: apache2
-      state: stopped
-  - name: Copy the Home Page to server
-    file:
-      src: /home/ansible/index.html
-      dest: /var/www/html/index.html
-  - name: Start the apache
-    service: 
-      name: apache2
-      state: started
+      state: restarted
+  - name: Restart Httpd
+    service:
+      name: httpd
+      state: restarted
+
