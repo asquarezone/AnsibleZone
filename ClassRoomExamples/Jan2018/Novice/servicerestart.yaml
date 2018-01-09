@@ -1,0 +1,8 @@
+---
+- hosts: webserver
+  become: yes
+  tasks:
+  - name: restart service
+    service:
+      name: "{{ pack_name }}"
+      state: restarted

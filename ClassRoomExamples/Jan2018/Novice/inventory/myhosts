@@ -3,7 +3,12 @@ localhost
 172.31.27.124
 
 [ubuntu]
-172.31.25.0
+172.31.25.0 st_to_be_set=absent
 
 [webserver]
-172.31.25.0
+172.31.25.0 pack_name=apache2
+172.31.27.124 pack_name=httpd
+
+[webserver:vars]
+homepage=/var/www/html/index.html
+backuppath=/home/ansible/index.html

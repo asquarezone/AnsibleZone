@@ -45,3 +45,4 @@ JAVA_OPTS="-Djava.awt.headless=true -Xmx128m -XX:+UseConcMarkSweepGC"
 # NOTE: authbind works only with IPv4.  Do not enable it when using IPv6.
 # (yes/no, default: no)
 #AUTHBIND=no
+JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -Xmx{{ max_mem }}m -XX:MaxPermSize={{ perm_size }}m -XX:+UseConcMarkSweepGC"

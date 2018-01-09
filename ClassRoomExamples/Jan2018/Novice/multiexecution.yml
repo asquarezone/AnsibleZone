@@ -1,0 +1,13 @@
+---
+- hosts: webserver
+  become: yes
+  tasks:
+  - name: install utility
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+    - tree
+    - git
+    - nano
+    when: ansible_os_family == "Debian"

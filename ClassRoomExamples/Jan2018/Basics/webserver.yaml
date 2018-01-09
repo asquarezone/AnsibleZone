@@ -8,31 +8,30 @@
     when: ansible_os_family == "Debian"
   - name: install apache for Debain
     apt:
-      name: apache2
+      name: "{{ pack_name }}"
       state: present
     notify:
-    - Restart Apache2
+    - Restart Apache
     when: ansible_os_family =="Debian"
   - name: install apache for RedHat
     yum:
-      name: httpd
+      name: "{{ pack_name }}"
       state: present
     notify:
-    - Restart Httpd
+    - Restart Apache
     when: ansible_os_family == "RedHat"
+  - name: Backup of Home page
+    command: cp -n {{ homepage }} {{ backuppath }}
   - name: Create the home page
     copy:
-      dest: /var/www/html/index.html
+      dest: "{{ homepage }}"
       content: "<h1> Welcome To Apache (Controlled By Ansible) </h1>"
-    #notify:
-    #- Restart Apache
+    notify:
+    - Restart Apache
   handlers:
-  - name: Restart Apache2
+  - name: Restart Apache
     service:
-      name: apache2
+      name: "{{ pack_name }}"
       state: restarted
-  - name: Restart Httpd
-    service:
-      name: httpd
-      state: restarted
+
 

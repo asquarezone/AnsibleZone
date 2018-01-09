@@ -1,0 +1,56 @@
+---
+- hosts: ubuntu
+  vars:
+    package: tomcat7
+    st_to_be_set: absent
+    max_mem: 512
+    perm_size: 256
+    additional_packages:
+      - tomcat7-docs
+      - tomcat7-admin
+      - tomcat7-examples
+    tomcat_username: "admin"
+    tomcat_password: "password"
+    tomcat_roles:  "manager-gui,admin-gui"
+  become: yes
+  tasks:
+  - name: "update apt repo"
+    apt:
+      update_cache: yes
+  - name: install tomcat
+    apt:
+      name: "{{ package }}"
+      state: "{{ st_to_be_set }}"
+    notify:
+      restart tomcat
+  - name: change default settings
+    template:
+      src: tomcat7.j2
+      dest: /etc/default/tomcat7
+    notify:
+      restart tomcat
+    when: st_to_be_set == "present"
+  - name: install additional packages
+    apt:
+      name: {{ item }}
+    with_items: 
+      {{additional_packages }}
+    when: st_to_be_set == "present"
+  - name: configure user for tomcat
+    template:
+      src: tomcat-users.xml.j2
+      dest: /etc/tomcat7/tomcat-users.xml
+    notify:
+      restart tomcat
+    when: st_to_be_set == "present"
+     
+#  - name: Copy file
+#    copy:
+#      src: tomcat7
+#      dest: /etc/default/tomcat7
+  handlers:
+  - name: restart tomcat
+    service: 
+      name: "{{ package }}"
+      state: restarted
+    when: st_to_be_set == "present"
