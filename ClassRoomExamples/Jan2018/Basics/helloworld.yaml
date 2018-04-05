@@ -2,5 +2,14 @@
 - hosts: ip
   gather_facts: no
   tasks:
+  - debug:
+      msg: Starting Playbook 
   - name: ping machines
     ping:
+  - name: execute linux command
+    command: ls
+    register: ls_result
+  - debug:
+      msg: "message is {{ ls_result }}"
+    when: my_var == "set"
+    

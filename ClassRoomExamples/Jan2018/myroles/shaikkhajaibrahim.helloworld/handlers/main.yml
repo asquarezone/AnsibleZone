@@ -1,0 +1,6 @@
+---
+# handlers file for shaikkhajaibrahim.helloworld
+- name: restart tomcat
+  service:
+    name: tomcat7
+    state: restarted

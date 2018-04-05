@@ -1,0 +1,12 @@
+---
+- hosts: grpB
+  become: yes
+  tasks:
+  - name: "installing nginx"
+    apt:
+      name: nginx
+      state: present
+  - name: "Ensure the service is stopped"
+    service:
+      name: nginx
+      state: stopped

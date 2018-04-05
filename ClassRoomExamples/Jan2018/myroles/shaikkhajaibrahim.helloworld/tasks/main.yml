@@ -1,0 +1,21 @@
+---
+# tasks file for shaikkhajaibrahim.helloworld
+
+- include: ubunutu.yml
+  when:
+
+
+- name: "update apt repo"
+    apt:
+      update_cache: yes
+- name: install tomcat7
+  apt:
+    name: {{ app_pack_name }}
+  notify:
+  - restart tomcat
+
+- name: memory sizes
+  template:
+    src: test.j2
+    dest: /home/ansible/test
+  
