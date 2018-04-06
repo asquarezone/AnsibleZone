@@ -15,9 +15,10 @@
     folderpath: /home/ansible/nodesetup
   tasks:
   - name: Creating nodesetup directory
-    path: "{{ folderpath }}"
-    state: directory
-    mode: 0755
+    file:
+      path: "{{ folderpath }}"
+      state: directory
+      mode: 0755
   - name: Download node js package setup
     command: "curl -sL https://deb.nodesource.com/setup_8.x -o {{folderpath}}/nodesource_setup.sh"
   - name: Execute downloaded Shell Script
