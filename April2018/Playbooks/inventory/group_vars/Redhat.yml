@@ -1,0 +1,8 @@
+---
+package_name: httpd
+isUpdateRequired: yes
+
+utilities:
+- git
+- tree
+- nano
