@@ -32,3 +32,30 @@
     template: 
       src: "templates/hello.js.j2"
       dest: "{{ folderpath }}/hello.js"
+  - name: Install pm2
+    npm:
+      name: coffee-script
+      global: yes
+  - name: "Start node js app"
+    command: "pm2 start {{ folderpath }}/hello.js"
+
+- hosts: web
+  become: yes
+  vars:
+    webserver_dns_name: "ec2-54-213-64-143.us-west-2.compute.amazonaws.com"
+    appserver_ip: 172.31.41.121
+  tasks:
+  - name: install nginx
+    apt:
+      name: nginx
+      state: present
+  - name: copy default file
+    template:
+      src: templates/default.j2
+      dest: /etc/nginx/sites-available/default
+    notify: Restart Nginx
+  handlers:
+  - name: Restart Nginx
+    service:
+      name: nginx
+      state: restarted
