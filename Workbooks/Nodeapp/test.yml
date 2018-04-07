@@ -1,0 +1,21 @@
+- hosts: web
+  become: yes
+  vars:
+    webserver_dns_name: "ec2-54-213-64-143.us-west-2.compute.amazonaws.com"
+    appserver_ip: 172.31.41.121
+  tasks:
+  - name: install nginx
+    apt:
+      name: nginx
+      state: present
+  - name: copy default file
+    template:
+      src: templates/default.j2
+      dest: /etc/nginx/sites-available/default
+    notify: Restart Nginx
+  handlers:
+  - name: Restart Nginx
+    service:
+      name: nginx
+      state: restarted
+
