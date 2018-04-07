@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - common
+
+- hosts: app
+  become: yes
+  roles:
+    - appserver
+
+- hosts: web
+  become: yes
+  roles:
+    - webserver

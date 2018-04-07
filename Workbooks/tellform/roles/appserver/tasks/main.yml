@@ -1,2 +1,25 @@
 ---
 # tasks file for appserver
+- name: "Creating the node setup directory"
+  file:
+    path: "{{ folderpath }}"
+    state: directory
+- name: Download node js package setup
+  command: "curl -sL https://deb.nodesource.com/setup_{{ node_version }}.x -o {{folderpath}}/nodesource_setup.sh"
+- name: Execute downloaded Shell Script
+    command: "sudo bash {{folderpath}}/nodesource_setup.sh"
+- name: Install node js
+  apt:
+    name: nodejs
+    state: present
+- name: Copy the Code
+  template: 
+    src: "templates/hello.js.j2"
+    dest: "{{ folderpath }}/hello.js"
+- name: Install pm2
+  npm:
+    name: pm2
+    global: yes
+- name: "Start node js app"
+  command: "pm2 start {{ folderpath }}/hello.js"
+

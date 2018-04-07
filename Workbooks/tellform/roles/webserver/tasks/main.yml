@@ -1,2 +1,11 @@
 ---
 # tasks file for webserver
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+- name: copy default file
+  template:
+    src: templates/default.j2
+    dest: /etc/nginx/sites-available/default
+  notify: Restart Nginx
