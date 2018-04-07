@@ -7,7 +7,7 @@
 - name: Download node js package setup
   command: "curl -sL https://deb.nodesource.com/setup_{{ node_version }}.x -o {{folderpath}}/nodesource_setup.sh"
 - name: Execute downloaded Shell Script
-    command: "sudo bash {{folderpath}}/nodesource_setup.sh"
+  command: "sudo bash {{folderpath}}/nodesource_setup.sh"
 - name: Install node js
   apt:
     name: nodejs
