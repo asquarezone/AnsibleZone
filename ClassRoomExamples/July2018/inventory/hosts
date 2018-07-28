@@ -1,9 +1,9 @@
 [ubuntu]
-localhost
-ip-172-31-25-66.us-west-2.compute.internal
+localhost 
+ip-172-31-25-66.us-west-2.compute.internal 
 
 [redhat]
-ip-172-31-25-132.us-west-2.compute.internal
+ip-172-31-25-132.us-west-2.compute.internal 
 
 [webserver]
 localhost

@@ -39,6 +39,13 @@
     notify:
     - restart httpd
     when: ansible_os_family == "RedHat"
+  - name: download web page
+    get_url:
+      url: https://raw.githubusercontent.com/asquarezone/AnsibleZone/master/ClassRoomExamples/July2018/basics/info.php
+      dest: /var/www/html/info.php
+    notify:
+    - restart apache
+    - restart httpd
   handlers:
   - name: restart apache
     service:
