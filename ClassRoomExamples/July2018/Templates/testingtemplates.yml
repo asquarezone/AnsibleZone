@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    - myname: template examples
+  tasks:
+  - name: Create a file with static content
+    copy:
+      src: hello.txt
+      dest: /home/ansible/hell
+
+  - name: Create a file with dynamic content
+    template:
+      src: message.j2
+      dest: /home/ansible/message
