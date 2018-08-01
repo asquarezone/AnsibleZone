@@ -1,0 +1,13 @@
+---
+# vars file for default
+package: tomcat7
+st_to_be_set: absent
+max_mem: 512
+perm_size: 256
+additional_packages:
+  - tomcat7-docs
+  - tomcat7-admin
+  - tomcat7-examples
+tomcat_username: "admin"
+tomcat_password: "password"
+tomcat_roles:  "manager-gui,admin-gui"

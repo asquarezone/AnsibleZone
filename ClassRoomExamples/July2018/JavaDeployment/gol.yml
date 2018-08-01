@@ -1,0 +1,6 @@
+---
+- hosts: all
+  become: yes
+  roles:
+  - geerlingguy.java
+  - idealista.tomcat-role

@@ -1,0 +1,34 @@
+---
+# tasks file for default
+- name: install utils
+  include_tasks: testing.yml
+- name: install apache server
+  package:
+    name: "{{ pack_name }}"
+    state: present
+  notify:
+  - restart apache
+- name: install php packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ php_packages }}"
+  notify:
+  - restart apache
+- name: download web page
+  get_url:
+    url: https://raw.githubusercontent.com/asquarezone/AnsibleZone/master/ClassRoomExamples/July2018/basics/info.php
+    dest: /var/www/html/info.php
+  notify:
+  - restart apache
+
+- name: install java and tomcat packages
+  apt: 
+    pkg: {{ item }} 
+    state: installed
+  become: true
+  with_items:
+   - openjdk-7-jre
+   - tomcat6
+   - tomcat6-extras 
+   - tomcat6-admin

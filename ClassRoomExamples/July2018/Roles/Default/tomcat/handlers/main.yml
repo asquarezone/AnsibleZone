@@ -1,0 +1,7 @@
+---
+# handlers file for default
+- name: restart tomcat
+  service: 
+    name: "{{ package }}"
+    state: restarted
+  when: st_to_be_set == "present"
