@@ -1,5 +1,6 @@
 [webserver]
 172.31.49.208
+localhost package_name=apache2
 
 [webserver:vars]
 package_name=httpd
