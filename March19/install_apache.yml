@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: install apache2
+    apt:
+      name: apache2
+      update_cache: yes
+      state: present
+  - name: start the service
+    service:
+      name: apache2
+      enabled: yes
+      state: started
+
+# sudo apt-get update
+# sudo apt-get install apache2
+# sudo service apache2 start
+# http://<publicipadress>

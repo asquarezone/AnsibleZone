@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks:
+  - name: "ping all the nodes"
+    ping:
+      data: pong
+# ansible-playbook <path of playbook>

@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: install tree
+    apt:
+      name: tree
+      update_cache: yes
+      state: present
+      
+  
+
+# sudo apt-get update
+# sudo apt-get install tree

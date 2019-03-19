@@ -1,0 +1,15 @@
+---
+# This implementation is from 
+# https://linuxconfig.org/apache-webserver-httpd-service-installation-on-redhat-7-linux
+- hosts: webserver
+  become: yes
+  tasks:
+    - name: install apache
+      package:
+        name: "{{ package_name }}"
+        state: present
+    - name: start and enable apache service
+      service:
+        name: "{{ package_name }}"
+        enabled: yes
+        state: started
