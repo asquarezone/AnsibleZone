@@ -1,0 +1,36 @@
+---
+- hosts: webserver
+  become: yes
+  tasks:
+  - name: fail for other platforms
+    fail:
+      msg: "This playbook is developed only for RHEL platforms"
+    when:
+    - ansible_os_family != "RedHat"
+  - debug:
+      msg: "Starting the installation"
+  - name: install httpd
+    yum:
+      name: httpd
+      state: present
+  - debug:
+      msg: "Installed Httpd"
+  - name: start httpd
+    service:
+      name: httpd
+      enabled: yes
+      state: restarted
+  - debug:
+      msg: "restarte the service"
+  - name: install php modules
+    yum:
+      name: "{{ item }}"
+      state: present
+    loop:
+    - php
+    - php-mysql
+    - php-pdo 
+    - php-gd 
+    - php-mbstring
+
+# inspired from https://www.tecmint.com/install-lamp-in-centos-7/
