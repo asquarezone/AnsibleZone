@@ -30,7 +30,14 @@
     - php
     - php-mysql
     - php-pdo 
-    - php-gd 
+    # - php-gd 
     - php-mbstring
-
+  - name: copy php page
+    copy:
+      src: info.php
+      dest: /var/www/html/info.php
+  - name: restart apache again
+    service:
+      name: httpd
+      state: restarted
 # inspired from https://www.tecmint.com/install-lamp-in-centos-7/
