@@ -30,8 +30,6 @@
     - php
     - php-mysql
     - php-pdo 
-    # - php-gd 
-    - php-mbstring
   - name: copy php page
     copy:
       src: info.php
