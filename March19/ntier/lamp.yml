@@ -13,15 +13,10 @@
     yum:
       name: httpd
       state: present
+    notify:
+    - restart httpd
   - debug:
       msg: "Installed Httpd"
-  - name: start httpd
-    service:
-      name: httpd
-      enabled: yes
-      state: restarted
-  - debug:
-      msg: "restarte the service"
   - name: install php modules
     yum:
       name: "{{ item }}"
@@ -34,8 +29,12 @@
     copy:
       src: info.php
       dest: /var/www/html/info.php
-  - name: restart apache again
-    service:
+    notify:
+    - restart httpd
+  handlers:
+  - name: restart httpd
+    service: 
       name: httpd
+      enabled: yes
       state: restarted
 # inspired from https://www.tecmint.com/install-lamp-in-centos-7/
