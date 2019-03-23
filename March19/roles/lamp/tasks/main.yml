@@ -1,0 +1,33 @@
+---
+# tasks file for dummy
+- name: fail for other platforms
+  fail:
+    msg: "This playbook is developed only for RHEL platforms"
+  when:
+  - ansible_os_family != "RedHat"
+- name: debug msg inst 
+  debug:
+    msg: "Starting the installation"
+- name: install httpd
+  yum:
+    name: httpd
+    state: present
+  notify:
+  - restart httpd
+- name: debug msg inst2
+  debug:
+    msg: "Installed Httpd"
+- name: install php modules
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+  - php
+  - php-mysql
+  - php-pdo 
+- name: copy php page
+  copy:
+    content: "<?php phpinfo(); ?>"
+    dest: /var/www/html/info.php
+  notify:
+    - restart httpd

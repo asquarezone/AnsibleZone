@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name:  Create file
+      template:
+        src: readme.txt.j2
+        dest: /home/ansible/readme.txt
