@@ -1,0 +1,9 @@
+---
+- hosts: WS
+  become: yes
+  roles:
+  - ecommerce
+  
+# DEV ansible-playbook -i DEV/inventory installecommerce.yml
+# QA ansible-playbook -i QA/inventory installecommerce.yml
+# STAGING ansible-playbook -i STAGING/inventory installecommerce.yml

@@ -1,0 +1,25 @@
+---
+name: xxxxx
+professional summary: lskadjflksafdjlkdsafjskalfjaslflkajflakdsjlaksdf
+skills:
+  CM: 
+    - Ansible
+    - Chef
+    - Powershell DSC
+  Infra Provisioning:
+    - Terraform
+    - Packer
+    - CF
+    - ARM Templates
+  Containers:
+    - Docker
+    - K8s
+    - ECS
+    - AKS
+    - EKS
+WorkExperience:
+  - name: xxxxxx
+    designation: xxxxxxxxx
+    RandR:
+      - Maintenance of DevOps Pipelines 
+      - Developing Ansible Playbooks & Roles 

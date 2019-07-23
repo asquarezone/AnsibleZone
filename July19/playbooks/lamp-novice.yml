@@ -1,0 +1,43 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Display os info to the user
+    debug:
+      msg: OS Family is {{ ansible_os_family }}
+  - name: update ubuntu packages
+    apt:
+      update_cache: yes
+    when: ansible_os_family == "Debian"
+  - name: install apache server
+    package: 
+      name: "{{ webserver_package }}"
+      state: present
+    notify:
+    - restart apache
+  - debug:
+      msg: Installed apache server using package {{ webserver_package }}
+  - name: install php packages
+    package:
+      name: "{{ item }}"
+      state: present
+    loop:
+    - php 
+    - php-mysql
+    notify:
+    - restart apache
+  - name: copy info.php page
+    get_url:
+      url: https://qt-s3-new-testing.s3-us-west-2.amazonaws.com/info.php
+      dest: /var/www/html/info.php
+    notify:
+    - restart apache
+  - name: create some file
+    copy:
+      src: mymessage.txt
+      dest: /home/ansible/mymessage.txt
+  handlers:
+  - name: restart apache
+    service:
+      name: "{{ webserver_package }}"
+      state: restarted

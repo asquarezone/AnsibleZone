@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: update ubuntu packages and install apache2
+      apt:
+        name: apache2
+        update_cache: yes
+        state: present
+    - name: restart apache2
+      service:
+        name: apache2
+        state: restarted
+    - name: install php
+      apt:
+        name: php
+        state: present
+    - name: install libapache2-mod-php
+      apt:
+        name: libapache2-mod-php
+        state: present

@@ -1,0 +1,20 @@
+---
+name: QT-Multiplex
+online: yes
+screens:
+  screen-1:
+    - time: 10:00
+      movie: Spider Man Far from Home
+    - time: 1:00
+      movie: Oh Baby
+  screen-2:
+    - time: 2:00
+      movie: Lion King
+
+    - time: 5:00
+      movie: avengers end game
+  screen-3:
+    - time: 9:00
+      movie: Dayyala Kota
+
+  
