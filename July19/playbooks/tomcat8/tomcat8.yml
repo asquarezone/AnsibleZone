@@ -33,6 +33,13 @@
         dest: /etc/tomcat8/tomcat-users.xml
       notify:
         - restart tomcat8
+    - name: copy game of life war into tomcat
+      get_url:
+        url: https://qt-s3-new-testing.s3-us-west-2.amazonaws.com/gameoflife.war
+        dest: /var/lib/tomcat8/webapps/gameoflife.war
+      notify:
+        - restart tomcat8
+
   handlers:
     - name: restart tomcat8
       service: 
