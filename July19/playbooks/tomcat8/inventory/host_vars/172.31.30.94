@@ -1,0 +1,11 @@
+---
+xmx_size: 512m
+max_perm_size: 256m
+tomcat_additional_packages:
+  - tomcat8-docs 
+  - tomcat8-admin 
+  - tomcat8-examples
+tomcat_username: admin
+tomcat_password: password
+war_location: https://qt-s3-new-testing.s3-us-west-2.amazonaws.com/gameoflife.war
+war_file_name: gameoflife.war
