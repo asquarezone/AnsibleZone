@@ -10,6 +10,8 @@
       - tomcat8-examples
     tomcat_username: admin
     tomcat_password: password
+    war_location: https://qt-s3-new-testing.s3-us-west-2.amazonaws.com/gameoflife.war
+    war_file_name: gameoflife.war
   tasks:
     - name: update ubuntu packages & install tomcat8
       apt:
@@ -35,8 +37,8 @@
         - restart tomcat8
     - name: copy game of life war into tomcat
       get_url:
-        url: https://qt-s3-new-testing.s3-us-west-2.amazonaws.com/gameoflife.war
-        dest: /var/lib/tomcat8/webapps/gameoflife.war
+        url: "{{ war_location }}"
+        dest: "/var/lib/tomcat8/webapps/{{ war_file_name }}"
       notify:
         - restart tomcat8
 
