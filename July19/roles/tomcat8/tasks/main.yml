@@ -1,0 +1,30 @@
+---
+# tasks file for basic_structure
+- name: update ubuntu packages & install tomcat8
+  apt:
+    name: tomcat8
+    update_cache: yes
+    state: present
+- name: copy tomcat8 file
+  template:
+    src: templates/tomcat8.j2
+    dest: /etc/default/tomcat8
+  notify:
+    - restart tomcat8
+- name: install additional tomcat packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ tomcat_additional_packages }}"
+- name: copy tomcat users 
+  template:
+    src: templates/tomcat-users.xml.j2
+    dest: /etc/tomcat8/tomcat-users.xml
+  notify:
+    - restart tomcat8
+- name: copy game of life war into tomcat
+  get_url:
+    url: "{{ war_location }}"
+    dest: "/var/lib/tomcat8/webapps/{{ war_file_name }}"
+  notify:
+    - restart tomcat8
