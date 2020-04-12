@@ -1,0 +1,26 @@
+---
+# tasks file for default_role
+- name: fail if it is unsupported os
+  fail:
+    msg: This playbook is supported only on redhat and debain variants
+  when: ansible_facts['os_family'] != "RedHat" and ansible_facts['os_family'] != "Debian"
+- name: install apache
+  package: 
+    name: "{{ package_name }}"
+    state: present
+  notify:
+    - restart and enable apache
+- name: printing php modules
+  debug:
+    var: php_modules
+- name: install php modules
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ php_modules }}"
+- name: copy the home page
+  copy:
+    src: info.php
+    dest: /var/www/html/info.php
+  notify:
+    - restart and enable apache

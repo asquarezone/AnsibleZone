@@ -1,0 +1,17 @@
+---
+- import_playbook: util.yaml
+- hosts: all
+  become: yes
+  tasks:
+    - name: install apache
+      package:
+        name: apache2
+        state: present
+      notify: 
+        - restart apache
+  handlers:
+    - name: restart apache
+      service:
+        name: apache2
+        enabled: yes
+        state: restarted

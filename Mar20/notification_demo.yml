@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: uninstall git
+      package:
+        name: git
+        state: absent
+      notify:
+        - log message for uninstallation
+  handlers:
+    - name: log message for uninstallation
+      debug:
+        msg: "git is uninstalled"

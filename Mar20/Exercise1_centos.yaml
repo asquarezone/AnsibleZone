@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: install git
+      yum:
+        name: git
+        state: present
+    - name: install tree
+      yum:
+        name: tree
+        state: present
+    - name: install nano
+      yum:
+        name: nano
+        state: present
+    - name: install elinks
+      yum:
+        name: elinks
+        state: present

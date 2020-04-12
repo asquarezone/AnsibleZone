@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become_user: ubuntu
+  tasks:
+    - name: check if the file exists
+      stat:
+        path: /home/devops/commad.txt
+      register: stat_op
+    - name: execute command
+      command: echo "hello" > /home/devops/commad.txt
+      when: stat_op.stat.exists == False
+    - name: cat text
+      command: cat /home/devops/commad.txt
+      register: op
+      ignore_errors: yes
+    - name: something wrong happened
+      debug:
+        var: op
+      when: op.stderr != ""
+    

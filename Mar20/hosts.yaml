@@ -1,0 +1,16 @@
+---
+all:
+  children:
+    webserver:
+      hosts:
+        192.168.10.100:
+        192.168.10.102:
+        test-01.qt.internal:
+    dbserver:
+      hosts:
+        192.168.10.104:
+        192.168.10.106:
+    appserver:
+      hosts:
+        192.168.10.108:
+        192.168.10.110:

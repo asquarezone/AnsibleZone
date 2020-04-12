@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks:
+  - name: copy the readme
+    template:
+      src: Readme.txt.j2
+      dest: "{{ ansible_user_dir }}/Readme.txt"

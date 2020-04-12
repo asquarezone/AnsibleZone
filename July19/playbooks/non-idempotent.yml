@@ -1,0 +1,19 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+  - name: create a dummy file
+    file:
+      path: /home/ansible/.state/myinstall
+    notify:
+    - run shell script for no module found
+  - file:
+      path: /home/ansible/.state/initcommand
+    notify:
+    - restart installation
+
+  handlers:
+  - name: run shell script for no module found
+    shell: /home/ansible/myinstall.sh
+  - name: restart installation
+    command:  /home/ansible/test/init start

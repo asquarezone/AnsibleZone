@@ -1,0 +1,7 @@
+---
+# handlers file for default_role
+- name: restart and enable apache
+  service:
+    name: "{{ package_name }}"
+    enabled: yes
+    state: restarted

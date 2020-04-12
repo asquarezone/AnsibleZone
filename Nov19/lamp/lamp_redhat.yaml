@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: install httpd
+      yum: 
+        name: httpd
+        state: present
+      notify:
+        - restart and enable httpd
+    - name: install php modules
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - php
+        - php-mysql
+      notify:
+        - restart and enable httpd
+  handlers:
+    - name: restart and enable httpd
+      service:
+        name: httpd
+        enabled: yes
+        state: restarted

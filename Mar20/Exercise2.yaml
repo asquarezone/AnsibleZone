@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: variable used in this playbook
+      debug:
+        msg: "apache_package = {{ apache_package }}"
+    - name: Install apache
+      package:
+        name: "{{ apache_package }}"
+        state: present
+    - name: installed apache
+      debug: 
+        msg: "apache is installed"
+    - name: Enable apache
+      service:
+        name: "{{ apache_package }}"
+        enabled: yes
+        state: started
+      
+
+    

@@ -1,0 +1,9 @@
+---
+- hosts: all
+  vars:
+    test_user: devops team
+  tasks:
+    - name: copy the template with dynamic
+      template:
+        src: readme.txt.j2
+        dest: /home/devops/readme.txt

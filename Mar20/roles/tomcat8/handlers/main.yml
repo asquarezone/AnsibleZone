@@ -1,0 +1,7 @@
+---
+# handlers file for tomcat8
+- name: restart and enable tomcat
+  service:
+    name: tomcat8
+    enabled: yes
+    state: restarted

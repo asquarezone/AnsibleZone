@@ -1,0 +1,10 @@
+---
+# vars file for tomcat8
+xmx_size: 512
+perm_size: 256
+tomcat_user: devops
+tomcat_password: devops
+tomcat_packages:
+  - tomcat8-docs
+  - tomcat8-admin
+  - tomcat8-examples

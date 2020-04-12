@@ -1,0 +1,24 @@
+---
+- hosts: all
+  tasks:
+    - name: create an empty file # This module creates an empty file on node
+      file:
+        path: /home/devops/readme.txt
+        state: touch
+    - name: copy the files on your server # This module creates a symlink between two files on the node
+      file:
+        src: /home/devops/readme.txt
+        dest: /home/devops/readmecopy.txt
+        state: link
+    - name: create directory # This module creates empty directory on node
+      file:
+        path: /home/devops/temp
+        state: directory
+    - name: download file from url # This module downloads the file from url into node
+      get_url:
+        url: https://war-jar-files.s3-us-west-2.amazonaws.com/gameoflife.war 
+        dest: /home/devops/gameoflife.war
+    - name: copy the file from acs to node # This module copies the file from acs to node
+      copy:
+        src: demo.txt
+        dest: /home/devops/demo.txt

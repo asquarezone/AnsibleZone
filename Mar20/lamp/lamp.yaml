@@ -1,0 +1,50 @@
+---
+- hosts: webservers
+  become: yes
+  vars:
+    package_apache: apache2
+    packages_php_modules:
+      - php
+      - libapache2-mod-php 
+      - php-mysql
+      - php-cli
+  tasks:
+    - name: fail playbook on unsupported platforms
+      fail:
+        msg: 'This playbook is currently developed only for ubuntu 18'
+      when: ansible_distribution != 'Ubuntu'
+    - name: update and install apache
+      apt: # https://docs.ansible.com/ansible/latest/modules/apt_module.html
+        name: "{{ package_apache }}"
+        update_cache: yes
+        state: present
+      notify:
+        - debug message for apache installation
+        - restart and enable apache2
+    - name: install php modules
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ packages_php_modules}}"
+      notify:
+        - debug message for php modules
+        - restart and enable apache2
+    - name: copy info.php
+      copy:
+        src: info.php
+        dest: /var/www/html/info.php
+      notify:
+        - restart and enable apache2
+  handlers:
+    - name: restart and enable apache2
+      service:
+        name: "{{ package_apache }}" 
+        enabled: yes 
+        state: restarted
+    - name: debug message for apache installation
+      debug:
+        msg: "{{ package_apache }} is installed"
+    - name: debug message for php modules
+      debug:
+        msg: 'following php modules {{ packages_php_modules| join(",") }} are installed'
+      

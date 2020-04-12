@@ -1,0 +1,7 @@
+[webserver]
+172.31.25.93
+172.31.25.22  apache_package=httpd
+localhost
+
+[webserver:vars]
+apache_package=apache2

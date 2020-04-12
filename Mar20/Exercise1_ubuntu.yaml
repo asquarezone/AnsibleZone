@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Install git
+      apt:
+        name: git
+        update_cache: yes
+        state: present
+    - name: Install tree
+      apt:
+        name: tree
+        state: present
+    - name: Install nano
+      apt:
+        name: nano
+        state: present
+    - name: Install elinks
+      apt:
+        name: elinks
+        state: present
+        

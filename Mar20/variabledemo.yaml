@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: information
+      debug:
+        var: package_name
+    - name: install this package
+      package: 
+        name: "{{ package_name }}"
+        state: present
