@@ -1,5 +1,0 @@
----
-- hosts: webservers
-  become: yes
-  roles:
-    - role: lamp
