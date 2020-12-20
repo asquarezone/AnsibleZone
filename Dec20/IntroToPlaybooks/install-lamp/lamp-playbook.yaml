@@ -1,0 +1,10 @@
+---
+- name: install lamp stack
+  hosts: all
+  become: yes
+  tasks:
+    - name: install apache2 and update ubuntu packages
+      apt:
+        name: apache2
+        update_cache: yes
+        state: present
