@@ -15,3 +15,16 @@
       package:
         name: tree
         state: present
+- name: install apache on centos
+  hosts: centos
+  become: yes
+  tasks:
+    - name: install apache
+      package:
+        name: httpd
+        state: present
+    - name: ensure apache is running
+      service:
+        name: httpd
+        enabled: yes
+        state: started
