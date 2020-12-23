@@ -28,3 +28,11 @@
         name: httpd
         enabled: yes
         state: started
+- name: install java on ubuntu
+  hosts: ubuntu
+  become: yes
+  tasks:
+    - name: install java
+      package:
+        name: openjdk-8-jdk
+        state: present
