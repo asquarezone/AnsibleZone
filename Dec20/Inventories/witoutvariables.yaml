@@ -1,0 +1,15 @@
+---
+- hosts: ubuntu
+  become: yes
+  tasks:
+    - name: install apache
+      package:
+        name: apache2
+        state: present
+- hosts: centos
+  become: yes
+  tasks:
+    - name: install apache in centos
+      package:
+        name: httpd
+        state: present

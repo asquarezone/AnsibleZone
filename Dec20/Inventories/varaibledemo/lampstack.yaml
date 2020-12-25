@@ -1,0 +1,9 @@
+---
+- name: install lamp stack
+  hosts: webserver
+  become: yes
+  tasks:
+    - name: install apache
+      package:
+        name: "{{ package_name }}"
+        state: present
