@@ -7,3 +7,8 @@
       package:
         name: "{{ package_name }}"
         state: present
+    - name: install php packages
+      package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ php_packages }}"

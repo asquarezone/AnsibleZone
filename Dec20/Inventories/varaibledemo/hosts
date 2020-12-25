@@ -6,8 +6,8 @@ localhost
 172.31.45.255
 
 [webserver]
-172.31.32.83 package_name=httpd
-172.31.45.255 package_name=apache2
+172.31.32.83 package_name=httpd php_packages='["php", "php-mysql", "php-fpm"]'
+172.31.45.255 package_name=apache2 php_packages='[ "php", "libapache2-mod-php", "php-mysql", "php-cli"]'
 
 [appserver]
 172.31.45.255
