@@ -1,0 +1,28 @@
+---
+- name: install tomcat on centos
+  hosts: appserver
+  become: yes
+  tasks:
+    - name: install java
+      yum:
+        name: java-1.8.0-openjdk-devel
+        state: present
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: add tomcat user
+      user:
+        name: tomcat
+        home: /opt/tomcat
+        group: tomcat
+        shell: /bin/nologin
+        state: present
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: download tomcat
+      get_url:
+        url: "http://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.37/bin/apache-tomcat-8.5.37.zip"
+        dest: "/tmp/apache-tomcat-8.5.37.zip"
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: extract tomcat
+      unarchive:
+        src: "/tmp/apache-tomcat-8.5.37.zip"
+        dest: "/opt/tomcat"
+      when: ansible_facts['distribution'] == "CentOS"
