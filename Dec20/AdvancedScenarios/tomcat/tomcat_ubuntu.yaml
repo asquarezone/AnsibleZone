@@ -9,3 +9,12 @@
         update_cache: yes
         state: present
       when: ansible_facts['distribution'] == "Ubuntu"
+    - name: add tomcat user
+      user:
+        name: tomcat
+        home: /opt/tomcat
+        group: tomcat
+        shell: /bin/false
+        state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+      
