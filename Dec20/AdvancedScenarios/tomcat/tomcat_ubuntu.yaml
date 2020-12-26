@@ -17,4 +17,16 @@
         shell: /bin/false
         state: present
       when: ansible_facts['distribution'] == "Ubuntu"
+    - name: download tomcat
+      get_url:
+        url: "http://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.37/bin/apache-tomcat-8.5.37.zip"
+        dest: "/tmp/apache-tomcat-8.5.37.zip"
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: extract tomcat
+      unarchive:
+        src: "/tmp/apache-tomcat-8.5.37.zip"
+        dest: "/opt/tomcat"
+      when: ansible_facts['distribution'] == "Ubuntu"
+      
+
       
