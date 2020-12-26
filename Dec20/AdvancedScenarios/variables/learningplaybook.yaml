@@ -1,0 +1,8 @@
+---
+- name: understanding inventory parameters
+  become: yes
+  hosts: all
+  tasks:
+    - name: print ansible_host
+      debug:
+        var: ansible_host
