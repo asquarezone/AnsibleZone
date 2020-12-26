@@ -8,4 +8,4 @@
         name: openjdk-8-jdk
         update_cache: yes
         state: present
-      when: ansible_facts['os_distribution'] == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu"
