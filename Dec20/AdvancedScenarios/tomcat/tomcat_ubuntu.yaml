@@ -2,10 +2,8 @@
 - name: installing tomcat
   hosts: appserver
   become: yes
-  vars:
-    tomcat_download_source: "https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.61/bin/apache-tomcat-8.5.61.zip"
-    tomcat_download_location: "/tmp/apache-tomcat-8.5.61.zip"
-    tomcat_install_path: "/opt/tomcat"
+  vars_files:
+    - vars/tomcat_ubuntu_vars.yaml
   tasks:
     - name: install java on ubuntu
       apt:
