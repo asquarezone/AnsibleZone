@@ -5,6 +5,7 @@
   vars:
     username: tomcat
     java_package: openjdk-8-jdk
+    unzip_package: unzip
   vars_files:
     - vars/tomcat_ubuntu_vars.yaml
   tasks:
@@ -26,6 +27,10 @@
         shell: /bin/false
         state: present
       when: ansible_facts['distribution'] == "Ubuntu"
+    - name: Ensure unzip package is present
+      package:
+        name: "{{ unzip_package }}"
+        state: present
     - name: download tomcat
       get_url:
         url: "{{ tomcat_download_source }}"
