@@ -41,6 +41,14 @@
         src: "{{ tomcat_download_location }}"
         dest: "{{ tomcat_install_path }}"
       when: ansible_facts['distribution'] == "Ubuntu"
+    - name: Create link
+      file:
+        src: /opt/tomcat/apache-tomcat-8.5.61
+        dest: /opt/tomcat/latest
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        state: link
+        
       
 
       
