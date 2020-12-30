@@ -50,8 +50,19 @@
         owner: "{{ username }}"
     - name: give execute permissions
       file:
-        path: "/opt/tomcat/latest/bin/*.sh"
+        path: "{{ item }}"
         mode: "+x"
+      loop:
+        - /opt/tomcat/latest/bin/catalina.sh
+        - /opt/tomcat/latest/bin/ciphers.sh
+        - /opt/tomcat/latest/bin/configtest.sh
+        - /opt/tomcat/latest/bin/daemon.sh
+        - /opt/tomcat/latest/bin/digest.sh
+        - /opt/tomcat/latest/bin/setclasspath.sh
+        - /opt/tomcat/latest/bin/shutdown.sh
+        - /opt/tomcat/latest/bin/startup.sh
+        - /opt/tomcat/latest/bin/tool-wrapper.sh
+        - /opt/tomcat/latest/bin/version.sh
   handlers:
     - name: Create link
       file:
