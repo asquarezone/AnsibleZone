@@ -36,13 +36,36 @@
         url: "{{ tomcat_download_source }}"
         dest: "{{ tomcat_download_location }}"
       when: ansible_facts['distribution'] == "Ubuntu"
+    - name: fetch the stats of the downloaded file
+      stat:
+        path: "{{ tomcat_install_path }}"
+      register: tomcat_download_result
     - name: extract tomcat
       unarchive:
         src: "{{ tomcat_download_location }}"
         dest: "{{ tomcat_install_path }}"
-      when: ansible_facts['distribution'] == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu" and not tomcat_download_result.stat.exists 
       notify:
         - Create link
+        - give recursive ownership
+        - give execute permissions
+    - name: create service 
+      copy:
+        src: tomcat.service
+        dest: /etc/systemd/system/tomcat.service
+    - name: daemon reload and start tomcat
+      systemd:
+        name: tomcat
+        daemon_reload: yes
+        state: started
+  handlers:
+    - name: Create link
+      file:
+        src: /opt/tomcat/apache-tomcat-8.5.61
+        dest: /opt/tomcat/latest
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        state: link
     - name: give recursive ownership
       file: 
         path: "{{ tomcat_install_path }}"
@@ -63,23 +86,6 @@
         - /opt/tomcat/latest/bin/startup.sh
         - /opt/tomcat/latest/bin/tool-wrapper.sh
         - /opt/tomcat/latest/bin/version.sh
-    - name: create service 
-      copy:
-        src: tomcat.service
-        dest: /etc/systemd/system/tomcat.service
-    - name: daemon reload and start tomcat
-      systemd:
-        name: tomcat
-        daemon_reload: yes
-        state: started
-  handlers:
-    - name: Create link
-      file:
-        src: /opt/tomcat/apache-tomcat-8.5.61
-        dest: /opt/tomcat/latest
-        owner: "{{ username }}"
-        group: "{{ username }}"
-        state: link
         
       
 
