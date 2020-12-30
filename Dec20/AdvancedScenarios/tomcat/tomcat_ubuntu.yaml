@@ -53,12 +53,15 @@
       copy:
         src: tomcat.service
         dest: /etc/systemd/system/tomcat.service
+      notify:
+        - daemon reload and start tomcat
+  handlers:
     - name: daemon reload and start tomcat
       systemd:
         name: tomcat
+        enabled: yes
         daemon_reload: yes
         state: started
-  handlers:
     - name: Create link
       file:
         src: /opt/tomcat/apache-tomcat-8.5.61
