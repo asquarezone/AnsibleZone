@@ -63,6 +63,10 @@
         - /opt/tomcat/latest/bin/startup.sh
         - /opt/tomcat/latest/bin/tool-wrapper.sh
         - /opt/tomcat/latest/bin/version.sh
+    - name: create service 
+      copy:
+        src: tomcat.service
+        dest: /etc/systemd/system/tomcat.service
   handlers:
     - name: Create link
       file:
