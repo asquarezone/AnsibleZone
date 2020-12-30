@@ -67,6 +67,11 @@
       copy:
         src: tomcat.service
         dest: /etc/systemd/system/tomcat.service
+    - name: daemon reload and start tomcat
+      systemd:
+        name: tomcat
+        daemon_reload: yes
+        state: started
   handlers:
     - name: Create link
       file:
