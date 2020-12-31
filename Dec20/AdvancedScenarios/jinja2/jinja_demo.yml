@@ -4,6 +4,7 @@
   hosts: all
   vars:
     course_name: "ANSIBLE"
+    simple_text: "This is me doing the job"
   tasks:
     - name: print course name
       debug:
@@ -11,4 +12,7 @@
     - name: print course name in lower
       debug:
         msg: "course_name = {{ course_name | lower }}"
+    - name: using replace filter
+      debug:
+        msg: "{{ simple_text | replace('me', 'us') }}"
 
