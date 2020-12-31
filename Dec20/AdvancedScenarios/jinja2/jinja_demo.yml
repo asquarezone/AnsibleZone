@@ -1,0 +1,14 @@
+---
+- name: learning jinja2 filters
+  become: no
+  hosts: all
+  vars:
+    course_name: "ANSIBLE"
+  tasks:
+    - name: print course name
+      debug:
+        msg: "course_name = {{ course_name }}"
+    - name: print course name in lower
+      debug:
+        msg: "course_name = {{ course_name | lower }}"
+
