@@ -2,10 +2,6 @@
 - name: installing tomcat
   hosts: appserver
   become: yes
-  vars:
-    username: tomcat
-    java_package: openjdk-8-jdk
-    unzip_package: unzip
   vars_files:
     - vars/tomcat_ubuntu_vars.yaml
   tasks:
@@ -50,8 +46,8 @@
         - give recursive ownership
         - give execute permissions
     - name: create service 
-      copy:
-        src: tomcat.service
+      template:
+        src: tomcat.service.j2
         dest: /etc/systemd/system/tomcat.service
       notify:
         - daemon reload and start tomcat
@@ -65,7 +61,7 @@
     - name: Create link
       file:
         src: /opt/tomcat/apache-tomcat-8.5.61
-        dest: /opt/tomcat/latest
+        dest: "{{ tomcat_home }}"
         owner: "{{ username }}"
         group: "{{ username }}"
         state: link
@@ -78,18 +74,4 @@
       file:
         path: "{{ item }}"
         mode: "+x"
-      loop:
-        - /opt/tomcat/latest/bin/catalina.sh
-        - /opt/tomcat/latest/bin/ciphers.sh
-        - /opt/tomcat/latest/bin/configtest.sh
-        - /opt/tomcat/latest/bin/daemon.sh
-        - /opt/tomcat/latest/bin/digest.sh
-        - /opt/tomcat/latest/bin/setclasspath.sh
-        - /opt/tomcat/latest/bin/shutdown.sh
-        - /opt/tomcat/latest/bin/startup.sh
-        - /opt/tomcat/latest/bin/tool-wrapper.sh
-        - /opt/tomcat/latest/bin/version.sh
-        
-      
-
-      
+      loop: "{{ tomcat_executables }}"
