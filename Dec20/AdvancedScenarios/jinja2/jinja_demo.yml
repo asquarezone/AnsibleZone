@@ -5,6 +5,10 @@
   vars:
     course_name: "ANSIBLE"
     simple_text: "This is me doing the job"
+    courses:
+      - AWS
+      - Azure
+      - DevOps
   tasks:
     - name: print course name
       debug:
@@ -15,4 +19,11 @@
     - name: using replace filter
       debug:
         msg: "{{ simple_text | replace('me', 'us') }}"
+    - name: print count
+      debug:
+        msg: "count of courses = {{ courses | count }}"
+    - name: print courses
+      debug:
+        msg: "{{ courses | random }}"
+    
 
