@@ -2,6 +2,7 @@
 - name: learning jinja2 filters
   become: yes
   hosts: all
+  strategy: debug
   tasks:
     - name: execute a task
       service:
