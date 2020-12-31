@@ -1,8 +1,7 @@
 ---
 - name: learning jinja2 filters
-  become: no
+  become: yes
   hosts: all
-  gather_facts: no
   tasks:
     - name: execute a task
       service:
