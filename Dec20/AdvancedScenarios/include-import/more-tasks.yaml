@@ -1,8 +1,8 @@
 ---
 - name: included task 1
   debug:
-    msg: "This is first included task"
+    msg: "This is first included task {{ test }}"
 
 - name: included task 2
   debug:
-    msg: "This is first included task"
+    msg: "This is first included task  {{ test }}"

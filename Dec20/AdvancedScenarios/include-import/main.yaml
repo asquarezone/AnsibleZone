@@ -7,3 +7,5 @@
     debug:
       msg: "i'm from calling playbook"
   - include: more-tasks.yaml
+    vars:
+      test: "hi"
