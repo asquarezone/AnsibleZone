@@ -1,0 +1,25 @@
+---
+# handlers file for sample
+- name: daemon reload and start tomcat
+  systemd:
+    name: tomcat
+    enabled: yes
+    daemon_reload: yes
+    state: started
+- name: Create link
+  file:
+    src: /opt/tomcat/apache-tomcat-8.5.61
+    dest: "{{ tomcat_home }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    state: link
+- name: give recursive ownership
+  file: 
+    path: "{{ tomcat_install_path }}"
+    recurse: yes
+    owner: "{{ username }}"
+- name: give execute permissions
+  file:
+    path: "{{ item }}"
+    mode: "+x"
+  loop: "{{ tomcat_executables }}"

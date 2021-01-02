@@ -1,0 +1,48 @@
+---
+# tasks file for sample
+- name: install java on ubuntu
+  apt:
+    name: "{{ java_package }}"
+    update_cache: yes
+    state: present
+  when: ansible_facts['distribution'] == "Ubuntu"
+- name: add tomcat group
+  group:
+    name: "{{ username }}"
+    state: present
+- name: add tomcat user
+  user:
+    name: "{{ username }}"
+    home: "{{ tomcat_install_path }}"
+    group: "{{ username }}"
+    shell: /bin/false
+    state: present
+  when: ansible_facts['distribution'] == "Ubuntu"
+- name: Ensure unzip package is present
+  package:
+    name: "{{ unzip_package }}"
+    state: present
+- name: download tomcat
+  get_url:
+    url: "{{ tomcat_download_source }}"
+    dest: "{{ tomcat_download_location }}"
+  when: ansible_facts['distribution'] == "Ubuntu"
+- name: fetch the stats of the downloaded file
+  stat:
+    path: "{{ tomcat_install_path }}"
+  register: tomcat_download_result
+- name: extract tomcat
+  unarchive:
+    src: "{{ tomcat_download_location }}"
+    dest: "{{ tomcat_install_path }}"
+  when: ansible_facts['distribution'] == "Ubuntu" and not tomcat_download_result.stat.exists 
+  notify:
+    - Create link
+    - give recursive ownership
+    - give execute permissions
+- name: create service 
+  template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat.service
+  notify:
+    - daemon reload and start tomcat

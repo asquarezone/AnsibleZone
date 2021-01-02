@@ -1,0 +1,20 @@
+---
+tomcat_download_source: "https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.61/bin/apache-tomcat-8.5.61.zip"
+tomcat_download_location: "/tmp/apache-tomcat-8.5.61.zip"
+tomcat_install_path: "/opt/tomcat"
+java_path: "/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+username: tomcat
+tomcat_home: "/opt/tomcat/latest"
+java_package: "openjdk-8-jdk"
+unzip_package: unzip
+tomcat_executables:
+  - /opt/tomcat/latest/bin/catalina.sh
+  - /opt/tomcat/latest/bin/ciphers.sh
+  - /opt/tomcat/latest/bin/configtest.sh
+  - /opt/tomcat/latest/bin/daemon.sh
+  - /opt/tomcat/latest/bin/digest.sh
+  - /opt/tomcat/latest/bin/setclasspath.sh
+  - /opt/tomcat/latest/bin/shutdown.sh
+  - /opt/tomcat/latest/bin/startup.sh
+  - /opt/tomcat/latest/bin/tool-wrapper.sh
+  - /opt/tomcat/latest/bin/version.sh
