@@ -1,0 +1,14 @@
+---
+- name: tag inclusion
+  hosts: localhost
+  gather_facts: false
+  become: no
+  tasks:
+    - name: dummy task 1
+      debug:
+        msg: "dummy task 1"
+      tags: dummy
+    - name: main task 1
+      debug:
+        msg: "main task 1"
+      tags: main
