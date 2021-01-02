@@ -1,0 +1,6 @@
+---
+- name: install tomcat on ubuntu
+  hosts: appserver
+  become: yes
+  roles:
+    - role: tomcat-ubuntu
