@@ -5,4 +5,5 @@
   roles:
     - role: tomcat-ubuntu
     - role: geerlingguy.mysql
+    - role: geerlingguy.memcached
         
