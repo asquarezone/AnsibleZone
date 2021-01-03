@@ -1,0 +1,21 @@
+---
+- name: Playbook for windows
+  hosts: windows
+  gather_facts: true
+  tasks:
+    - name: create temporary directory
+      win_file:
+        path: 'C:\Temp'
+        state: directory
+    - name: copy the file into temp directory
+      win_copy:
+        src: test.txt
+        dest: 'C:\Temp\test.txt'
+    - name: install git
+      win_chocolatey:
+        name: git
+        state: present
+    - name: Install google chrome
+      win_chocolatey:
+        name: googlechrome
+        state: present
