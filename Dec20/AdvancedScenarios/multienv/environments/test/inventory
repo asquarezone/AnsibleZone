@@ -1,0 +1,5 @@
+[appserver]
+ec2-3-87-82-27.compute-1.amazonaws.com ansible_python_interpreter=/usr/bin/python3.6
+
+[dbserver]
+ec2-18-207-113-94.compute-1.amazonaws.com ansible_python_interpreter=/usr/bin/python3.6

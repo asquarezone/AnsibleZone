@@ -1,0 +1,5 @@
+[appserver]
+ec2-54-90-251-228.compute-1.amazonaws.com 
+
+[dbserver]
+ec2-54-226-120-106.compute-1.amazonaws.com

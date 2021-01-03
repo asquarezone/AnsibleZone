@@ -1,0 +1,10 @@
+---
+- name: install java
+  hosts: appserver
+  become: yes
+  tasks:
+    - name: "Install java version {{ java_version }}"
+      apt:
+        name: "{{ java_package_name }}"
+        update_cache: yes
+        state: present

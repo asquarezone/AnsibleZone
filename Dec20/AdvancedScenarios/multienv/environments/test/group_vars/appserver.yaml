@@ -1,0 +1,4 @@
+---
+ansible_python_interpreter: /usr/bin/python3.6
+java_version: "8"
+java_package_name: openjdk-8-jdk
