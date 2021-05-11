@@ -27,3 +27,12 @@
         owner: springbootuser
         mode: '500'
         state: file
+    - name: Copy the spring petclinic service file
+      copy:
+        dest: /etc/systemd/system/springpetclinic.service
+        src: springpetclinic.service
+    - name: Enable and start spring petclinic
+      systemd:
+        name: springpetclinic.service
+        enabled: yes
+        state: started
