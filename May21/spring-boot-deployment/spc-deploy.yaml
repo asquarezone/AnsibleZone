@@ -1,0 +1,18 @@
+---
+- name: Deploy spring petclinic as Linux Service
+  hosts: appserver
+  become: yes
+  tasks:
+    - name: Update ubuntu packages and install java
+      apt:
+        name: openjdk-11-jdk
+        update_cache: yes
+        state: present
+    - name: Create a spring petclinic directory
+      file:
+        path: /usr/share/springpetclinic
+        state: directory
+    - name: download spring petclinic
+      get_url:
+        url: https://referenceapplicationskhaja.s3-us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
+        dest: /usr/share/springpetclinic/spring-petclinic-2.4.2.jar

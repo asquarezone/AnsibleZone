@@ -1,0 +1,9 @@
+---
+- name: webservers
+  hosts: all
+  become: yes
+  tasks:
+    - name: install apache
+      package:
+        name: apache2
+        state: present
