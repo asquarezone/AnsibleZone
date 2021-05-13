@@ -6,7 +6,7 @@
     - name: Fail the execution when the distribution is not ubuntu
       fail:
         msg: "This playbook will work only on ubuntu instances. Support for other OS will be added soon"
-      when: ansible_distribution != "Ubuntu"
+      when: ansible_facts['distribution'] != "Ubuntu"
     - name: Update ubuntu packages and install java
       apt:
         name: "{{ java_package }}"
