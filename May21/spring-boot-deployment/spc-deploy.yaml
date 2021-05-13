@@ -2,22 +2,7 @@
 - name: Deploy spring petclinic as Linux Service
   hosts: appserver
   become: yes
-  vars:
-    java_package: openjdk-11-jdk
-    app_dir: /usr/share/springpetclinic
-    app_download_url: https://referenceapplicationskhaja.s3-us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
-    app_file_name: /usr/share/springpetclinic/spring-petclinic-2.4.2.jar
-    app_username: springbootuser
   tasks:
-    - name: Display java package
-      debug:
-        var: java_package
-    - name: Checking variables var1
-      debug:
-        var: test_var1
-    - name: Checking variables var2
-      debug:
-        var: test_var2
     - name: Update ubuntu packages and install java
       apt:
         name: "{{ java_package }}"
