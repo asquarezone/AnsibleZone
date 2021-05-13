@@ -12,16 +12,14 @@
         name: "{{ java_package }}"
         update_cache: yes
         state: present
-    - name: debug message for java
-      debug:
-        msg: "java with package {{ java_package }} is installed"
+      notify:
+        - debug message for java
     - name: Create a spring petclinic directory
       file:
         path: "{{ app_dir }}"
         state: directory
-    - name: debug message for directory creation
-      debug:
-        msg: "Directory created at {{ app_dir }}"
+      notify:
+        - debug message for directory creation
     - name: download spring petclinic
       get_url:
         url: "{{ app_download_url }}"
@@ -31,12 +29,8 @@
         name: "{{ app_username }}"
         password: "{{ app_username }}"
         state: present
-    - name: Change ownership of jar file
-      file:
-        path: "{{ app_file_name }}"
-        owner: "{{ app_username }}"
-        mode: '500'
-        state: file
+      notify:
+        - Change ownership of jar file
     - name: Copy the spring petclinic service file
       copy:
         dest: /etc/systemd/system/springpetclinic.service
@@ -46,3 +40,19 @@
         name: springpetclinic.service
         enabled: yes
         state: started
+  handlers:
+    - name: Change ownership of jar file
+      file:
+        path: "{{ app_file_name }}"
+        owner: "{{ app_username }}"
+        mode: '500'
+        state: file
+
+    - name: debug message for java
+      debug:
+        msg: "java with package {{ java_package }} is installed"
+        
+    - name: debug message for directory creation
+      debug:
+        msg: "Directory created at {{ app_dir }}"
+    
