@@ -13,3 +13,4 @@ tomcat_directories_for_group_permissions:
   - /opt/tomcat/work
   - /opt/tomcat/temp
   - /opt/tomcat/logs
+tomcat_service_file: /etc/systemd/system/tomcat.service
