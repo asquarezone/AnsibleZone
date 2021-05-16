@@ -9,7 +9,6 @@ tomcat_shell: /bin/false
 ansible_python_interpreter: /usr/bin/python3
 tomcat_check_dir: /opt/tomcat/conf
 tomcat_directories_for_group_permissions:
-  - /opt/tomcat/conf
   - /opt/tomcat/webapps
   - /opt/tomcat/work
   - /opt/tomcat/temp

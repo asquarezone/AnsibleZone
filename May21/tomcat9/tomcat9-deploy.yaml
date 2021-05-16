@@ -52,4 +52,5 @@
         group: "{{ tomcat_group }}"
         owner: "{{ tomcat_group }}"
         state: directory
+      loop: "{{ tomcat_directories_for_group_permissions }}"
 
