@@ -64,11 +64,21 @@
         name: tomcat.service
         enabled: yes
         state: started
+    - name: copy the tomcat users file
+      template:
+        src: tomcat-users.xml.j2
+        dest: "{{ tomcat_users_xml }}"
+      notify:
+        - restart tomcat
   handlers:
     - name: reload daemon
       systemd:
         name: tomcat.service
         daemon_reload: yes
         state: started
+    - name: restart tomcat
+      service: 
+        name: tomcat.service
+        state: restarted
 
 
