@@ -58,11 +58,11 @@
         src: tomcat.service
         dest: "{{ tomcat_service_file }}"
       notify:
-      - reload daemon
+        - reload daemon
     - name: enable and start tomcat service
       service: tomcat.service
-      enabled: yes
-      state: started
+        enabled: yes
+        state: started
   handlers:
     - name: reload daemon
       systemd:
