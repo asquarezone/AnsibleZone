@@ -39,3 +39,4 @@
         group: "{{ tomcat_group }}"
         owner: "{{ tomcat_group }}"
         recurse: yes
+        state: directory
