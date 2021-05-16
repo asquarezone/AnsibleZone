@@ -14,3 +14,4 @@ tomcat_directories_for_group_permissions:
   - /opt/tomcat/temp
   - /opt/tomcat/logs
 tomcat_service_file: /etc/systemd/system/tomcat.service
+java_executable: /usr/lib/jvm/java-1.11.0-openjdk-amd64

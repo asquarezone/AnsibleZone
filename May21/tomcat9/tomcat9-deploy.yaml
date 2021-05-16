@@ -54,8 +54,8 @@
         state: directory
       loop: "{{ tomcat_directories_for_group_permissions }}"
     - name: copy the tomcat service
-      copy:
-        src: tomcat.service
+      template:
+        src: tomcat.service.j2
         dest: "{{ tomcat_service_file }}"
       notify:
         - reload daemon
