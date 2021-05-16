@@ -22,4 +22,5 @@ tomcat_admin_roles:
   - manager-gui
   - admin-gui
 tomcat_users_xml: /opt/tomcat/conf/tomcat-users.xml
+tomcat_manager_context: /opt/tomcat/webapps/manager/META-INF/context.xml
 
