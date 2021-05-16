@@ -31,5 +31,11 @@
         path: "{{ tomcat_check_dir }}"
       register: tomcat_conf
     - name: untar the tomcat
-      command: "sudo tar xzvf {{ tomcat_download_dest }} -C {{ tomcat_home_dir }} --strip-components=1"
+      command: "tar xzvf {{ tomcat_download_dest }} -C {{ tomcat_home_dir }} --strip-components=1"
       when: not tomcat_conf.stat.exists
+    - name: update group permissions for tomcat dir
+      file:
+        path: "{{ tomcat_home_dir }}"
+        group: "{{ tomcat_group }}"
+        owner: "{{ tomcat_group }}"
+        recurse: yes
