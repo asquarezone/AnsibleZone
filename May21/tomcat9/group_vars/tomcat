@@ -7,3 +7,4 @@ tomcat_user: tomcat
 tomcat_home_dir: /opt/tomcat
 tomcat_shell: /bin/false
 ansible_python_interpreter: /usr/bin/python3
+tomcat_check_dir: /opt/tomcat/conf
