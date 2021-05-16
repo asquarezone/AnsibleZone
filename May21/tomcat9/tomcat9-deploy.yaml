@@ -60,7 +60,8 @@
       notify:
         - reload daemon
     - name: enable and start tomcat service
-      service: tomcat.service
+      service: 
+        name: tomcat.service
         enabled: yes
         state: started
   handlers:
