@@ -1,0 +1,32 @@
+---
+- name: Installing tomcat 9
+  hosts: all
+  become: yes
+  tasks:
+    - name: install openjdk 11
+      apt:
+        name: "{{ java_package }}"
+        update_cache: yes
+        state: present
+    - name: Ensure the group tomcat exists
+      group:
+        name: "{{ tomcat_group }}"
+        state: present
+    - name: Ensure tomcat home directory exists
+      file:
+        path: "{{ tomcat_home_dir }}"
+        state: directory
+    - name: Ensure the user tomcat exists
+      user:
+        name: "{{ tomcat_user }}" 
+        group: "{{ tomcat_group }}"
+        home: "{{ tomcat_home_dir }}"
+        shell: "{{ tomcat_shell }}"
+    - name: download tomcat
+      get_url:
+        url: "{{ tomcat_download_url }}"
+        dest: "{{ tomcat_download_dest }}"
+    - name: extract tomcat
+      unarchive:
+        src: "{{ tomcat_download_dest }}"
+        dest: "{{ tomcat_home_dir }}"

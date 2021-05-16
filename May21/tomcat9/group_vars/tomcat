@@ -1,0 +1,8 @@
+---
+java_package: openjdk-11-jdk
+tomcat_download_url: https://apachemirror.wuchna.com/tomcat/tomcat-9/v9.0.46/bin/apache-tomcat-9.0.46.tar.gz
+tomcat_download_dest: /tmp/apache-tomcat-9.0.46.tar.gz
+tomcat_group: tomcat
+tomcat_user: tomcat
+tomcat_home_dir: /opt/tomcat
+tomcat_shell: /bin/false
