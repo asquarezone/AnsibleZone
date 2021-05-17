@@ -7,7 +7,7 @@
       - wget
       - tree
 - name: create files
-  include: test2.yaml
+  include: "{{ filename2 }}.yaml"
   vars:
     file_list:
       - /tmp/1.txt

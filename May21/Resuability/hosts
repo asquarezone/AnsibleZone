@@ -1,2 +1,2 @@
 localhost
-10.0.0.5 ansible_python_interpreter=/usr/bin/python3
+10.0.0.5 ansible_python_interpreter=/usr/bin/python3 filename1=test1 filename2=test2
