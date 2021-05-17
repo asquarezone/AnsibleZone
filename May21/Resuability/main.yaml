@@ -5,4 +5,4 @@
     utility_softwares:
       - git
       - wget
-      - elinks
+      - tree
