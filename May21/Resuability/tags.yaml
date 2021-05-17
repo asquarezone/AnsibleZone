@@ -1,0 +1,25 @@
+---
+- name: learning tags
+  hosts: all
+  become: yes
+  tasks:
+    - name: install necessary softwares
+      package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - tree
+      tags:
+        - dev
+        - install
+    - name: create files
+      file:
+        path: "{{ item }}"
+        state: touch
+      loop:
+        - /tmp/3.txt
+        - /tmp/4.txt
+      tags:
+        - config
+        - dev
