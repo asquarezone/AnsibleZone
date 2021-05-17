@@ -6,3 +6,9 @@
       - git
       - wget
       - tree
+- name: create files
+  include: test2.yaml
+  vars:
+    file_list:
+      - /tmp/1.txt
+      - /tmp/2.txt

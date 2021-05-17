@@ -8,3 +8,4 @@
         name: "{{ item }}"
         state: present
       loop: "{{ utility_softwares }}"
+    
