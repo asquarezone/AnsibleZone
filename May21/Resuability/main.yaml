@@ -1,0 +1,8 @@
+---
+- name: install utility softwares
+  import-playbook: test1.yaml
+  vars:
+    utility_softwares:
+      - git
+      - wget
+      - elinks
