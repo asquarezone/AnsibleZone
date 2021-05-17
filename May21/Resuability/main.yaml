@@ -1,6 +1,6 @@
 ---
 - name: install utility softwares
-  import-playbook: test1.yaml
+  import_playbook: test1.yaml
   vars:
     utility_softwares:
       - git
