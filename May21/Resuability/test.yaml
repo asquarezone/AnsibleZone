@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  collections:
+    - geerlingguy.php_roles
+  roles:
+    - php
