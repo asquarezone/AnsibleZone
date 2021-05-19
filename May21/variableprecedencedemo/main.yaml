@@ -1,0 +1,7 @@
+---
+- name: understanding variable precedence
+  hosts: all
+  tasks:
+    - name: print the value of var1
+      debug:
+        msg: "Value of Var1 is {{ var1 }}"
