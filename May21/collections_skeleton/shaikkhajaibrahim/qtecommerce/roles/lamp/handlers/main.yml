@@ -1,0 +1,12 @@
+---
+# handlers file for role_skeleton
+- name: log installed apache server
+  debug:
+    msg: "apache server is installed using package {{ apache_package }}"
+- name: log info page is copied
+  debug: 
+    msg: "info page is copied into {{ info_page_path }}"
+- name: restart apache
+  service: 
+    name: "{{ apache_package }}"
+    state: restarted
