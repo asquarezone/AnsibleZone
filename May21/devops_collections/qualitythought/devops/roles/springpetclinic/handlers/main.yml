@@ -1,0 +1,16 @@
+---
+# handlers file for role_skeleton
+- name: Change ownership of jar file
+  file:
+    path: "{{ app_file_name }}"
+    owner: "{{ app_username }}"
+    mode: '500'
+    state: file
+
+- name: debug message for java
+  debug:
+    msg: "java with package {{ java_package }} is installed"
+    
+- name: debug message for directory creation
+  debug:
+    msg: "Directory created at {{ app_dir }}"
