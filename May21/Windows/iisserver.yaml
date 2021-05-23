@@ -4,6 +4,6 @@
   tasks:
     - name: enable iis server
       win_feature:
-        name: Win-Server
+        name: Web-Server
         include_management_tools: yes
         state: present
