@@ -3,7 +3,7 @@
   hosts: all
   tasks:
     - name: enable iis server
-      ansible.windows.win_feature:
+      win_feature:
         name: Win-Server
         include_management_tools: yes
         state: present
