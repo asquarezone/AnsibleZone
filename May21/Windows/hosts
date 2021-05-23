@@ -1,0 +1,8 @@
+[winserver]
+10.0.0.5
+
+[winserver:vars]
+ansible_user=qtdevops
+ansible_password=motherindia@123
+ansible_connection=winrm
+ansible_winrm_server_cert_validation=ignore
