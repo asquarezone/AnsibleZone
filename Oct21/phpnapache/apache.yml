@@ -8,3 +8,10 @@
         name: apache2
         update_cache: yes
         state: present
+    - name: install php modules
+      apt:
+        name:
+          - php 
+          - libapache2-mod-php 
+          - php-mysql 
+        state: present
