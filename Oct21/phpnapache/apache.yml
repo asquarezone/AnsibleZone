@@ -22,3 +22,8 @@
           <?php 
           phpinfo(); 
           ?>
+    - name: Restart Apache2
+      service:
+        name: apache2
+        enabled: yes
+        state: restarted
