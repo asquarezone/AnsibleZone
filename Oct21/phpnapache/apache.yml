@@ -15,3 +15,10 @@
           - libapache2-mod-php 
           - php-mysql 
         state: present
+    - name: create info.php
+      copy:
+        dest: /var/www/html/info.php
+        content: |
+          <?php 
+          phpinfo(); 
+          ?>
