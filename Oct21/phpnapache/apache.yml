@@ -6,7 +6,11 @@
     - name: fail on unsupported versions
       fail:
         msg: This playbook supports only centos 7 and ubuntu 20 distributions 
-      when: (ansible_facts['distribution'] != "Ubuntu") or (ansible_facts['distribution'] != "CentOS") or (ansible_facts['distribution'] == "Ubuntu" and  ansible_facts['distribution_major_version'] != "20") or (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] != "7")
+      when: 
+        - ansible_facts['distribution'] != "Ubuntu"
+        - ansible_facts['distribution'] != "CentOS" 
+        - (ansible_facts['distribution'] == "Ubuntu" and  ansible_facts['distribution_major_version'] != "20") 
+        - (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] != "7")
     - name: install apache2
       apt:
         name: apache2
