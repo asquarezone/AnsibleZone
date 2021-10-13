@@ -3,12 +3,18 @@
   hosts: webserver
   become: yes
   tasks:
+    - name: fail on unsupported versions
+      fail:
+        msg: This playbook supports only centos 7 and ubuntu 20 distributions 
+      when: (ansible_facts['distribution'] != "Ubuntu") or (ansible_facts['distribution'] != "CentOS") or (ansible_facts['distribution'] == "Ubuntu" and  ansible_facts['distribution_major_version'] != "20") or (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] != "7")
     - name: install apache2
       apt:
         name: apache2
         update_cache: yes
         state: present
-      when: ansible_facts['os_family'] == "Debian"
+      when: 
+        - ansible_facts['distribution'] == "Ubuntu"
+        - ansible_facts['distribution_major_version'] == "20"
     - name: install php modules
       apt:
         name:
@@ -16,12 +22,16 @@
           - libapache2-mod-php 
           - php-mysql 
         state: present
-      when: ansible_facts['os_family'] == "Debian"
+      when: 
+        - ansible_facts['distribution'] == "Ubuntu"
+        - ansible_facts['distribution_major_version'] == "20"
     - name: install httpd
       yum:
         name: httpd
         state: present
-      when: ansible_facts['os_family'] == "RedHat"
+      when: 
+        - ansible_facts['distribution'] == "CentOS"
+        - ansible_facts['distribution_major_version'] == "7"
     - name: install httpd php modules
       yum:
         name:
@@ -31,8 +41,10 @@
         state: present
       notify:
         - Restart Httpd
-      when: ansible_facts['os_family'] == "RedHat"
-    - name: create info.php for ubuntu
+      when: 
+        - ansible_facts['distribution'] == "CentOS"
+        - ansible_facts['distribution_major_version'] == "7"
+    - name: create info.php
       copy:
         dest: /var/www/html/info.php
         content: |
@@ -48,10 +60,14 @@
         name: apache2
         enabled: yes
         state: restarted
-      when: ansible_facts['os_family'] == "Debian"
+      when: 
+        - ansible_facts['distribution'] == "Ubuntu"
+        - ansible_facts['distribution_major_version'] == "20"
     - name: Restart Httpd
       service:
         name: httpd
         enabled: yes
         state: restarted
-      when: ansible_facts['os_family'] == "RedHat"
+      when: 
+        - ansible_facts['distribution'] == "CentOS"
+        - ansible_facts['distribution_major_version'] == "7"
