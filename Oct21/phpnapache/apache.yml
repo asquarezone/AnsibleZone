@@ -1,6 +1,6 @@
 ---
 - name: Install apache and php
-  hosts: all
+  hosts: webserver
   become: yes
   tasks:
     - name: install apache2
@@ -8,6 +8,7 @@
         name: apache2
         update_cache: yes
         state: present
+      when: ansible_facts['os_family'] == "Debian"
     - name: install php modules
       apt:
         name:
@@ -15,7 +16,23 @@
           - libapache2-mod-php 
           - php-mysql 
         state: present
-    - name: create info.php
+      when: ansible_facts['os_family'] == "Debian"
+    - name: install httpd
+      yum:
+        name: httpd
+        state: present
+      when: ansible_facts['os_family'] == "RedHat"
+    - name: install httpd php modules
+      yum:
+        name:
+          - php 
+          - php-fpm
+          - php-mysql 
+        state: present
+      notify:
+        - Restart Httpd
+      when: ansible_facts['os_family'] == "RedHat"
+    - name: create info.php for ubuntu
       copy:
         dest: /var/www/html/info.php
         content: |
@@ -24,9 +41,17 @@
           ?>
       notify:
         - Restart Apache2
+        - Restart Httpd
   handlers:
     - name: Restart Apache2
       service:
         name: apache2
         enabled: yes
         state: restarted
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Restart Httpd
+      service:
+        name: httpd
+        enabled: yes
+        state: restarted
+      when: ansible_facts['os_family'] == "RedHat"
