@@ -14,37 +14,14 @@
     - name: information about node and the variables loaded
       debug:
         msg: "Node os is {{ ansible_facts['distribution'] }}  package name is {{ package }} and the info location is  {{ info_location }} and the php packages are {{ php_packages }}"
-    - name: install apache2
-      apt:
+    - name: install apache
+      package:
         name: "{{ package }}"
-        update_cache: yes
         state: present
-      when: 
-        - ansible_facts['distribution'] == "Ubuntu"
-        - ansible_facts['distribution_major_version'] == "20"
     - name: install php modules
-      apt:
+      package:
         name: "{{ php_packages }}" 
         state: present
-      when: 
-        - ansible_facts['distribution'] == "Ubuntu"
-        - ansible_facts['distribution_major_version'] == "20"
-    - name: install httpd
-      yum:
-        name: "{{ package }}"
-        state: present
-      when: 
-        - ansible_facts['distribution'] == "CentOS"
-        - ansible_facts['distribution_major_version'] == "7"
-    - name: install httpd php modules
-      yum:
-        name: "{{ php_packages }}"
-        state: present
-      notify:
-        - Restart Apache
-      when: 
-        - ansible_facts['distribution'] == "CentOS"
-        - ansible_facts['distribution_major_version'] == "7"
     - name: create info.php
       copy:
         dest: "{{ info_location }}"
