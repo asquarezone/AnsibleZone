@@ -1,6 +1,6 @@
 [webserver]
-172.31.17.152  package=apache2 php_packages=["php", "libapache2-mod-php", "php-mysql"]
-172.31.29.133  package=httpd php_packages=["php", "php-fpm", "php-mysql"]
+172.31.17.152  package=apache2 php_packages='["php", "libapache2-mod-php", "php-mysql"]'
+172.31.29.133  package=httpd php_packages='["php", "php-fpm", "php-mysql"]'
 
 [webserver:vars]
 info_location=/var/www/html/info.php
