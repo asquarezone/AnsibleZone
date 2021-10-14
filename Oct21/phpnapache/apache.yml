@@ -11,6 +11,9 @@
         - ansible_facts['distribution'] != "CentOS" 
         - (ansible_facts['distribution'] == "Ubuntu" and  ansible_facts['distribution_major_version'] != "20") 
         - (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] != "7")
+    - name: information about node and the variables loaded
+      debug:
+        msg: "Node os is {{ ansible_facts['distribution'] }}  package name is {{ package }} and the info location is  {{ info_location }}"
     - name: install apache2
       apt:
         name: "{{ package }}"
