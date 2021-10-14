@@ -13,7 +13,7 @@
         - (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] != "7")
     - name: install apache2
       apt:
-        name: apache2
+        name: {{ package }}
         update_cache: yes
         state: present
       when: 
@@ -31,7 +31,7 @@
         - ansible_facts['distribution_major_version'] == "20"
     - name: install httpd
       yum:
-        name: httpd
+        name: {{ package }}
         state: present
       when: 
         - ansible_facts['distribution'] == "CentOS"
@@ -44,34 +44,22 @@
           - php-mysql 
         state: present
       notify:
-        - Restart Httpd
+        - Restart Apache
       when: 
         - ansible_facts['distribution'] == "CentOS"
         - ansible_facts['distribution_major_version'] == "7"
     - name: create info.php
       copy:
-        dest: /var/www/html/info.php
+        dest: {{ info_location }}
         content: |
           <?php 
           phpinfo(); 
           ?>
       notify:
-        - Restart Apache2
-        - Restart Httpd
+        - Restart Apache
   handlers:
-    - name: Restart Apache2
+    - name: Restart Apache
       service:
-        name: apache2
+        name: {{ package }}
         enabled: yes
         state: restarted
-      when: 
-        - ansible_facts['distribution'] == "Ubuntu"
-        - ansible_facts['distribution_major_version'] == "20"
-    - name: Restart Httpd
-      service:
-        name: httpd
-        enabled: yes
-        state: restarted
-      when: 
-        - ansible_facts['distribution'] == "CentOS"
-        - ansible_facts['distribution_major_version'] == "7"

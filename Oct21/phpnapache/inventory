@@ -1,6 +1,9 @@
 [webserver]
-172.31.17.152
-172.31.29.133
+172.31.17.152  package=apache2
+172.31.29.133  package=httpd
+
+[webserver:vars]
+info_location=/var/www/html/info.php
 
 [dbserver]
 172.31.29.133
