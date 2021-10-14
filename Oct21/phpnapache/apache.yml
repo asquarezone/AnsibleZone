@@ -13,7 +13,7 @@
         - (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] != "7")
     - name: install apache2
       apt:
-        name: {{ package }}
+        name: "{{ package }}"
         update_cache: yes
         state: present
       when: 
@@ -31,7 +31,7 @@
         - ansible_facts['distribution_major_version'] == "20"
     - name: install httpd
       yum:
-        name: {{ package }}
+        name: "{{ package }}"
         state: present
       when: 
         - ansible_facts['distribution'] == "CentOS"
@@ -50,7 +50,7 @@
         - ansible_facts['distribution_major_version'] == "7"
     - name: create info.php
       copy:
-        dest: {{ info_location }}
+        dest: "{{ info_location }}"
         content: |
           <?php 
           phpinfo(); 
@@ -60,6 +60,6 @@
   handlers:
     - name: Restart Apache
       service:
-        name: {{ package }}
+        name: "{{ package }}"
         enabled: yes
         state: restarted
