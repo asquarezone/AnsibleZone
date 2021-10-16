@@ -46,7 +46,7 @@
         pattern: "*.sh"
       register: shfiles
     - set_fact:
-        tomcat_executables: "{{ shfiles.files | map(attribute='path') | list )}}"
+        tomcat_executables: "{{ shfiles.files | map(attribute='path') | list }}"
     - name: change permission of shell files
       file:
         path: "{{ item }}"
