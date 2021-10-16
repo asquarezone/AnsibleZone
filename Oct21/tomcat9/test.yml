@@ -1,0 +1,18 @@
+---
+- name: testing
+  become: yes
+  hosts: all
+  tasks:
+    - name: find all the shell files in the binaries
+      find: 
+        path: "/opt/tomcat/latest/bin"
+        pattern: "*.sh"
+      register: shfiles
+    - name: print the values
+      debug:
+        var: shfiles
+    - set_fact:
+        tomcat_executables: "{{ shfiles.files | map(attribute='path') | list )}}"
+    - name: print the values
+      debug:
+        var: tomcat_executables

@@ -28,5 +28,31 @@
       ansible.builtin.unarchive:
         src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
         dest: "{{ tomcat_home }}"
-    
+    - name: create a symlink
+      ansible.builtin.file:
+        src: "{{ tomcat_home }}/apache-tomcat-{{ tomcat_version }}"
+        dest: "{{ tomcat_home }}/latest"
+    - name: give ownership to tomcat user and group
+      ansible.builtin.file:
+        path: "{{ tomcat_home }}"
+        state: directory
+        recurse: yes
+        owner: "{{ tomcat_username }}"
+        group: "{{ tomcat_username }}"
+    - name: find all the shell files in the binaries
+      find: 
+        path: "/opt/tomcat/latest/bin"
+        pattern: "*.sh"
+      register: shfiles
+    - set_fact:
+        tomcat_executables: "{{ shfiles.files | map(attribute='path') | list )}}"
+    - name: change permission of shell files
+      file:
+        path: "{{ item }}"
+        mode: 0751
+      with_items: "{{ tomcat_executables }}"
+        
+       
+
+      
         
