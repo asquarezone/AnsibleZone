@@ -69,7 +69,7 @@
         name: tomcat.service
         daemon_reload: yes
         enabled: yes
-        state: reloaded 
+        state: restarted 
         
        
 
