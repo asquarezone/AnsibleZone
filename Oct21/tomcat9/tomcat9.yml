@@ -63,7 +63,7 @@
       ansible.builtin.systemd:
         name: tomcat.service
         state: started
-  handler:
+  handlers:
     - name: reload and enable tomcat
       ansible.builtin.systemd:
         name: tomcat.service
