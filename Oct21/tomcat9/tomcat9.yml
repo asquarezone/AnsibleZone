@@ -32,6 +32,7 @@
       ansible.builtin.file:
         src: "{{ tomcat_home }}/apache-tomcat-{{ tomcat_version }}"
         dest: "{{ tomcat_home }}/latest"
+        state: link
     - name: give ownership to tomcat user and group
       ansible.builtin.file:
         path: "{{ tomcat_home }}"
@@ -41,7 +42,7 @@
         group: "{{ tomcat_username }}"
     - name: find all the shell files in the binaries
       find: 
-        path: "/opt/tomcat/latest/bin"
+        path: "{{ tomcat_home }}/latest/bin"
         pattern: "*.sh"
       register: shfiles
     - set_fact:
