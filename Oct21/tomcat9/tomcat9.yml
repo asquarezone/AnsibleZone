@@ -2,14 +2,24 @@
 - name: install and configure tomcat 9
   hosts: appserver
   become: yes
-  vars_files:
-    - vars/defaults.yml
   tasks:
+    - name: fail on unsupported versions
+      fail:
+        msg: This playbook supports only centos and ubuntu distributions 
+      when: 
+        - ansible_facts['distribution'] != "Ubuntu"
+        - ansible_facts['distribution'] != "CentOS" 
     - name: update packages and install java
       apt:
         name: "{{ java_package }}"
         update_cache: yes
         state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: install java for centos instances
+      yum:
+        name: "{{ java_package }}"
+        state: present
+      when: ansible_facts['distribution'] == "CentOS"
     - name: add a tomcat user
       ansible.builtin.user:
         name: "{{ tomcat_username }}"
