@@ -69,6 +69,20 @@
       ansible.builtin.systemd:
         name: tomcat.service
         state: started
+    - name: copy tomcat users file
+      ansible.builtin.copy:
+        src: tomcat-users.xml
+        dest: "{{ tomcat_users_config_location }}"
+    - name: copy tomcat manager config
+      ansible.builtin.copy:
+        src: manager-context.xml
+        dest: "{{ tomcat_manager_config_location }}"
+    - name: copy tomcat host manager config
+      ansible.builtin.copy:
+        src: host-context.xml
+        dest: "{{ tomcat_host_manager_config_location }}"
+      notify: 
+        - reload and enable tomcat
   handlers:
     - name: reload and enable tomcat
       ansible.builtin.systemd:

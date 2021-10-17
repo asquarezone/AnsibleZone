@@ -4,3 +4,6 @@ tomcat_home: /opt/tomcat
 tomcat_shell: /bin/false
 tomcat_version: '9.0.54'
 tomcat_service_dest: /etc/systemd/system/tomcat.service
+tomcat_users_config_location: /opt/tomcat/latest/conf/tomcat-users.xml
+tomcat_manager_config_location: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
+tomcat_host_manager_config_location: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
