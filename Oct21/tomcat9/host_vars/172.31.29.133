@@ -1,1 +1,2 @@
 java_package: java-11-openjdk-devel
+tomcat_service_local: files/tomcat.service.centos

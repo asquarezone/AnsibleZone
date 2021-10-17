@@ -72,7 +72,7 @@
       when: not tomcat_latest_dir.stat.exists
     - name: create tomcat service file
       ansible.builtin.copy:
-        src: files/tomcat.service
+        src: "{{ tomcat_service_local }}"
         dest: "{{ tomcat_service_dest }}"
       notify:
         - reload and enable tomcat

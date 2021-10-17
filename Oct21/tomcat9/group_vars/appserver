@@ -7,3 +7,4 @@ tomcat_service_dest: /etc/systemd/system/tomcat.service
 tomcat_users_config_location: /opt/tomcat/latest/conf/tomcat-users.xml
 tomcat_manager_config_location: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
 tomcat_host_manager_config_location: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
+tomcat_service_local: files/tomcat.service
