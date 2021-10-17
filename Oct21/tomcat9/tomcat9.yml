@@ -16,19 +16,26 @@
         home: "{{ tomcat_home }}"
         shell: "{{ tomcat_shell }}"
         state: present
+    - name: Check if the latest directory in tomcat is present
+      ansible.builtin.stat:
+        path: "{{ tomcat_home}}/latest"
+      register: tomcat_latest_dir
     - name: download the tomcat distribution
       get_url:
         url: "https://archive.apache.org/dist/tomcat/tomcat-9/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
         dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+      when: not tomcat_latest_dir.stat.exists
     - name: untar the tomcat distribution
       ansible.builtin.unarchive:
         src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
         dest: "{{ tomcat_home }}"
+      when: not tomcat_latest_dir.stat.exists
     - name: create a symlink
       ansible.builtin.file:
         src: "{{ tomcat_home }}/apache-tomcat-{{ tomcat_version }}"
         dest: "{{ tomcat_home }}/latest"
         state: link
+      when: not tomcat_latest_dir.stat.exists
     - name: give ownership to tomcat user and group
       ansible.builtin.file:
         path: "{{ tomcat_home }}"
@@ -36,18 +43,22 @@
         recurse: yes
         owner: "{{ tomcat_username }}"
         group: "{{ tomcat_username }}"
+      when: not tomcat_latest_dir.stat.exists
     - name: find all the shell files in the binaries
       find: 
         path: "{{ tomcat_home }}/latest/bin"
         pattern: "*.sh"
       register: shfiles
+      when: not tomcat_latest_dir.stat.exists
     - set_fact:
         tomcat_executables: "{{ shfiles.files | map(attribute='path') | list }}"
+      when: not tomcat_latest_dir.stat.exists
     - name: change permission of shell files
       file:
         path: "{{ item }}"
         mode: 0751
       with_items: "{{ tomcat_executables }}"
+      when: not tomcat_latest_dir.stat.exists
     - name: create tomcat service file
       ansible.builtin.copy:
         src: tomcat.service
