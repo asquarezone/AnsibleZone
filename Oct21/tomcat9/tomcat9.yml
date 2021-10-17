@@ -2,13 +2,8 @@
 - name: install and configure tomcat 9
   hosts: appserver
   become: yes
-  vars:
-    java_package: openjdk-11-jdk
-    tomcat_username: tomcat
-    tomcat_home: /opt/tomcat
-    tomcat_shell: /bin/false
-    tomcat_version: '9.0.54'
-    tomcat_service_dest: /etc/systemd/system/tomcat.service
+  vars_files:
+    - defaults.yml
   tasks:
     - name: update packages and install java
       apt:
