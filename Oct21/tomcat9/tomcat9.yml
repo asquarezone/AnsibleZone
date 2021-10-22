@@ -71,7 +71,7 @@
       with_items: "{{ tomcat_executables }}"
       when: not tomcat_latest_dir.stat.exists
     - name: create tomcat service file
-      ansible.builtin.copy:
+      ansible.builtin.template:
         src: "{{ tomcat_service_local }}"
         dest: "{{ tomcat_service_dest }}"
       notify:

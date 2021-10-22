@@ -1,2 +1,3 @@
 java_package: java-11-openjdk-devel
-tomcat_service_local: files/tomcat.service.centos
+java_home: /usr/lib/jvm/jre
+java_opts: -Djava.security.egd=file:///dev/urandom
