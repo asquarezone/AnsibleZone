@@ -7,4 +7,4 @@
         msg: "{{ username | default('admin')}}"
     - name: default value while looking up for environment variables
       debug:
-        msg: "{{ lookup(env, 'MY_APP')| default('qthrms')}}"
+        msg: "{{ lookup('env', 'MY_APP') | default('qthrms')}}"
