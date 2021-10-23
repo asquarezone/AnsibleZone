@@ -1,5 +1,7 @@
 ---
 # tasks file for sample
+- name: Include Os Specific Variables
+  include_vars: "vars/{{ ansible_facts['distribution'] }}.yml"
 - name: fail on unsupported versions
   fail:
     msg: This playbook supports only centos and ubuntu distributions 
