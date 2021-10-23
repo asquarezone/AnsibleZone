@@ -1,0 +1,93 @@
+---
+# tasks file for sample
+- name: fail on unsupported versions
+  fail:
+    msg: This playbook supports only centos and ubuntu distributions 
+  when: 
+    - ansible_facts['distribution'] != "Ubuntu"
+    - ansible_facts['distribution'] != "CentOS" 
+- name: update packages and install java
+  apt:
+    name: "{{ java_package }}"
+    update_cache: yes
+    state: present
+  when: ansible_facts['distribution'] == "Ubuntu"
+- name: install java for centos instances
+  yum:
+    name: "{{ java_package }}"
+    state: present
+  when: ansible_facts['distribution'] == "CentOS"
+- name: add a tomcat user
+  ansible.builtin.user:
+    name: "{{ tomcat_username }}"
+    home: "{{ tomcat_home }}"
+    shell: "{{ tomcat_shell }}"
+    state: present
+- name: Check if the latest directory in tomcat is present
+  ansible.builtin.stat:
+    path: "{{ tomcat_home}}/latest"
+  register: tomcat_latest_dir
+- name: download the tomcat distribution
+  get_url:
+    url: "https://archive.apache.org/dist/tomcat/tomcat-9/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+  when: not tomcat_latest_dir.stat.exists
+- name: untar the tomcat distribution
+  ansible.builtin.unarchive:
+    src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ tomcat_home }}"
+    remote_src: yes
+  when: not tomcat_latest_dir.stat.exists
+- name: create a symlink
+  ansible.builtin.file:
+    src: "{{ tomcat_home }}/apache-tomcat-{{ tomcat_version }}"
+    dest: "{{ tomcat_home }}/latest"
+    state: link
+  when: not tomcat_latest_dir.stat.exists
+- name: give ownership to tomcat user and group
+  ansible.builtin.file:
+    path: "{{ tomcat_home }}"
+    state: directory
+    recurse: yes
+    owner: "{{ tomcat_username }}"
+    group: "{{ tomcat_username }}"
+  when: not tomcat_latest_dir.stat.exists
+- name: find all the shell files in the binaries
+  find: 
+    path: "{{ tomcat_home }}/latest/bin"
+    pattern: "*.sh"
+  register: shfiles
+  when: not tomcat_latest_dir.stat.exists
+- set_fact:
+    tomcat_executables: "{{ shfiles.files | map(attribute='path') | list }}"
+  when: not tomcat_latest_dir.stat.exists
+- name: change permission of shell files
+  file:
+    path: "{{ item }}"
+    mode: 0751
+  with_items: "{{ tomcat_executables }}"
+  when: not tomcat_latest_dir.stat.exists
+- name: create tomcat service file
+  ansible.builtin.template:
+    src: tomcat.service.j2
+    dest: "{{ tomcat_service_dest }}"
+  notify:
+    - reload and enable tomcat
+- name: ensure tomcat is running
+  ansible.builtin.systemd:
+    name: tomcat.service
+    state: started
+- name: copy tomcat users file
+  ansible.builtin.copy:
+    src: tomcat-users.xml
+    dest: "{{ tomcat_users_config_location }}"
+- name: copy tomcat manager config
+  ansible.builtin.copy:
+    src: manager-context.xml
+    dest: "{{ tomcat_manager_config_location }}"
+- name: copy tomcat host manager config
+  ansible.builtin.copy:
+    src: host-context.xml
+    dest: "{{ tomcat_host_manager_config_location }}"
+  notify: 
+    - reload and enable tomcat
