@@ -7,3 +7,4 @@
       ansible.builtin.apt:
         name: openjdk-11-jdk
         update_cache: yes
+        state: present
