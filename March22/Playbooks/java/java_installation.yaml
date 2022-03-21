@@ -1,0 +1,17 @@
+---
+- name: Install Java
+  become: yes
+  hosts: all
+  tasks:
+    - name: install java on ubuntu
+      ansible.builtin.apt:
+        name: openjdk-11-jdk
+        update_cache: yes
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: install java on redhat
+      ansible.builtin.yum:
+        name: java-11-openjdk
+        update_cache: yes
+        state: present
+      when: ansible_facts['os_family'] == "RedHat"
