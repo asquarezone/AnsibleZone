@@ -1,11 +1,13 @@
 ---
-- name: Install tomcat
+- name: Install tomcat 9
   become: yes
   hosts: appserver
   vars:
     - username: tomcat
     - home_dir: /opt/tomcat
     - default_shell: /bin/false
+    - tomcat_version: 9.0.60
+
   tasks:
     - name: update apt repo and cache
       apt:
@@ -22,5 +24,10 @@
         name: "{{ username }}"
         shell: "{{ default_shell }}"
         state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Download tomcat
+      ansible.builtin.get_url:
+        url: "https://dlcdn.apache.org/tomcat/tomcat-9/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+        dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
       when: ansible_facts['os_family'] == "Debian"
     
