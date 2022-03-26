@@ -35,5 +35,6 @@
         dest: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
         creates: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
         group: "{{ username }}"
-        owner: "{{ username }}" 
+        owner: "{{ username }}"
+        remote_src: yes 
       when: ansible_facts['os_family'] == "Debian"
