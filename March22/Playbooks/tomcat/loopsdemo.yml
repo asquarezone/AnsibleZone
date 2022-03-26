@@ -1,0 +1,10 @@
+---
+- name: loops demo
+  hosts: all
+  gather_facts: no
+  tasks:
+    - debug: 
+        msg: "{{ item }}"
+      loop:
+        - Ansible
+        - Kubernetes
