@@ -7,7 +7,6 @@
     - home_dir: /opt/tomcat
     - default_shell: /bin/false
     - tomcat_version: 9.0.60
-
   tasks:
     - name: update apt repo and cache
       apt:
@@ -30,4 +29,11 @@
         url: "https://dlcdn.apache.org/tomcat/tomcat-9/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
         dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
       when: ansible_facts['os_family'] == "Debian"
-    
+    - name: Extract tomcat
+      ansible.builtin.unarchive:
+        src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+        dest: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
+        creates: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
+        group: "{{ username }}"
+        owner: "{{ username }}" 
+      when: ansible_facts['os_family'] == "Debian"
