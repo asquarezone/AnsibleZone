@@ -9,6 +9,7 @@
     - tomcat_version: 9.0.60
     - tomcat_latest: /opt/tomcat/latest
     - tomcat_bin_directory: /opt/tomcat/latest/bin/
+    - tomcat_service_location: /etc/systemd/system/tomcat.service
   tasks:
     - name: update apt repo and cache
       apt:
@@ -74,5 +75,20 @@
         mode: '0755'
       loop: "{{ sh_files_tomcat_bin.files }}"
       when: ansible_facts['os_family'] == "Debian"
+    - name: copy the tomcat service file
+      ansible.builtin.copy:
+        src: 'tomcat.service'
+        dest: "{{ tomcat_service_location }}"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+      when: ansible_facts['os_family'] == "Debian"
+    - name: reload the daemon, enable and start the tomcat service
+      ansible.builtin.systemd:
+        name: 'tomcat.service'
+        daemon_reload: yes
+        enabled: yes
+        state: started
+      when: ansible_facts['os_family'] == "Debian"
+
       
 
