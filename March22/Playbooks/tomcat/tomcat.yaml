@@ -7,6 +7,7 @@
     - home_dir: /opt/tomcat
     - default_shell: /bin/false
     - tomcat_version: 9.0.60
+    - tomcat_latest: /opt/tomcat/latest
   tasks:
     - name: update apt repo and cache
       apt:
@@ -37,4 +38,20 @@
         group: "{{ username }}"
         owner: "{{ username }}"
         remote_src: yes 
+      when: ansible_facts['os_family'] == "Debian"
+    - name: create symlink
+      ansible.builtin.file:
+        src: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
+        dest: "{{ tomcat_latest }}"
+        group: "{{ username }}"
+        owner: "{{ username }}"
+        state: link
+      when: ansible_facts['os_family'] == "Debian"
+    - name: change ownership to tomcat user
+      ansible.builtin.file:
+        path: "{{ home_dir }}"
+        state: directory
+        recurse: yes
+        group: "{{ username }}"
+        owner: "{{ username }}"
       when: ansible_facts['os_family'] == "Debian"
