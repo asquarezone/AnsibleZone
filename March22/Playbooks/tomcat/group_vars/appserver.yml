@@ -5,7 +5,6 @@ tomcat_version: 9.0.60
 tomcat_latest: /opt/tomcat/latest
 tomcat_bin_directory: /opt/tomcat/latest/bin/
 tomcat_service_location: /etc/systemd/system/tomcat.service
-java_home: /usr/lib/jvm/java-11-openjdk-amd64
 tomcat_admin_user: devops
 tomcat_admin_password: devops
 tomcat_users_relative: conf/tomcat-users.xml
