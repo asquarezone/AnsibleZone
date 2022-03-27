@@ -124,6 +124,8 @@
       ansible.builtin.get_url:
         url: "{{ deploy_url }}"
         dest: "{{ tomcat_latest }}/webapps/{{ deploy_file_name }}"
+        owner: "{{ username }}"
+        group: "{{ username }}"
       when: ansible_facts['os_family'] == "Debian"
       notify:
         - reload the daemon, enable and start the tomcat service
