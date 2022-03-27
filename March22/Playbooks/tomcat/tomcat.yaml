@@ -85,6 +85,8 @@
       when: ansible_facts['os_family'] == "Debian"
       notify:
         - reload the daemon, enable and start the tomcat service
+    - name: Force all notified handlers to run at this point, not waiting for normal sync points
+      meta: flush_handlers
     - name: ensure tomcat service is running
       ansible.builtin.systemd:
         name: 'tomcat.service'
