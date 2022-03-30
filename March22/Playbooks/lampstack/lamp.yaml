@@ -1,0 +1,36 @@
+---
+- name: install lamp stack
+  hosts: webserver
+  become: yes
+  tasks:
+    - name: update ubuntu packages
+      apt:
+        update_cache: yes
+      when: ansible_facts['os_family'] == "Debian"
+    - name: install apache2
+      ansible.builtin.package:
+        name: "{{ apache_package }}"
+        state: present
+      notify:
+        - ensure apache is enabled and restarted
+    - name: install php packages
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ php_packages }}"
+      notify:
+        - ensure apache is enabled and restarted
+    - name: copy the php info page
+      ansible.builtin.copy:
+        src: www/info.php
+        dest: "{{ php_page_location }}"
+      notify:
+        - ensure apache is enabled and restarted
+
+  handlers:
+    - name: ensure apache is enabled and restarted
+      ansible.builtin.service:
+        name: "{{ apache_package }}"
+        enabled: yes
+        state: restarted
+        
