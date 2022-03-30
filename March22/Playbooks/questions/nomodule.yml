@@ -1,0 +1,13 @@
+---
+- name: Finding out what can be done if module not found
+  gather_facts: no
+  hosts: all
+  tasks:
+    - name: executing linux command directly
+      become: yes
+      command:
+        cmd: 'ufw app list'
+      register: ufw_output
+    - name: print the output
+      debug:
+        msg: "{{ ufw_output }}"
