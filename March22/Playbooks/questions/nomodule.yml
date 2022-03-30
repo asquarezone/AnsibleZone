@@ -11,3 +11,6 @@
     - name: print the output
       debug:
         msg: "{{ ufw_output }}"
+    - name: using ansible magic variable playbook_dir
+      debug:
+        msg: "This playbook is executed from {{ playbook_dir }} and the python used by ansible is over here {{ ansible_playbook_python }}"
