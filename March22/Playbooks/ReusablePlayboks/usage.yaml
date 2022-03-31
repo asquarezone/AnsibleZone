@@ -1,0 +1,14 @@
+---
+- name: install java and other utilities
+  hosts: all
+  tasks:
+    - name: install java
+      import_playbook: java.yaml
+    - name: install utils
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - tree
+        - nano
