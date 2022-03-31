@@ -2,6 +2,7 @@
 - import_playbook: java.yaml
 - name: install utils
   become: yes
+  hosts: all
   tasks:
     - name: install utils
       ansible.builtin.package:
