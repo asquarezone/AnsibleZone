@@ -3,11 +3,4 @@
   hosts: all
   tasks:
     - import_playbook: java.yaml
-    - name: install utils
-      ansible.builtin.package:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - git
-        - tree
-        - nano
+   
