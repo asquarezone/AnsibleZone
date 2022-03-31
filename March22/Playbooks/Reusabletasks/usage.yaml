@@ -1,0 +1,6 @@
+---
+- name: "using tasks"
+  hosts: all
+  become: yes
+  tasks:
+    - include_tasks: utils_install.yaml

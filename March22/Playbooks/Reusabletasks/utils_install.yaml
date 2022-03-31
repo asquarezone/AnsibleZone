@@ -1,0 +1,14 @@
+---
+# write the task directly
+- name: install utilities
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - tree
+    - nano
+- name: ensure the file is created
+  ansible.builtin.file:
+    path: /tmp/message
+    state: file
