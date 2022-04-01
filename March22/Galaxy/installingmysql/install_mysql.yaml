@@ -1,0 +1,6 @@
+---
+- name: install mysql
+  hosts: db
+  roles:
+    - role: geerlingguy.mysql
+      become: yes
