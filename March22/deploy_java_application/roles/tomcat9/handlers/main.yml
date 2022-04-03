@@ -1,0 +1,9 @@
+---
+# handlers file for common
+- name: reload the daemon, enable and start the tomcat service
+  ansible.builtin.systemd:
+    name: 'tomcat.service'
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+

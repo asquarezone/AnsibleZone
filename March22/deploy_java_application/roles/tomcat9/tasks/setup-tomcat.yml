@@ -1,0 +1,80 @@
+---
+- name: create a tomcat user
+  ansible.builtin.user:
+    create_home: yes
+    home: "{{ home_dir }}"
+    name: "{{ username }}"
+    shell: "{{ default_shell }}"
+    state: present
+- name: Download tomcat
+  ansible.builtin.get_url:
+    url: "https://dlcdn.apache.org/tomcat/tomcat-9/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+- name: Extract tomcat
+  ansible.builtin.unarchive:
+    src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ home_dir }}"
+    creates: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
+    group: "{{ username }}"
+    owner: "{{ username }}"
+    remote_src: yes 
+- name: create symlink
+  ansible.builtin.file:
+    src: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
+    dest: "{{ tomcat_latest }}"
+    group: "{{ username }}"
+    owner: "{{ username }}"
+    state: link
+- name: change ownership to tomcat user
+  ansible.builtin.file:
+    path: "{{ home_dir }}"
+    state: directory
+    recurse: yes
+    group: "{{ username }}"
+    owner: "{{ username }}"
+- name: find all the .sh files in the tomcat bin directory
+  ansible.builtin.find:
+    paths: "{{ tomcat_bin_directory }}"
+    patterns: "*.sh"
+  register: sh_files_tomcat_bin
+- name: print the files from the previous
+  debug:
+    var: sh_files_tomcat_bin
+- name: Make shell scripts executable
+  ansible.builtin.file:
+    path: '{{ item.path }}'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0755'
+  loop: "{{ sh_files_tomcat_bin.files }}"
+- name: copy the tomcat service file
+  ansible.builtin.template:
+    src: 'tomcat.service.j2'
+    dest: "{{ tomcat_service_location }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  notify:
+    - reload the daemon, enable and start the tomcat service
+- name: Force all notified handlers to run at this point, not waiting for normal sync points
+  meta: flush_handlers
+- name: ensure tomcat service is running
+  ansible.builtin.systemd:
+    name: 'tomcat.service'
+    state: 'started'
+- name: create the tomcat users file
+  ansible.builtin.template:
+    src: 'tomcat-users.xml.j2'
+    dest: "{{ tomcat_latest }}/{{ tomcat_users_relative }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  notify:
+    - reload the daemon, enable and start the tomcat service
+- name: allow hostmanager and manager from specified ip range
+  ansible.builtin.template:
+    src: 'manager-context.xml.j2'
+    dest: "{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  loop: "{{ tomcat_allow_context_locations }}"
+  notify:
+    - reload the daemon, enable and start the tomcat service

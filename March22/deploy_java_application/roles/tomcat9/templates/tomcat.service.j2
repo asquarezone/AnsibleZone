@@ -1,0 +1,23 @@
+[Unit]
+Description=Tomcat 9 servlet container From Ansible
+After=network.target
+
+[Service]
+Type=forking
+
+User={{ username }}
+Group={{ username }}
+
+Environment="JAVA_HOME={{ java_home }}"
+Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"
+
+Environment="CATALINA_BASE={{ tomcat_latest }}"
+Environment="CATALINA_HOME={{ tomcat_latest }}"
+Environment="CATALINA_PID={{ tomcat_latest }}/temp/tomcat.pid"
+Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+ExecStart={{ tomcat_latest }}/bin/startup.sh
+ExecStop={{ tomcat_latest }}/bin/shutdown.sh
+
+[Install]
+WantedBy=multi-user.target

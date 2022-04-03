@@ -1,0 +1,18 @@
+---
+# defaults file for tomcat9
+username: tomcat
+home_dir: /opt/tomcat
+default_shell: /bin/false
+tomcat_version: 9.0.60
+tomcat_latest: /opt/tomcat/latest
+tomcat_bin_directory: /opt/tomcat/latest/bin/
+tomcat_service_location: /etc/systemd/system/tomcat.service
+tomcat_admin_user: devops
+tomcat_admin_password: devops
+tomcat_users_relative: conf/tomcat-users.xml
+tomcat_manager_allow_ipregex: ".*"
+tomcat_allow_context_locations:
+- /opt/tomcat/latest/webapps/manager/META-INF/context.xml
+- /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
+deploy_file_name: jenkins.war
+deploy_url: https://mirrors.tuna.tsinghua.edu.cn/jenkins/war-stable/2.332.1/jenkins.war
