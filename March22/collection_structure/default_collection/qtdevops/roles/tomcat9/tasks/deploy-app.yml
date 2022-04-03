@@ -1,0 +1,9 @@
+---
+- name: deploy any war file
+  ansible.builtin.get_url:
+    url: "{{ deploy_url }}"
+    dest: "{{ tomcat_latest }}/webapps/{{ deploy_file_name }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  notify:
+    - reload the daemon, enable and start the tomcat service

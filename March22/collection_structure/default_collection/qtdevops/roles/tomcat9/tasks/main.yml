@@ -1,0 +1,6 @@
+---
+- include_tasks: setup-Debian.yml
+  when: ansible_facts['os_family'] == "Debian"
+- include_tasks: setup-java.yml
+- include_tasks: setup-tomcat.yml
+- include_tasks: deploy-app.yml
