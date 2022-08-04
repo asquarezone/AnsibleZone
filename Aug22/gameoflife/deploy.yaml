@@ -3,8 +3,21 @@
   become: yes
   hosts: all
   tasks:
-    - name: update ubuntu packages
+    - name: update ubuntu packages and install java 8
       ansible.builtin.apt:
         name: openjdk-8-jdk
         update_cache: yes
         state: present
+    - name: install tomcat9
+      ansible.builtin.apt:
+        name: tomcat9
+        state: present
+    - name: download the gameoflife war file
+      ansible.builtin.get_url:
+        dest: /var/lib/tomcat9/webapps/gameoflife.war
+        url: https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/gameoflife.war
+    - name: restart tomcat9 service
+      ansible.builtin.systemd:
+        enabled: yes
+        name: tomcat9
+        state: restarted
