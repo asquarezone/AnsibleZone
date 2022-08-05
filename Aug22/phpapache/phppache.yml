@@ -1,0 +1,26 @@
+---
+- name: installing apache and php
+  become: yes
+  hosts: all
+  tasks:
+    - name: install apache and update ubuntu packages
+      ansible.builtin.apt:
+        name: apache2
+        update_cache: yes
+        state: present
+    - name: install php packages
+      ansible.builtin.apt:
+        name:
+          - php
+          - libapache2-mod-php
+          - php-mysql
+        state: present
+    - name: copy the info.php
+      ansible.builtin.copy:
+        src: info.php
+        dest: /var/www/html/info.php
+    - name: ensure the apache service is running and enabled
+      ansible.builtin.systemd:
+        name: apache2
+        enabled: yes
+        state: started
