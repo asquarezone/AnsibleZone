@@ -10,5 +10,5 @@
   tasks:
     - name: install utilites
       ansible.builtin.apt:
-        name: {{ utilites }}
+        name: "{{ utilites }}"
         state: present
