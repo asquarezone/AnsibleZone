@@ -1,0 +1,14 @@
+---
+- name: install utility softwares
+  become: yes
+  hosts: application
+  vars:
+    utilites:
+      - git
+      - nano
+      - tree
+  tasks:
+    - name: install utilites
+      ansible.builtin.apt:
+        name: {{ utilites }}
+        state: present
