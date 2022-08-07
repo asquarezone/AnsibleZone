@@ -29,3 +29,10 @@
         src: "{{ tomcat_download_location }}"
         dest: "{{ tomcat_home_dir }}"
         remote_src: yes
+    - name: create symbolic link
+      ansible.builtin.file:
+        src: "{{ tomcat_home_dir }}/apache-tomcat-9.0.65"
+        dest: "{{ tomcat_home_dir }}/latest"
+        owner: "{{ tomcat_user }}"
+        group: "{{ tomcat_user }}"
+        state: link
