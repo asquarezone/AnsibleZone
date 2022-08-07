@@ -36,3 +36,10 @@
         owner: "{{ tomcat_user }}"
         group: "{{ tomcat_user }}"
         state: link
+    - name: Recursively change ownership of a tomcat home directory 
+      ansible.builtin.file:
+        path: "{{ tomcat_home_dir }}"
+        state: directory
+        recurse: yes
+        owner: "{{ tomcat_user }}"
+        group: "{{ tomcat_user }}"
