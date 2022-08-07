@@ -2,9 +2,19 @@
 - name: install tomcat 9
   become: yes
   hosts: appserver
+  vars:
+    tomcat_home_dir: /opt/tomcat
+    tomcat_user: tomcat
+    tomcat_default_shell: /bin/false
   tasks:
     - name: update ubuntu packages and install java 11
       ansible.builtin.apt:
         name: "{{ java_package_name }}"
         update_cache: yes
         state: present
+    - name: Create a system user
+      ansible.builtin.user:
+        name: "{{ tomcat_user }}"
+        create_home: yes
+        home: "{{ tomcat_home_dir }}"
+        shell: "{{ tomcat_default_shell }}"
