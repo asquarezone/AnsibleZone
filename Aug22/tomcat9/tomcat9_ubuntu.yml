@@ -1,0 +1,10 @@
+---
+- name: install tomcat 9
+  become: yes
+  hosts: appserver
+  tasks:
+    - name: update ubuntu packages and install java 11
+      ansible.builtin.apt:
+        name: "{{ java_package_name }}"
+        update_cache: yes
+        state: present
