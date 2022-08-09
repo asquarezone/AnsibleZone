@@ -8,6 +8,7 @@
     tomcat_default_shell: /bin/false
     tomcat_download_url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.65/bin/apache-tomcat-9.0.65.tar.gz
     tomcat_download_location: /tmp/apache-tomcat-9.0.65.tar.gz
+    tomcat_service_file_location: /etc/systemd/system/tomcat.service
   tasks:
     - name: update ubuntu packages and install java 11
       ansible.builtin.apt:
@@ -43,3 +44,20 @@
         recurse: yes
         owner: "{{ tomcat_user }}"
         group: "{{ tomcat_user }}"
+    - name: Give Execute permissions to shell files in tomcat's bin directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        mode: "+x"
+      with_fileglob:
+        - "{{ tomcat_home_dir }}/latest/bin/*.sh"
+    - name: copy the tomcat service unit file
+      ansible.builtin.copy:
+        src: tomcat.service
+        dest: "{{ tomcat_service_file_location }}"
+    - name: reload daemon
+      ansible.builtin.systemd:
+        name: tomcat
+        daemon_reload: yes
+        enabled: yes
+        state: started
+    
