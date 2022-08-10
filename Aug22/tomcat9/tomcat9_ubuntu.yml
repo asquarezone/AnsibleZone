@@ -30,6 +30,8 @@
         dest: "{{ tomcat_download_location }}"
       notify:
         - extract tomcat
+    - name: Flush handlers
+      meta: flush_handlers
     - name: create symbolic link
       ansible.builtin.file:
         src: "{{ tomcat_home_dir }}/apache-tomcat-9.0.65"
