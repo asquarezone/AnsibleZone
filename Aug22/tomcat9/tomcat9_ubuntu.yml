@@ -12,7 +12,6 @@
     tomcat_users_location: /opt/tomcat/latest/conf/tomcat-users.xml
     tomcat_manager_conf_location: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
     tomcat_hostmanager_conf_location: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
-
   tasks:
     - name: update ubuntu packages and install java 11
       ansible.builtin.apt:
@@ -68,14 +67,21 @@
       ansible.builtin.copy:
         src: tomcat-users.xml
         dest: "{{ tomcat_users_location }}"
+      notify:
+        - restart tomcat
     - name: copy manager context xml
       ansible.builtin.copy:
         src: manager-context.xml
         dest: "{{ tomcat_manager_conf_location }}"
+      notify:
+        - restart tomcat
     - name: copy host manager context xml
       ansible.builtin.copy:
         src: hostmanager-context.xml
         dest: "{{ tomcat_hostmanager_conf_location }}"
+      notify:
+        - restart tomcat
+  handlers:
     - name: restart tomcat
       ansible.builtin.systemd:
         name: tomcat
