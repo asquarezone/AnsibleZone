@@ -28,11 +28,8 @@
       ansible.builtin.get_url:
         url: "{{ tomcat_download_url }}"
         dest: "{{ tomcat_download_location }}"
-    - name: extract tomcat
-      ansible.builtin.unarchive:
-        src: "{{ tomcat_download_location }}"
-        dest: "{{ tomcat_home_dir }}"
-        remote_src: yes
+      notify:
+        - extract tomcat
     - name: create symbolic link
       ansible.builtin.file:
         src: "{{ tomcat_home_dir }}/apache-tomcat-9.0.65"
@@ -86,3 +83,8 @@
       ansible.builtin.systemd:
         name: tomcat
         state: restarted
+    - name: extract tomcat
+      ansible.builtin.unarchive:
+        src: "{{ tomcat_download_location }}"
+        dest: "{{ tomcat_home_dir }}"
+        remote_src: yes
