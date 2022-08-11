@@ -18,6 +18,14 @@
         name: "{{ java_package_name }}"
         update_cache: yes
         state: present
+      when:
+        - ansible_facts["distribution"] == "Ubuntu"
+    - name: install java 11 on centos
+      ansible.builtin.yum:
+        name: "{{ java_package_name }}"
+        state: present
+      when:
+        - ansible_facts["distribution"] == "CentOS"
     - name: Create a system user
       ansible.builtin.user:
         name: "{{ tomcat_user }}"
@@ -54,7 +62,7 @@
         - "{{ tomcat_home_dir }}/latest/bin/*.sh"
     - name: copy the tomcat service unit file
       ansible.builtin.copy:
-        src: tomcat.service
+        src: "{{ source_service }}"
         dest: "{{ tomcat_service_file_location }}"
     - name: reload daemon
       ansible.builtin.systemd:
