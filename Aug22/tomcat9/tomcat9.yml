@@ -13,6 +13,12 @@
     tomcat_manager_conf_location: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
     tomcat_hostmanager_conf_location: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
   tasks:
+    - name: Fail on unsupported operating systems
+      ansible.builtin.fail:
+        msg: This playbook supports only Ubuntu and Centos
+      when:
+        - ansible_facts["distribution"] != "Ubuntu"
+        - ansible_facts["distribution"] != "CentOS"
     - name: update ubuntu packages and install java 11
       ansible.builtin.apt:
         name: "{{ java_package_name }}"
