@@ -19,6 +19,8 @@
       when:
         - ansible_facts["distribution"] != "Ubuntu"
         - ansible_facts["distribution"] != "CentOS"
+    - ansible.builtin.debug:
+        msg: "Installing Java 11 with package {{ java_package_name }} "
     - name: update ubuntu packages and install java 11
       ansible.builtin.apt:
         name: "{{ java_package_name }}"
@@ -32,12 +34,16 @@
         state: present
       when:
         - ansible_facts["distribution"] == "CentOS"
+    - ansible.builtin.debug:
+        msg: "Creating a user  {{ tomcat_user }} with home directory {{ tomcat_home_dir }} and shell {{ tomcat_default_shell }} "
     - name: Create a system user
       ansible.builtin.user:
         name: "{{ tomcat_user }}"
         create_home: yes
         home: "{{ tomcat_home_dir }}"
         shell: "{{ tomcat_default_shell }}"
+    - ansible.builtin.debug:
+        msg: "Downloading tomcat from {{ tomcat_download_url }} to {{ tomcat_download_location }}"
     - name: download tomcat
       ansible.builtin.get_url:
         url: "{{ tomcat_download_url }}"
@@ -70,6 +76,8 @@
       ansible.builtin.copy:
         src: "{{ source_service }}"
         dest: "{{ tomcat_service_file_location }}"
+    - ansible.builtin.debug:
+        msg: "Reloading daemon and ensuring tomcat service is running"
     - name: reload daemon
       ansible.builtin.systemd:
         name: tomcat
