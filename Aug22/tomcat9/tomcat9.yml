@@ -21,19 +21,10 @@
         - ansible_facts["distribution"] != "CentOS"
     - ansible.builtin.debug:
         msg: "Installing Java 11 with package {{ java_package_name }} "
-    - name: update ubuntu packages and install java 11
-      ansible.builtin.apt:
-        name: "{{ java_package_name }}"
-        update_cache: yes
-        state: present
-      when:
-        - ansible_facts["distribution"] == "Ubuntu"
-    - name: install java 11 on centos
-      ansible.builtin.yum:
+    - name: install java 11
+      ansible.builtin.package:
         name: "{{ java_package_name }}"
         state: present
-      when:
-        - ansible_facts["distribution"] == "CentOS"
     - ansible.builtin.debug:
         msg: "Creating a user  {{ tomcat_user }} with home directory {{ tomcat_home_dir }} and shell {{ tomcat_default_shell }} "
     - name: Create a system user
