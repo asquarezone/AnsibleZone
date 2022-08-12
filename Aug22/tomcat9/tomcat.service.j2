@@ -1,0 +1,23 @@
+[Unit]
+Description=Tomcat 9 servlet container
+After=network.target
+
+[Service]
+Type=forking
+
+User={{ tomcat_user }}
+Group={{ tomcat_user }}
+
+Environment="JAVA_HOME={{ java_home }}"
+Environment="JAVA_OPTS={{ java_opts }}"
+
+Environment="CATALINA_BASE={{ tomcat_home_dir }}/latest"
+Environment="CATALINA_HOME={{ tomcat_home_dir }}/latest"
+Environment="CATALINA_PID={{ tomcat_home_dir }}/latest/temp/tomcat.pid"
+Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+ExecStart={{ tomcat_home_dir }}/latest/bin/startup.sh
+ExecStop={{ tomcat_home_dir }}/latest/bin/shutdown.sh
+
+[Install]
+WantedBy=multi-user.target

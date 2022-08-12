@@ -64,8 +64,8 @@
       with_fileglob:
         - "{{ tomcat_home_dir }}/latest/bin/*.sh"
     - name: copy the tomcat service unit file
-      ansible.builtin.copy:
-        src: "{{ source_service }}"
+      ansible.builtin.template:
+        src: tomcat.service.j2
         dest: "{{ tomcat_service_file_location }}"
     - ansible.builtin.debug:
         msg: "Reloading daemon and ensuring tomcat service is running"
