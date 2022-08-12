@@ -1,0 +1,12 @@
+---
+tomcat_home_dir: /opt/tomcat
+tomcat_user: tomcat
+tomcat_default_shell: /bin/false
+tomcat_download_url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.65/bin/apache-tomcat-9.0.65.tar.gz
+tomcat_download_location: /tmp/apache-tomcat-9.0.65.tar.gz
+tomcat_service_file_location: /etc/systemd/system/tomcat.service
+tomcat_users_location: /opt/tomcat/latest/conf/tomcat-users.xml
+tomcat_manager_conf_location: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
+tomcat_hostmanager_conf_location: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
+manager_username: qtdevops
+manager_password: qtdevops

@@ -1,0 +1,4 @@
+---
+java_package_name: java-11-openjdk-devel
+java_home: /usr/lib/jvm/jre
+java_opts: '-Djava.security.egd=file:///dev/urandom'
