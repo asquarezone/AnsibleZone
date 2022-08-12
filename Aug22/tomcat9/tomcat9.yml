@@ -12,6 +12,9 @@
     tomcat_users_location: /opt/tomcat/latest/conf/tomcat-users.xml
     tomcat_manager_conf_location: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
     tomcat_hostmanager_conf_location: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
+    manager_username: qtdevops
+    manager_password: qtdevops
+
   tasks:
     - name: Fail on unsupported operating systems
       ansible.builtin.fail:
@@ -76,8 +79,8 @@
         enabled: yes
         state: started
     - name: copy the tomcat users xml
-      ansible.builtin.copy:
-        src: tomcat-users.xml
+      ansible.builtin.template:
+        src: tomcat-users.xml.j2
         dest: "{{ tomcat_users_location }}"
       notify:
         - restart tomcat
