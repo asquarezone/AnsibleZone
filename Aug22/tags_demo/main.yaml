@@ -1,0 +1,19 @@
+---
+- name: dummy playbook for understanding tags
+  become: yes
+  gather_facts: no
+  tasks:
+    - ansible.builtin.debug:
+        msg: "Trying to install git"
+      tags:
+        - debug
+    - name: ensure git is installed
+      ansible.builtin.package:
+        name: git
+        state: present
+      tags:
+        - activity
+    - ansible.builtin.debug:
+        msg: "git is installed succesfully"
+      tags:
+        - debug
