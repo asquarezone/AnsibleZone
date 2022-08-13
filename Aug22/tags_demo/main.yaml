@@ -2,6 +2,7 @@
 - name: dummy playbook for understanding tags
   become: yes
   gather_facts: no
+  hosts: all
   tasks:
     - ansible.builtin.debug:
         msg: "Trying to install git"
