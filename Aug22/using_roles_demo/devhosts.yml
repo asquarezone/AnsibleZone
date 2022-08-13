@@ -1,0 +1,7 @@
+---
+all:
+  children:
+    appserver:
+      hosts:
+        172.31.6.58:
+        172.31.9.68:

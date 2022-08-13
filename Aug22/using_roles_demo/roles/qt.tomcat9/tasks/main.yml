@@ -1,0 +1,81 @@
+---
+- name: Fail on unsupported operating systems
+  ansible.builtin.fail:
+    msg: This playbook supports only Ubuntu and Centos
+  when:
+    - ansible_facts["distribution"] != "Ubuntu"
+    - ansible_facts["distribution"] != "CentOS"
+- ansible.builtin.debug:
+    msg: "Installing Java 11 with package {{ java_package_name }} "
+- name: install java 11
+  ansible.builtin.package:
+    name: "{{ java_package_name }}"
+    state: present
+- ansible.builtin.debug:
+    msg: "Creating a user  {{ tomcat_user }} with home directory {{ tomcat_home_dir }} and shell {{ tomcat_default_shell }} "
+- name: Create a system user
+  ansible.builtin.user:
+    name: "{{ tomcat_user }}"
+    create_home: yes
+    home: "{{ tomcat_home_dir }}"
+    shell: "{{ tomcat_default_shell }}"
+- ansible.builtin.debug:
+    msg: "Downloading tomcat from {{ tomcat_download_url }} to {{ tomcat_download_location }}"
+- name: download tomcat
+  ansible.builtin.get_url:
+    url: "{{ tomcat_download_url }}"
+    dest: "{{ tomcat_download_location }}"
+  notify:
+    - extract tomcat
+- name: Flush handlers
+  meta: flush_handlers
+- name: create symbolic link
+  ansible.builtin.file:
+    src: "{{ tomcat_home_dir }}/apache-tomcat-9.0.65"
+    dest: "{{ tomcat_home_dir }}/latest"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_user }}"
+    state: link
+- name: Recursively change ownership of a tomcat home directory 
+  ansible.builtin.file:
+    path: "{{ tomcat_home_dir }}"
+    state: directory
+    recurse: yes
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_user }}"
+- name: Give Execute permissions to shell files in tomcat's bin directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "+x"
+  with_fileglob:
+    - "{{ tomcat_home_dir }}/latest/bin/*.sh"
+- name: copy the tomcat service unit file
+  ansible.builtin.template:
+    src: tomcat.service.j2
+    dest: "{{ tomcat_service_file_location }}"
+- ansible.builtin.debug:
+    msg: "Reloading daemon and ensuring tomcat service is running"
+- name: reload daemon
+  ansible.builtin.systemd:
+    name: tomcat
+    daemon_reload: yes
+    enabled: yes
+    state: started
+- name: copy the tomcat users xml
+  ansible.builtin.template:
+    src: tomcat-users.xml.j2
+    dest: "{{ tomcat_users_location }}"
+  notify:
+    - restart tomcat
+- name: copy manager context xml
+  ansible.builtin.copy:
+    src: manager-context.xml
+    dest: "{{ tomcat_manager_conf_location }}"
+  notify:
+    - restart tomcat
+- name: copy host manager context xml
+  ansible.builtin.copy:
+    src: hostmanager-context.xml
+    dest: "{{ tomcat_hostmanager_conf_location }}"
+  notify:
+    - restart tomcat

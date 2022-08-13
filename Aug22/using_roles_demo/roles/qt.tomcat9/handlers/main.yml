@@ -1,0 +1,10 @@
+---
+- name: restart tomcat
+  ansible.builtin.systemd:
+    name: tomcat
+    state: restarted
+- name: extract tomcat
+  ansible.builtin.unarchive:
+    src: "{{ tomcat_download_location }}"
+    dest: "{{ tomcat_home_dir }}"
+    remote_src: yes

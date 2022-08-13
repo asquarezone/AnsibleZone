@@ -1,0 +1,6 @@
+---
+- name: install tomcat9
+  become: yes
+  hosts: appserver
+  roles:
+    - role: qt.tomcat9
