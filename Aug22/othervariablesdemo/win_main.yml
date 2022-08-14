@@ -1,7 +1,6 @@
 ---
 - name: install softwares in windows server
   hosts: all
-  become: yes
   tasks:
     - name: install softwares
       win_chocolatey:
