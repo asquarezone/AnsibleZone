@@ -13,4 +13,4 @@
         msg: "{{ group_names }}"
     - name: connection variable
       ansible.builtin.debug:
-        msg: "ansible_connection {{ ansible_connection }}  ansible_python_interpreter = {{ ansible_python_interpreter }} ansible_user = {{ ansible_user }}"
+        msg: " ansible_python_interpreter = {{ ansible_python_interpreter }} ansible_user = {{ ansible_user }}"
