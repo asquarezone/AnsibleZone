@@ -1,6 +1,9 @@
 ---
 - name: explore some magic variables
   hosts: all
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"
+    ansible_user: "devops"
   tasks:
     - name: display ansible config file
       ansible.builtin.debug:
@@ -10,4 +13,4 @@
         msg: "{{ group_names }}"
     - name: connection variable
       ansible.builtin.debug:
-        msg: "ansible_connection {{ ansible_connection }}   ansible_user = {{ ansible_user }}"
+        msg: "ansible_connection {{ ansible_connection }}  ansible_python_interpreter = {{ ansible_python_interpreter }} ansible_user = {{ ansible_user }}"
