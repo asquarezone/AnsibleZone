@@ -1,0 +1,10 @@
+---
+- name: explore some magic variables
+  hosts: all
+  tasks:
+    - name: display ansible config file
+      ansible.builtin.debug:
+        var: ansible_config_file
+    - name: display group_names
+      ansible.builtin.debug:
+        msg: "{{ group_names }}"
