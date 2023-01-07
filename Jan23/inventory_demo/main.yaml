@@ -1,6 +1,6 @@
 ---
 - name: test inventory
-  hosts: all
+  hosts: ubuntu
   tasks:
     - name: print my variable
       ansible.builtin.debug:
