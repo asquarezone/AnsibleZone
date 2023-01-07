@@ -5,3 +5,6 @@
     - name: print my variable
       ansible.builtin.debug:
         var: name
+    - name: print my other variable
+      ansible.builtin.debug:
+        var: group
