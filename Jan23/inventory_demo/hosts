@@ -1,2 +1,9 @@
 172.31.24.180
 localhost
+
+[ubuntu]
+172.31.24.180
+localhost
+
+[centos]
+20.121.55.193
