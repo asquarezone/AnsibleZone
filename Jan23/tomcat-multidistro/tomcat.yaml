@@ -1,0 +1,18 @@
+---
+- name: Install tomcat 10 on ubuntu 22
+  hosts: appservers
+  become: yes
+  vars:
+    java_package_name: openjdk-11-jdk
+    user_name: tomcat
+    group_name: tomcat
+    user_home: /opt/tomcat
+    user_shell: /bin/false
+    tomcat_version: "10.1.4"
+    tomcat_major_version: "10"
+    tomcat_service_name: tomcat.service
+  tasks:
+    - name: java installation
+      ansible.builtin.package:
+        name: "{{ java_package_name }}"
+        state: present

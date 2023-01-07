@@ -1,0 +1,13 @@
+[appservers]
+20.121.55.193 java_package_name=java-11-openjdk-devel
+172.31.24.180 
+
+[appservers:vars]
+java_package_name=openjdk-11-jdk
+user_name=tomcat
+group_name=tomcat
+user_home=/opt/tomcat
+user_shell=/bin/false
+tomcat_version="10.1.4"
+tomcat_major_version="10"
+tomcat_service_name=tomcat.service
