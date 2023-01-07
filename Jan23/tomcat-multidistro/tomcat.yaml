@@ -38,3 +38,17 @@
         state: directory
     - name: add execute permissions to shell files
       ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
+    - name: Create a systemd unit file in centos
+      ansible.builtin.copy:
+        src: centos.tomcat.service
+        dest: /etc/systemd/system/tomcat.service
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: Create a systemd unit file in ubuntu
+      ansible.builtin.copy:
+        src: ubuntu.tomcat.service
+        dest: /etc/systemd/system/tomcat.service
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+      when: ansible_facts['distribution'] == "Ubuntu"
