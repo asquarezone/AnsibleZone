@@ -43,6 +43,7 @@
         state: directory
     - name: add execute permissions to shell files
       ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
+      when: not tomcat_startup.stat.exists
     - name: Create a systemd unit file in centos
       ansible.builtin.copy:
         src: centos.tomcat.service
