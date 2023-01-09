@@ -4,3 +4,4 @@ all:
     local:
       hosts:
         localhost:
+        qt.server.com:
