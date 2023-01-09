@@ -4,8 +4,3 @@ all:
     local:
       hosts:
         localhost:
-          packages:
-            - git
-            - nano
-            - net-tools
-            - tree
