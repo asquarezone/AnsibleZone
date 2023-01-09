@@ -14,4 +14,7 @@
     - name: the configuration file of ansible
       ansible.builtin.debug:
         var: ansible_config_file
+    - name: inventory file name
+      ansible.builtin.debug:
+        var: inventory_file
         
