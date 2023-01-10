@@ -37,22 +37,12 @@
       notify:
         - change permissions
         - add execute permissions to shell files
-    - name: Create a systemd unit file in centos
-      ansible.builtin.copy:
-        src: centos.tomcat.service
+    - name: Create a systemd unit file
+      ansible.builtin.template:
+        src: tomcat.service.j2
         dest: /etc/systemd/system/tomcat.service
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
-      when: ansible_facts['distribution'] == "CentOS"
-      notify:
-        - enable and reload tomcat
-    - name: Create a systemd unit file in ubuntu
-      ansible.builtin.copy:
-        src: ubuntu.tomcat.service
-        dest: /etc/systemd/system/tomcat.service
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-      when: ansible_facts['distribution'] == "Ubuntu"
       notify:
         - enable and reload tomcat
     - name: copy the users xml
