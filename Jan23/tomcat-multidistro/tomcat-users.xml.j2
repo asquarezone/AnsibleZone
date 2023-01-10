@@ -55,5 +55,5 @@
 -->
     <role rolename="admin-gui"/>
     <role rolename="manager-gui"/>
-    <user username="admin" password="admin_password" roles="admin-gui,manager-gui"/>
+    <user username="{{ tomcat_mgmt_user_name }}" password="{{ tomcat_mgmt_password }}" roles="admin-gui,manager-gui"/>
 </tomcat-users>
