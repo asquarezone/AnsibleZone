@@ -35,7 +35,6 @@
         dest: "{{ user_home }}/latest"
         state: link
       notify:
-        - change permissions
         - add execute permissions to shell files
     - name: Create a systemd unit file
       ansible.builtin.template:
@@ -51,6 +50,15 @@
         dest: "{{ user_home }}/latest/conf/tomcat-users.xml"
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
+      notify:
+        - restart tomcat
+    - name: change permissions
+      ansible.builtin.file:
+        dest: "{{ user_home }}"
+        recurse: true
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        state: directory
       notify:
         - restart tomcat
     - name: copy the context file
@@ -79,12 +87,6 @@
         state: restarted
     - name: add execute permissions to shell files
       ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
-    - name: change permissions
-      ansible.builtin.file:
-        dest: "{{ user_home }}"
-        recurse: true
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-        state: directory
+    
       
     
