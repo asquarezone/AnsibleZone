@@ -2,19 +2,9 @@
 - name: install utilities
   hosts: all
   tasks:
-    - name: install utilities
-      ansible.builtin.package:
-        name: "{{ item }}"
-        state: present
-      become: yes
-      loop: "{{ packages }}"
-    - name: debug variable
-      ansible.builtin.debug:
-        var: purpose
-    - name: the configuration file of ansible
-      ansible.builtin.debug:
-        var: ansible_config_file
-    - name: inventory file name
-      ansible.builtin.debug:
-        var: inventory_file
+    - name: create a file with some dynamic values
+      ansible.builtin.template:
+        src: info.txt.j2
+        dest: /tmp/info.txt
+    
         
