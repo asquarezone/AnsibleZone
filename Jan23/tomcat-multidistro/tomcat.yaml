@@ -3,6 +3,10 @@
   hosts: appservers
   become: yes
   tasks:
+    - name: update packages for ubuntu
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_facts['distribution'] == "Ubuntu"
     - name: java installation
       ansible.builtin.package:
         name: "{{ java_package_name }}"
