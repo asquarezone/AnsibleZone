@@ -1,0 +1,9 @@
+---
+# tasks file for skeleton
+- name: install java
+  ansible.builtin.apt:
+    name: "{{ java_package }}"
+    update_cache: yes
+    state: present
+  notify:
+    - installed java

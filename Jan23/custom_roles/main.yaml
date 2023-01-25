@@ -1,0 +1,6 @@
+---
+- name: calling my roles
+  become: yes
+  roles:
+    - java
+    - utilities
