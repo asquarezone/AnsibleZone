@@ -1,0 +1,17 @@
+---
+- name: install java on ubuntu
+  become: yes
+  hosts: all
+  vars:
+    java_package: openjdk-11-jdk
+  tasks:
+    - name: install java
+      ansible.builtin.apt:
+        name: "{{ java_package }}"
+        state: present
+      notify:
+        - installed java
+  handlers:
+    - name: installed java
+      debug:
+        msg: java is installed
