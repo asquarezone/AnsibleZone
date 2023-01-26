@@ -1,0 +1,23 @@
+---
+- name: flush handlers demo
+  hosts: all
+  tasks:
+    - name: print something
+      ansible.builtin.debug:
+        msg: "Something"
+      notify:
+        - handle1
+        - handle2
+    - name: print something again
+      ansible.builtin.debug:
+        msg: "Something again"
+      notify:
+        - handle1
+        - handle2
+  handlers:
+    - name: handle1
+      ansible.builtin.debug:
+        msg: "handle1"
+    - name: handle2
+      ansible.builtin.debug:
+        msg: "handle2"
