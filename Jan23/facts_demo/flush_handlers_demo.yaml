@@ -16,8 +16,10 @@
         - handle2
   handlers:
     - name: handle1
-      ansible.builtin.debug:
-        msg: "handle1"
+      ansible.builtin.file:
+        path: "/tmp/handle1"
+        state: touch
     - name: handle2
-      ansible.builtin.debug:
-        msg: "handle2"
+      ansible.builtin.file:
+        path: "/tmp/handle2"
+        state: touch
