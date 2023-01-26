@@ -9,6 +9,8 @@
       notify:
         - handle1
         - handle2
+    - name: Force all notified handlers to run at this point, not waiting for normal sync points
+      ansible.builtin.meta: flush_handlers
     - name: print something again
       ansible.builtin.file:
         path: "/tmp/handle2"
