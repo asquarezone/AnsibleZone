@@ -1,0 +1,13 @@
+---
+- name: setting some fact
+  become: yes
+  hosts: all
+  tasks:
+    - name: set some facts
+      ansible.builtin.set_fact:
+        message: This is from ansible
+        team: devops
+    - name: get the facts
+      ansible.builtin.debug:
+        msg: "The facts are team = {{ team }} message = {{ message }}" 
+        
