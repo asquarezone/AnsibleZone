@@ -1,0 +1,79 @@
+---
+# tasks file for skeleton
+- name: update packages for ubuntu
+  ansible.builtin.apt:
+    update_cache: yes
+  when: ansible_facts['distribution'] == "Ubuntu"
+- name: java installation
+  ansible.builtin.package:
+    name: "{{ java_package_name }}"
+    state: present
+- name: create a tomcat group
+  ansible.builtin.group:
+    name: "{{ group_name }}"
+    state: present
+- name: create a tomcat user
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    create_home: yes
+    group: "{{ group_name }}"
+    home: "{{ user_home }}"
+    shell: "{{ user_shell }}"
+    state: present
+- name: get tomcat stats
+  ansible.builtin.stat:
+    path: "{{ user_home }}/latest/bin/startup.sh"
+  register: tomcat_startup
+- name: extract tomcat
+  ansible.builtin.unarchive:
+    src: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    remote_src: yes
+    dest: "{{ user_home }}"
+  when: not tomcat_startup.stat.exists
+- name: create a symbolic link
+  ansible.builtin.file:
+    src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
+    dest: "{{ user_home }}/latest"
+    state: link
+  notify:
+    - add execute permissions to shell files
+- name: Create a systemd unit file
+  ansible.builtin.template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat.service
+    owner: "{{ user_name }}"
+    group: "{{ group_name }}"
+  notify:
+    - enable and reload tomcat
+- name: copy the users xml
+  ansible.builtin.template:
+    src: tomcat-users.xml.j2
+    dest: "{{ user_home }}/latest/conf/tomcat-users.xml"
+    owner: "{{ user_name }}"
+    group: "{{ group_name }}"
+  notify:
+    - restart tomcat
+- name: change permissions
+  ansible.builtin.file:
+    dest: "{{ user_home }}"
+    recurse: true
+    owner: "{{ user_name }}"
+    group: "{{ group_name }}"
+    state: directory
+  notify:
+    - restart tomcat
+- name: copy the context file
+  ansible.builtin.copy:
+    src: context.xml
+    dest: "{{ item }}"
+    owner: "{{ user_name }}"
+    group: "{{ group_name }}"
+  loop:
+    - "{{ user_home }}/latest/webapps/manager/META-INF/context.xml"
+    - "{{ user_home }}/latest/webapps/host-manager/META-INF/context.xml"
+  notify:
+    - restart tomcat
+- name: ensure tomcat is running
+  ansible.builtin.systemd:
+    name: "{{ tomcat_service_name }}"
+    state: started
