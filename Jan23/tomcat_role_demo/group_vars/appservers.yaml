@@ -1,0 +1,12 @@
+---
+user_name: tomcat
+group_name: tomcat
+user_home: /opt/tomcat
+user_shell: /bin/false
+tomcat_version: "10.1.4"
+tomcat_major_version: "10"
+tomcat_service_name: tomcat.service
+tomcat_mgmt_user_name: admin
+tomcat_mgmt_password: admin123
+tomcat_java_home: /usr/lib/jvm/jre
+tomcat_java_opts: -Djava.security.egd=file:///dev/urandom
