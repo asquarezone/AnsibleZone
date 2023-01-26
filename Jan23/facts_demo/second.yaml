@@ -2,6 +2,6 @@
 - name: get facts
   hosts: all
   tasks:
-  - name: get the facts
-    ansible.builtin.debug:
-      msg: "The facts are team = {{ team }} message = {{ message }}" 
+    - name: get the facts
+      ansible.builtin.debug:
+        msg: "The facts are team = {{ team }} message = {{ message }}" 
