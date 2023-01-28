@@ -1,0 +1,34 @@
+---
+- name: tags demo
+  hosts: all
+  tasks:
+    - name: task1
+      ansible.builtin.debug:
+        msg: task1
+      tags:
+        - pre
+        - info
+    - name: task2
+      ansible.builtin.debug:
+        msg: task2
+      tags:
+        - pre
+        - verbose
+    - name: task3
+      ansible.builtin.debug:
+        msg: task3
+      tags:
+        - main
+        - info
+    - name: task4
+      ansible.builtin.debug:
+        msg: task4
+      tags:
+        - post
+        - verbose
+    - name: task5
+      ansible.builtin.debug:
+        msg: task5
+      tags:
+        - post
+        - info
