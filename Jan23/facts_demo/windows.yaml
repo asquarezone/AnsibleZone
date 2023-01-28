@@ -1,0 +1,9 @@
+---
+- name: install iis
+  hosts: winserver
+  tasks:
+    - name: install iis
+      win_feature:
+        name: Web-Server
+        include_management_tools: yes
+        state: present
