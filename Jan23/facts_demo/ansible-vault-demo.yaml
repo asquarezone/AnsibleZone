@@ -1,0 +1,7 @@
+---
+- name: print sensitive information
+  hosts: all
+  tasks:
+    - name: print sensitive information
+      ansible.builtin.debug:
+        msg: "username: {{ username }}  password: {{ password }}"
