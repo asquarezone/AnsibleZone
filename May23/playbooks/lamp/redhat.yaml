@@ -1,0 +1,26 @@
+---
+- name: install lamp server on ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: install apache server
+      ansible.builtin.yum:
+        name: httpd
+        state: present
+    - name: enable and start apache
+      ansible.builtin.systemd:
+        name: httpd
+        enabled: yes
+        state: started
+    - name: install apache server
+      ansible.builtin.yum:
+        name: php
+        state: present
+    - name: copy the info.php file
+      ansible.builtin.copy:
+        src: info.php
+        dest: /var/www/html/info.php
+    - name: restart apache
+      ansible.builtin.systemd:
+        name: httpd
+        state: restarted
