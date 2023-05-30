@@ -16,10 +16,15 @@
       ansible.builtin.yum:
         name: php
         state: present
+      notify:
+        - restart apache
     - name: copy the info.php file
       ansible.builtin.copy:
         src: info.php
         dest: /var/www/html/info.php
+      notify:
+        - restart apache
+  handlers:
     - name: restart apache
       ansible.builtin.systemd:
         name: httpd
