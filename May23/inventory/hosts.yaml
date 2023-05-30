@@ -1,0 +1,13 @@
+---
+all:
+  children:
+    ubuntu:
+      hosts:
+        172.31.27.136:
+    redhat:
+      hosts:
+        172.31.23.22:
+    webserver:
+      hosts:
+        172.31.27.136:
+        172.31.23.22:
