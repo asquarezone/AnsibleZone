@@ -1,6 +1,6 @@
 ---
 - name: install lamp server on ubuntu
-  hosts: redhat
+  hosts: all
   become: yes
   tasks:
     - name: install httpd server
