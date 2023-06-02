@@ -5,6 +5,10 @@
   vars:
     info_page_path: /var/www/html/info.php
   tasks:
+    - name: check if the playbook is being executed on supported os
+      ansible.builtin.fail:
+        msg: "This playbook is designed to work on ubuntu and redhat only"
+      when: ansible_facts['distribution'] != "Ubuntu" and ansible_facts['distribution'] != "RedHat"
     - name: install httpd server
       ansible.builtin.package :
         name: "{{ package_name }}"
