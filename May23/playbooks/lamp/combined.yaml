@@ -15,22 +15,12 @@
         enabled: yes
         state: started
     - name: install httpd php server
-      ansible.builtin.yum:
-        name: php
+      ansible.builtin.package:
+        name: "{{ item }}"
         state: present
+      loop: "{{ php_packages }}"
       notify:
         - restart apache
-      when: ansible_facts['os_family'] == 'RedHat'
-    - name: install php packages
-      ansible.builtin.apt:
-        name:
-          - php
-          - libapache2-mod-php
-          - php-mysql
-        state: present
-      notify:
-        - restart apache
-      when: ansible_facts['os_family'] == 'Ubuntu'
     - name: copy the info.php file in httpd
       ansible.builtin.copy:
         src: info.php
