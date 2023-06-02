@@ -1,6 +1,6 @@
 ---
 - name: install lamp server on ubuntu
-  hosts: all
+  hosts: webserver
   become: yes
   vars:
     info_page_path: /var/www/html/info.php
