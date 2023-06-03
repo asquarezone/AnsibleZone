@@ -27,26 +27,26 @@
       ansible.builtin.get_url:
         url: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
         dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    - name: find if the tomcat is already extracted
+      ansible.builtin.stat:
+        path: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}/LICENSE"
+      register: license_info
     - name: extract tomcat
       ansible.builtin.unarchive:
         src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
         dest: "{{ homedir }}"
         remote_src: yes
+      when: not license_info.stat.exists
     - name: create a symlink
       ansible.builtin.file:
         src: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}"
         dest: "{{ homedir }}/latest"
         state: link
-    - name: Recursively change ownership of a directory
-      ansible.builtin.file:
-        path: "{{ homedir }}"
-        state: directory
-        recurse: yes
-        owner: "{{ user }}"
-        group: "{{ group }}"
-    - name: Add execute permissions for shell scripts
-      ansible.builtin.shell:
-        cmd: "chmod +x {{ homedir }}/latest/bin/*.sh"
+      notify:
+        - Recursively change ownership of a directory
+        - Add execute permissions for shell scripts
+    - name: Flush handlers
+      meta: flush_handlers
     - name: copy the service file
       ansible.builtin.template:
         src: tomcat.service.j2
@@ -62,6 +62,16 @@
     - name: reload daemon
       ansible.builtin.systemd:
         daemon_reload: yes
+    - name: Recursively change ownership of a directory
+      ansible.builtin.file:
+        path: "{{ homedir }}"
+        state: directory
+        recurse: yes
+        owner: "{{ user }}"
+        group: "{{ group }}"
+    - name: Add execute permissions for shell scripts
+      ansible.builtin.shell:
+        cmd: "chmod +x {{ homedir }}/latest/bin/*.sh"
 
 
       
