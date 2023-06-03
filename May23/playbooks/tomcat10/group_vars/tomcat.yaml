@@ -6,4 +6,7 @@ shell: /bin/false
 homedir: /opt/tomcat
 tomcat_major_version: 10
 tomcat_version: 10.1.9
+tomcat_user_name: qtdevops
+tomcat_user_pwd: qtdevops
+tomcat_context_valve_allow: ".*"
 

@@ -58,6 +58,30 @@
         name: tomcat
         enabled: yes
         state: started
+    - name: configure the tomcat users xml
+      ansible.builtin.template:
+        src: tomcat-users.xml.j2
+        dest: "{{ homedir }}/latest/conf/tomcat-users.xml"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+      notify:
+        - restart tomcat
+    - name: allow all for manager app
+      ansible.builtin.template:
+        src: context.xml.j2
+        dest: "{{ homedir }}/latest/webapps/manager/META-INF/context.xml"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+      notify:
+        - restart tomcat
+    - name: allow all for hostmanager app
+      ansible.builtin.template:
+        src: context.xml.j2
+        dest: "{{ homedir }}/latest/webapps/host-manager/META-INF/context.xml"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+      notify:
+        - restart tomcat
   handlers:
     - name: reload daemon
       ansible.builtin.systemd:
@@ -72,6 +96,10 @@
     - name: Add execute permissions for shell scripts
       ansible.builtin.shell:
         cmd: "chmod +x {{ homedir }}/latest/bin/*.sh"
+    - name: restart tomcat
+      ansible.builtin.systemd:
+        name: tomcat
+        state: restarted
 
 
       
