@@ -1,6 +1,7 @@
 ---
 - name: install tomcat
   hosts: tomcat
+  become: yes
   tasks:
     - name: check if the playbook is being executed on supported os
       ansible.builtin.fail:
@@ -11,6 +12,18 @@
         name: "{{ java_package }}"
         update_cache: yes
         state: present
-      become: yes
+    - name: create group
+      ansible.builtin.group:
+        name: "{{ group }}"
+        state: present
+    - name: create user
+      ansible.builtin.user:
+        name: "{{ user }}"
+        create_home: yes
+        home: "{{ homedir }}"
+        shell: "{{ shell }}"
+        group: "{{ group }}"
+
+      
     
       
