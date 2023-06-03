@@ -47,6 +47,22 @@
     - name: Add execute permissions for shell scripts
       ansible.builtin.shell:
         cmd: "chmod +x {{ homedir }}/latest/bin/*.sh"
+    - name: copy the service file
+      ansible.builtin.template:
+        src: tomcat.service.j2
+        dest: /etc/systemd/system/tomcat.service
+      notify:
+        - reload daemon
+    - name: ensure tomcat is enable and runing
+      ansible.builtin.systemd:
+        name: tomcat
+        enabled: yes
+        state: started
+  handlers:
+    - name: reload daemon
+      ansible.builtin.systemd:
+        daemon_reload: yes
+
 
       
     
