@@ -11,5 +11,6 @@
         name: "{{ java_package }}"
         update_cache: yes
         state: present
+      become: yes
     
       
