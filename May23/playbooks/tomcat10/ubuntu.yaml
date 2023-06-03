@@ -37,6 +37,13 @@
         src: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}"
         dest: "{{ homedir }}/latest"
         state: link
+    - name: Recursively change ownership of a directory
+      ansible.builtin.file:
+        path: "{{ homedir }}"
+        state: directory
+        recurse: yes
+        owner: "{{ user }}"
+        group: "{{ group }}"
 
       
     
