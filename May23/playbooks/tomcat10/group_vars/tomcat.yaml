@@ -4,3 +4,6 @@ group: tomcat
 user: tomcat
 shell: /bin/false
 homedir: /opt/tomcat
+tomcat_major_version: 10
+tomcat_version: 10.1.9
+
