@@ -6,16 +6,24 @@
     - name: check if the playbook is being executed on supported os
       ansible.builtin.fail:
         msg: "This playbook is designed to work on ubuntu only"
-      when: ansible_facts['distribution'] != "Ubuntu" 
+      when: ansible_facts['distribution'] != "Ubuntu"
+      tags:
+        - check
     - name: install java
       ansible.builtin.apt:
         name: "{{ java_package }}"
         update_cache: yes
         state: present
+      tags:
+        - java
+        - prereq
     - name: create group
       ansible.builtin.group:
         name: "{{ group }}"
         state: present
+      tags:
+        - user
+        - config
     - name: create user
       ansible.builtin.user:
         name: "{{ user }}"
@@ -23,20 +31,32 @@
         home: "{{ homedir }}"
         shell: "{{ shell }}"
         group: "{{ group }}"
+      tags:
+        - user
+        - config
     - name: download tomcat
       ansible.builtin.get_url:
         url: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
         dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+      tags:
+        - tomcat
+        - config
     - name: find if the tomcat is already extracted
       ansible.builtin.stat:
         path: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}/LICENSE"
       register: license_info
+      tags:
+        - tomcat
+        - config
     - name: extract tomcat
       ansible.builtin.unarchive:
         src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
         dest: "{{ homedir }}"
         remote_src: yes
       when: not license_info.stat.exists
+      tags:
+        - tomcat
+        - config
     - name: create a symlink
       ansible.builtin.file:
         src: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}"
@@ -45,19 +65,31 @@
       notify:
         - Recursively change ownership of a directory
         - Add execute permissions for shell scripts
+      tags:
+        - tomcat
+        - config
     - name: Flush handlers
       meta: flush_handlers
+      tags:
+        - tomcat
+        - config
     - name: copy the service file
       ansible.builtin.template:
         src: tomcat.service.j2
         dest: /etc/systemd/system/tomcat.service
       notify:
         - reload daemon
+      tags:
+        - tomcat
+        - config
     - name: ensure tomcat is enable and runing
       ansible.builtin.systemd:
         name: tomcat
         enabled: yes
         state: started
+      tags:
+        - tomcat
+        - config
     - name: configure the tomcat users xml
       ansible.builtin.template:
         src: tomcat-users.xml.j2
@@ -66,6 +98,9 @@
         group: "{{ group }}"
       notify:
         - restart tomcat
+      tags:
+        - tomcat
+        - config
     - name: allow all for manager app
       ansible.builtin.template:
         src: context.xml.j2
@@ -74,6 +109,9 @@
         group: "{{ group }}"
       notify:
         - restart tomcat
+      tags:
+        - tomcat
+        - config
     - name: allow all for hostmanager app
       ansible.builtin.template:
         src: context.xml.j2
@@ -82,6 +120,10 @@
         group: "{{ group }}"
       notify:
         - restart tomcat
+        - config
+      tags:
+        - tomcat
+        - config
   handlers:
     - name: reload daemon
       ansible.builtin.systemd:
