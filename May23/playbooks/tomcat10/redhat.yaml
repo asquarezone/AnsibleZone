@@ -1,0 +1,21 @@
+---
+- name: install tomcat 10 on redhat
+  become: yes
+  hosts: redhat
+  tasks:
+    - name: check if the playbook is being executed on supported os
+      ansible.builtin.fail:
+        msg: "This playbook is designed to work on RedHat only"
+      when: ansible_facts['distribution'] != "RedHat"
+      tags:
+        - check
+    - name: install java 11
+      ansible.builtin.yum:
+        name: "{{ java_package }}"
+        state: present
+    - name: include tasks from ubuntu
+      ansible.builtin.include_tasks:
+        file: ubuntu.yaml
+        apply:
+          tags:
+            - config
