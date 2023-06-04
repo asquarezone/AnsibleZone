@@ -56,7 +56,7 @@
     - config
 - name: copy the service file
   ansible.builtin.template:
-    src: tomcat.service.j2
+    src: "tomcat.service_{{ ansible_facts['distribution'] }}.j2"
     dest: /etc/systemd/system/tomcat.service
   notify:
     - reload daemon

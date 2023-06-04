@@ -10,3 +10,5 @@ tomcat_version: 10.1.9
 tomcat_user_name: qtdevops
 tomcat_user_pwd: qtdevops
 tomcat_context_valve_allow: ".*"
+java_home_redhat: /usr/lib/jvm/jre
+java_home_ubuntu: /usr/lib/jvm/java-11-openjdk-amd64
