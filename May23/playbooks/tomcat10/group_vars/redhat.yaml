@@ -1,5 +1,5 @@
 ---
-java_package: openjdk-11-jdk
+java_package: java-11-openjdk
 group: tomcat
 user: tomcat
 shell: /bin/false
