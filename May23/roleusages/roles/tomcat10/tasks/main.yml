@@ -1,0 +1,16 @@
+---
+- name: check if the playbook is being executed on supported os
+  ansible.builtin.fail:
+    msg: "This playbook is designed to work on ubuntu and redhat only"
+  when: ansible_facts['distribution'] != "Ubuntu" and ansible_facts['distribution'] != "RedHat"
+- name: run redhat specific tasks
+  ansible.builtin.include_tasks:
+    file: redhat.yaml
+  when: ansible_facts['distribution'] == "RedHat"
+- name: run ubuntu specific tasks
+  ansible.builtin.include_tasks:
+    file: ubuntu.yaml
+  when: ansible_facts['distribution'] == "Ubuntu"
+- name: run common tasks for tomcat
+  ansible.builtin.include_tasks:
+    file: common.yaml

@@ -1,0 +1,6 @@
+---
+- name: install java
+  ansible.builtin.apt:
+    name: "{{ java_package_ubuntu }}"
+    update_cache: yes
+    state: present
