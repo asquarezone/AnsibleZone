@@ -1,0 +1,6 @@
+---
+- name: restart apache
+  ansible.builtin.systemd:
+    name: "{{ package_name }}"
+    state: restarted
+
