@@ -3,7 +3,3 @@
   ansible.builtin.yum:
     name: "{{ java_package_redhat }}"
     state: present
-- name: stop firewall-cmd
-  ansible.builtin.systemd:
-    name: firewall-cmd
-    state: stopped
