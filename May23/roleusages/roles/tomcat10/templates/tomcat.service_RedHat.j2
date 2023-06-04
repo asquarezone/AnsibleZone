@@ -5,19 +5,19 @@ After=network.target
 [Service]
 Type=forking
 
-User={{ user }}
-Group={{ group }}
+User=tomcat
+Group=tomcat
 
 Environment="JAVA_HOME={{ java_home_redhat }}"
-Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"
+Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom"
 
-Environment="CATALINA_BASE={{ homedir }}/latest"
-Environment="CATALINA_HOME={{ homedir }}/latest"
-Environment="CATALINA_PID={{ homedir }}/latest/temp/tomcat.pid"
+Environment="CATALINA_BASE=/opt/tomcat/latest"
+Environment="CATALINA_HOME=/opt/tomcat/latest"
+Environment="CATALINA_PID=/opt/tomcat/latest/temp/tomcat.pid"
 Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
 
-ExecStart={{ homedir }}/latest/bin/startup.sh
-ExecStop={{ homedir }}/latest/bin/shutdown.sh
+ExecStart=/opt/tomcat/latest/bin/startup.sh
+ExecStop=/opt/tomcat/latest/bin/shutdown.sh
 
 [Install]
 WantedBy=multi-user.target
