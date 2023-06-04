@@ -101,7 +101,6 @@
     group: "{{ group }}"
   notify:
     - restart tomcat
-    - config
   tags:
     - tomcat
     - config
