@@ -15,6 +15,8 @@ provider "aws" {
 resource "aws_instance" "gol" {
   ami             = "ami-0c65adc9a5c1b5d7c"
   instance_type   = "t2.micro"
+  key_name = "tfansible"
+  security_groups = ["openall"]
   tags = {
     Name = "gol"
   }
