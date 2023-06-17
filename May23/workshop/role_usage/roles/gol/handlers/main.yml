@@ -1,0 +1,6 @@
+---
+# handlers file for generic
+- name: restart tomcat9
+  ansible.builtin.service:
+    name: "{{ tomcat9_service }}"
+    state: restarted

@@ -1,0 +1,6 @@
+---
+- name: install game of life
+  hosts: all
+  become: yes
+  roles:
+    - name: gol
