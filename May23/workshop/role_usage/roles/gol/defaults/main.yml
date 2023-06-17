@@ -1,6 +1,4 @@
 ---
-# defaults file for generic
----
 packages:
   - openjdk-8-jdk
   - tomcat9
