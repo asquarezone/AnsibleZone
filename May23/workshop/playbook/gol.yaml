@@ -1,0 +1,20 @@
+- name: install gol
+  hosts: all
+  become: yes
+  tasks:
+    - name: install java-8 & tomcat9
+      ansible.builtin.apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+    - name: download game of life
+      ansible.builtin.get_url:
+        url: "{{ source_location }}"
+        dest: "{{ target_location }}"
+      notify:
+        - restart tomcat9
+  handlers:
+    - name: restart tomcat9
+      ansible.builtin.service:
+        name: "{{ tomcat9_service }}"
+        state: restarted

@@ -1,0 +1,7 @@
+---
+packages:
+  - openjdk-8-jdk
+  - tomcat9
+source_location: https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/gameoflife.war
+target_location: /var/lib/tomcat9/webapps/gameoflife.war
+tomcat9_service: tomcat9
