@@ -1,0 +1,19 @@
+---
+- name: activity 2 - install php
+  become: yes
+  hosts: all
+  tasks:
+    - name: install apache and php package
+      ansible.builtin.apt:
+        name:
+          - apache2
+          - php 
+          - libapache2-mod-php 
+          - php-mysql
+        update_cache: yes
+        state: present
+    - name: copy php file
+      ansible.builtin.copy:
+        src: info.php
+        dest: /var/www/html/info.php
+    
