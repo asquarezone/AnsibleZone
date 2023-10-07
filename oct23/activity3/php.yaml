@@ -1,0 +1,17 @@
+---
+- name: activity 3 install apache and php
+  become: yes
+  hosts: all
+  tasks:
+    - name: install apache
+      ansible.builtin.dnf:
+        name:
+          - httpd
+          - php
+          - php-cli 
+          - php-common
+        state: present
+    - name: create info.php
+      ansible.builtin.copy:
+        content: '<?php phpinfo(); ?>'
+        dest: /var/www/html/info.php
