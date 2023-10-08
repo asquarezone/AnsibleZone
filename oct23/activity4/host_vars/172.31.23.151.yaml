@@ -7,5 +7,3 @@ all_packages:
   - "php-mysqlnd"
   - "php-pdo"
 package_name: httpd
-
-# package_name=httpd all_packages=''
