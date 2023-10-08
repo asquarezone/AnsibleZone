@@ -2,5 +2,5 @@
 172.31.30.90
 
 [webservers]
-172.31.17.52 package_name=apache2
-172.31.23.151 package_name=httpd
+172.31.17.52 package_name=apache2 all_packages='["apache2","php","libapache2-mod-php","php-mysql"]'
+172.31.23.151 package_name=httpd all_packages='["httpd php", "php-cli", "php-common", "php-gd", "php-mysqlnd", "php-pdo"]'
