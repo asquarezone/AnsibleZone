@@ -12,21 +12,13 @@
         var: all_packages
     - name: install apache and php package
       ansible.builtin.apt:
-        name:
-          - apache2
-          - php 
-          - libapache2-mod-php 
-          - php-mysql
+        name: "{{ all_packages }}"
         update_cache: yes
         state: present
       when: ansible_facts["os_family"] == "Debian"
     - name: install apache
       ansible.builtin.dnf:
-        name:
-          - httpd
-          - php
-          - php-cli 
-          - php-common
+        name: "{{ all_packages }}"
         state: present
       when: ansible_facts["os_family"] == "RedHat"
     - name: create info.php
@@ -35,7 +27,6 @@
         dest: /var/www/html/info.php
     - name: ensure httpd is running
       ansible.builtin.service:
-        name: httpd
+        name: "{{ package_name }}"
         enabled: yes
         state: started
-      when: ansible_facts["os_family"] == "RedHat"
