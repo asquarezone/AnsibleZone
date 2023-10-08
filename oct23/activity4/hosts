@@ -2,5 +2,5 @@
 172.31.30.90
 
 [webservers]
-172.31.17.52
-172.31.23.151
+172.31.17.52 package_name=apache2
+172.31.23.151 package_name=httpd

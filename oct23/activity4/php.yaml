@@ -7,6 +7,9 @@
       ansible.builtin.fail:
         msg: "This playbook will work on Debian and RedHat Only"
       when: ansible_facts["os_family"] != "Debian" and ansible_facts["os_family"] != "RedHat"
+    - name: print value
+      ansible.builtin.debug:
+        var: package_name
     - name: install apache and php package
       ansible.builtin.apt:
         name:
