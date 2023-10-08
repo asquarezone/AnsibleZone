@@ -3,12 +3,7 @@
   become: yes
   hosts: webservers
   vars:
-    all_packages: 
-      - apache2 
-      - php 
-      - libapache2-mod-php
-      - php-mysql
-    package_name: apache2
+    
   tasks:
     - name: fail on unsupported operating systems
       ansible.builtin.fail:

@@ -1,0 +1,11 @@
+all_packages: 
+  - "httpd"
+  - "php"
+  - "php-cli"
+  - "php-common"
+  - "php-gd"
+  - "php-mysqlnd"
+  - "php-pdo"
+package_name: httpd
+
+# package_name=httpd all_packages=''
