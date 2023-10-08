@@ -2,16 +2,14 @@
 - name: activity 2 - install php
   become: yes
   hosts: webservers
-  vars:
-    
   tasks:
+    - name: print purpose
+      ansible.builtin.debug:
+        var: purpose
     - name: fail on unsupported operating systems
       ansible.builtin.fail:
         msg: "This playbook will work on Debian and RedHat Only"
       when: ansible_facts["os_family"] != "Debian" and ansible_facts["os_family"] != "RedHat"
-    - name: print value
-      ansible.builtin.debug:
-        var: all_packages
     - name: install apache
       ansible.builtin.package:
         name: "{{ item }}"
