@@ -1,0 +1,33 @@
+---
+name: test
+mobile: '999999999'
+email: test@test.com
+CareerObjective: |
+  A motivated individual with in-depth knowledge of languages 
+  and development tools, seeking a position in a growth-oriented 
+  company where I can use my skills to the advantage of the 
+  company while having the scope to develop my own skills.
+ProfessionalSummary:
+  - Involved in designing CI/CD pipleines
+  - Hands on experience in Develpoing Ansible playbooks
+Skills:
+  os:
+    - windows
+    - linux
+  cm:
+    - Ansible
+  container:
+    - Docker
+Work experience:
+  - company: xyz limited
+    duration: Dec 2021 - present
+    designation: DevOps Engineer
+    RandR:
+      - Ensuring Pipelines are healthy
+      - Developing playbooks
+  - company: abc limited
+    duration: Dec 2019 - Dec 2021
+    designation: DevOps Engineer
+    RandR:
+      - Ensuring Pipelines are healthy
+      - Developing playbooks
