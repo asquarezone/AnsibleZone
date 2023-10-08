@@ -1,0 +1,34 @@
+---
+- name: activity 2 - install php
+  become: yes
+  hosts: webservers
+  tasks:
+    - name: install apache and php package
+      ansible.builtin.apt:
+        name:
+          - apache2
+          - php 
+          - libapache2-mod-php 
+          - php-mysql
+        update_cache: yes
+        state: present
+      when: ansible_facts["os_family"] == "Debian"
+    - name: install apache
+      ansible.builtin.dnf:
+        name:
+          - httpd
+          - php
+          - php-cli 
+          - php-common
+        state: present
+      when: ansible_facts["os_family"] == "RedHat"
+    - name: create info.php
+      ansible.builtin.copy:
+        content: '<?php phpinfo(); ?>'
+        dest: /var/www/html/info.php
+    - name: ensure httpd is running
+      ansible.builtin.service:
+        name: httpd
+        enabled: yes
+        state: started
+      when: ansible_facts["os_family"] == "RedHat"
