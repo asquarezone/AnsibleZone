@@ -15,14 +15,14 @@
         state: present
     - name: Ensure group "somegroup" exists
       ansible.builtin.group:
-        name: {{ groupname }}
+        name: "{{ groupname }}"
         state: present
     - name: create tomcat user
       ansible.builtin.user:
-        name: {{ username }}
-        group: {{ groupname }}
-        home: {{ homedir }}
+        name: "{{ username }}"
+        group: "{{ groupname }}"
+        home: "{{ homedir }}"
         create_home: true
-        shell: {{ shell }}
+        shell: "{{ shell }}"
 
         
