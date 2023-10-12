@@ -31,5 +31,13 @@
       ansible.builtin.get_url:
         url: "https://dlcdn.apache.org/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_specific_version }}/bin/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
         dest: "/tmp/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
+    - name: extract tomcat
+      ansible.builtin.unarchive:
+        src: "/tmp/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
+        copy: false
+        creates: "{{ homedir }}/apache-tomcat-{{ tomcat_specific_version }}"
+        dest: "{{ homedir }}"
+        group: "{{ groupname }}"
+        owner: "{{ username }}"
 
         
