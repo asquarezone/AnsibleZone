@@ -34,5 +34,6 @@
         dest: "{{ homedir }}"
         group: "{{ groupname }}"
         owner: "{{ username }}"
+        remote_src: true
 
         
