@@ -49,5 +49,12 @@
         owner: "{{ username }}"
         group: "{{ groupname }}"
         state: link
+    - name: Recursively change ownership of a directory
+      ansible.builtin.file:
+        path: "{{ homedir }}"
+        state: directory
+        recurse: yes
+        owner: "{{ username }}"
+        group: "{{ groupname }}"
 
         
