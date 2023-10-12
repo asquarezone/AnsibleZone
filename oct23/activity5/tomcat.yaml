@@ -16,7 +16,7 @@
         name: "openjdk-{{ java_version }}-jdk"
         update_cache: yes
         state: present
-    - name: Ensure group "somegroup" exists
+    - name: Ensure group "tomcat" exists
       ansible.builtin.group:
         name: "{{ groupname }}"
         state: present
@@ -42,5 +42,12 @@
         group: "{{ groupname }}"
         owner: "{{ username }}"
         remote_src: true
+    - name: Create a symbolic link
+      ansible.builtin.file:
+        src: "{{ homedir }}/apache-tomcat-{{ tomcat_specific_version }}"
+        dest: "{{ homedir }}/latest"
+        owner: "{{ username }}"
+        group: "{{ groupname }}"
+        state: link
 
         
