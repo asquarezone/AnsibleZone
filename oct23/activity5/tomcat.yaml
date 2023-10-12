@@ -56,7 +56,11 @@
         recurse: yes
         owner: "{{ username }}"
         group: "{{ groupname }}"
-    - name: give execute permissions to shell scripts
-      ansible.builtin.command: sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
+    - name: get all the shell files
+      ansible.builtin.command: sudo ls /opt/tomcat/latest/bin/*.sh
+      register: shell_files
+    - name: print the value
+      ansible.builtin.debug:
+        var: shell_files
 
         
