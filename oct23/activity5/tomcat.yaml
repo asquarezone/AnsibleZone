@@ -62,9 +62,12 @@
     - name: print the value
       ansible.builtin.debug:
         var: shell_files
-    - name: print each file
-      ansible.builtin.debug:
-        msg: "{{ item }}"
+    - name: add execute permission
+      ansible.builtin.file:
+        path: "{{ item }}"
+        owner: "{{ username }}"
+        group: "{{ groupname }}"
+        mode: "0751"
       loop: "{{ shell_files.stdout_lines }}"
 
         
