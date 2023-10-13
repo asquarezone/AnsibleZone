@@ -49,13 +49,11 @@
         group: "{{ groupname }}"
         owner: "{{ username }}"
         remote_src: true
-    - name: Create a symbolic link
-      ansible.builtin.file:
-        src: "{{ homedir }}/apache-tomcat-{{ tomcat_specific_version }}"
-        dest: "{{ homedir }}/latest"
-        owner: "{{ username }}"
-        group: "{{ groupname }}"
-        state: link
+      notify:
+        - Create a symbolic link
+    - name: run all the hanlders
+      ansible.builtin.meta: flush_handlers
+    
     - name: Recursively change ownership of a directory
       ansible.builtin.file:
         path: "{{ homedir }}"
@@ -82,7 +80,7 @@
         dest: "{{ service_file_path }}"
       notify:
         - restart tomcat
-    - name: reload daemon, enable and start tomcat
+    - name: ensure tomcat is running
       ansible.builtin.systemd:
         name: tomcat
         state: started
@@ -93,6 +91,13 @@
         daemon_reload: true
         enable: true
         state: started
+    - name: Create a symbolic link
+      ansible.builtin.file:
+        src: "{{ homedir }}/apache-tomcat-{{ tomcat_specific_version }}"
+        dest: "{{ homedir }}/latest"
+        owner: "{{ username }}"
+        group: "{{ groupname }}"
+        state: link
 
 
 
