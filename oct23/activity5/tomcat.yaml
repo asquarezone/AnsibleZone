@@ -66,8 +66,6 @@
     - name: get all the shell files
       ansible.builtin.command: sudo sh -c 'ls /opt/tomcat/latest/bin/*.sh'
       register: shell_files
-      notify:
-        - restart tomcat
     - name: print the value
       ansible.builtin.debug:
         var: shell_files
@@ -94,7 +92,7 @@
         name: tomcat
         daemon_reload: true
         enable: true
-        state: restarted
+        state: started
 
 
 
