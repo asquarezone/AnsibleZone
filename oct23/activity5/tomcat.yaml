@@ -9,6 +9,7 @@
     shell: /bin/false
     tomcat_major_version: 10
     tomcat_specific_version: 10.1.14
+    java_version: "11"
     download_url: 
   tasks:
     - name: install jdk
@@ -16,6 +17,12 @@
         name: "openjdk-{{ java_version }}-jdk"
         update_cache: yes
         state: present
+      when: ansible_facts["os_family"] == "Debian"
+    - name: install jdk 
+      ansible.builtin.yum:
+        name: "java-{{ java_version }}-openjdk"
+        state: present
+      when: ansible_facts["os_family"] == "RedHat"
     - name: Ensure group "tomcat" exists
       ansible.builtin.group:
         name: "{{ groupname }}"
