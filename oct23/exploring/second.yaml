@@ -1,0 +1,8 @@
+---
+- name: second
+  become: no
+  gather_facts: no
+  tasks:
+    - name: print message
+      ansible.builtin.debug:
+        msg: "This is second"
