@@ -20,16 +20,25 @@
         name: "openjdk-{{ java_version }}-jdk"
         update_cache: yes
         state: present
+      tags:
+        - java
+        - install
       when: ansible_facts["os_family"] == "Debian"
     - name: install jdk 
       ansible.builtin.yum:
         name: "java-{{ java_version }}-openjdk"
         state: present
       when: ansible_facts["os_family"] == "RedHat"
+      tags:
+        - java
+        - install
     - name: Ensure group "tomcat" exists
       ansible.builtin.group:
         name: "{{ groupname }}"
         state: present
+      tags:
+        - config
+        - install
     - name: create tomcat user
       ansible.builtin.user:
         name: "{{ username }}"
@@ -37,6 +46,9 @@
         home: "{{ homedir }}"
         create_home: true
         shell: "{{ shell }}"
+      tags:
+        - config
+        - install
     - name: Create a directory if it does not exist
       ansible.builtin.file:
         path: "{{ homedir }}"
@@ -44,6 +56,9 @@
         owner: "{{ username }}"
         state: directory
         mode: '0755'
+      tags:
+        - config
+        - install
     - name: download and extract tomcat
       ansible.builtin.unarchive:
         src: "https://dlcdn.apache.org/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_specific_version }}/bin/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
@@ -52,10 +67,16 @@
         group: "{{ groupname }}"
         owner: "{{ username }}"
         remote_src: true
+      tags:
+        - config
+        - install
       notify:
         - Create a symbolic link
     - name: run all the hanlders
       ansible.builtin.meta: flush_handlers
+      tags:
+        - config
+        - install
     
     - name: Recursively change ownership of a directory
       ansible.builtin.file:
@@ -64,23 +85,38 @@
         recurse: yes
         owner: "{{ username }}"
         group: "{{ groupname }}"
+      tags:
+        - config
+        - install
     - name: get all the shell files
       ansible.builtin.command: sudo sh -c 'ls /opt/tomcat/latest/bin/*.sh'
       register: shell_files
+      tags:
+        - config
+        - install
     - name: print the value
       ansible.builtin.debug:
         var: shell_files
+      tags:
+        - config
+        - install
     - name: add execute permission
       ansible.builtin.file:
         path: "{{ item }}"
         owner: "{{ username }}"
         group: "{{ groupname }}"
         mode: "0751"
+      tags:
+        - config
+        - install
       loop: "{{ shell_files.stdout_lines }}"
     - name: copy tomcat service file 
       ansible.builtin.template:
         src: templates/tomcat.j2
         dest: "{{ service_file_path }}"
+      tags:
+        - config
+        - install
       notify:
         - restart tomcat
     - name: copy users xml
@@ -91,6 +127,8 @@
         group: "{{ groupname }}"
       notify:
         - restart tomcat
+      tags:
+        - enhance
     - name: copy context.xml
       ansible.builtin.template:
         src: templates/context.xml.j2
@@ -100,11 +138,15 @@
         - "{{ homedir }}/latest/webapps/host-manager/META-INF/context.xml"
       notify:
         - restart tomcat
+      tags:
+        - enhance
     - name: ensure tomcat is running
       ansible.builtin.systemd:
         name: tomcat
         state: started
-     
+      tags:
+        - config
+        - install
   handlers:
     - name: restart tomcat
       ansible.builtin.systemd_service:
