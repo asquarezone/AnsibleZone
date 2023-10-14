@@ -2,6 +2,7 @@
 - name: second
   become: no
   gather_facts: no
+  hosts: all
   tasks:
     - name: print message
       ansible.builtin.debug:
