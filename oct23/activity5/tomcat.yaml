@@ -11,6 +11,9 @@
     tomcat_specific_version: 10.1.14
     java_version: "11"
     service_file_path: "/etc/systemd/system/tomcat.service"
+    tomcat_admin_username: admin
+    tomcat_admin_password: admin@123
+    allowed_ip_range: ".*"
   tasks:
     - name: install jdk
       ansible.builtin.apt:
@@ -80,10 +83,28 @@
         dest: "{{ service_file_path }}"
       notify:
         - restart tomcat
+    - name: copy users xml
+      ansible.builtin.template:
+        src: templates/tomcat-users.xml.j2
+        dest: "{{ homedir }}/latest/conf/tomcat-users.xml"
+        owner: "{{ username }}"
+        group: "{{ groupname }}"
+      notify:
+        - restart tomcat
+    - name: copy context.xml
+      ansible.builtin.template:
+        src: templates/context.xml.j2
+        dest: "{{ item }}"
+      with_items:
+        - "{{ homedir }}/latest/webapps/manager/META-INF/context.xml"
+        - "{{ homedir }}/latest/webapps/host-manager/META-INF/context.xml"
+      notify:
+        - restart tomcat
     - name: ensure tomcat is running
       ansible.builtin.systemd:
         name: tomcat
         state: started
+     
   handlers:
     - name: restart tomcat
       ansible.builtin.systemd:
