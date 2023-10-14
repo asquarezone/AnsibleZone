@@ -4,5 +4,5 @@
   gather_facts: no
   hosts: all
   tasks:
-    - ansible.builtin.import_tasks: first_tasks.yaml
-    - ansible.builtin.import_tasks: second_tasks.yaml
+    - ansible.builtin.include_tasks: first_tasks.yaml
+    - ansible.builtin.include_tasks: second_tasks.yaml
