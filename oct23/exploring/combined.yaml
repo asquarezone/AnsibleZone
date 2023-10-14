@@ -1,0 +1,10 @@
+---
+- name: first
+  become: no
+  gather_facts: no
+  hosts: all
+  tasks:
+    - name: call first
+      ansible.builtin.import_playbook: first.yaml
+    - name: call second
+      ansible.builtin.import_playbook: second.yaml
