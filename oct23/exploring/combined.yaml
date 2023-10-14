@@ -1,5 +1,8 @@
 ---
-- name: call first
-  ansible.builtin.import_playbook: first.yaml
-- name: call second
-  ansible.builtin.import_playbook: second.yaml
+- name: call tasks
+  become: no
+  gather_facts: no
+  hosts: all
+  tasks:
+    - ansible.builtin.import_tasks: first_tasks.yaml
+    - ansible.builtin.import_tasks: second_tasks.yaml
