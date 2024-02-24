@@ -1,5 +1,5 @@
 ---
-- name: install tree
+- name: install utilities
   hosts: all
   become: yes
   tasks:
@@ -8,3 +8,10 @@
         name: tree
         update_cache: yes
         state: present
+    - name: install git
+      ansible.builtin.apt:
+        name: git
+        state: present
+
+
+- name: install servers
