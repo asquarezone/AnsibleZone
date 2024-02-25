@@ -3,6 +3,10 @@
   become: yes
   hosts: all
   tasks:
+    - name: fail for unsupported os families
+      ansible.builtin.fail:
+        msg: "This playbook is designed only for RedHat and Debain os families"
+      when: ansible_facts['os_family'] != 'RedHat' and ansible_facts['os_family'] != 'Debian'
     - name: install httpd
       package:
         name: "{{ package_name }}"
