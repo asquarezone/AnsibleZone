@@ -5,23 +5,16 @@
   tasks:
     - name: update packages and install apache
       ansible.builtin.apt:
-        name: apache2
+        name: "{{ package_name }}"
         state: present
-      when: ansible_facts['os_family'] == 'Debian'
-    - name: enable and start apache service
-      ansible.builtin.systemd_service:
-        name: apache2
-        enabled: yes
-        state: started
       when: ansible_facts['os_family'] == 'Debian'
     - name: install httpd
       ansible.builtin.dnf:
-        name: httpd
+        name: "{{ package_name }}"
         state: present
       when: ansible_facts['os_family'] == 'RedHat'
     - name: enable and start httpd
       ansible.builtin.systemd_service:
-        name: httpd
+        name: "{{ package_name }}"
         enabled: yes
         state: started
-      when: ansible_facts['os_family'] == 'RedHat'

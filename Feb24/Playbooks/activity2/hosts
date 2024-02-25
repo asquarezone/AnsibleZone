@@ -1,5 +1,5 @@
 [redhat]
-20.84.116.237
+20.84.116.237 package_name=httpd
 
 [ubuntu]
-172.31.30.37
+172.31.30.37  package_name=apache2
