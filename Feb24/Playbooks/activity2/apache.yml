@@ -1,0 +1,27 @@
+---
+- name: install apache
+  become: yes
+  hosts: all
+  tasks:
+    - name: update packages and install apache
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+      when: ansible_facts['os_family'] == 'Debian'
+    - name: enable and start apache service
+      ansible.builtin.systemd_service:
+        name: apache2
+        enabled: yes
+        state: started
+      when: ansible_facts['os_family'] == 'Debian'
+    - name: install httpd
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+      when: ansible_facts['os_family'] == 'RedHat'
+    - name: enable and start httpd
+      ansible.builtin.systemd_service:
+        name: httpd
+        enabled: yes
+        state: started
+      when: ansible_facts['os_family'] == 'RedHat'
