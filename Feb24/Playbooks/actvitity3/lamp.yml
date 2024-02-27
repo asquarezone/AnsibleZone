@@ -12,23 +12,26 @@
         name: "{{ package }}"
         update_cache: yes
         state: present
+      notify:
+        - enable and start apache 
+    - name: install php packages
+      ansible.builtin.apt:
+        name: "{{ php_packages }}"
+        state: present
+      notify:
+        - restart apache
+    - name: copy info.php
+      copy:
+        src: info.php
+        dest: /var/www/html/info.php
+      notify:
+        - restart apache
+  handlers:
     - name: enable and start apache
       service:
         name: "{{ package }}"
         enabled: yes
         state: started
-    - name: install php packages
-      ansible.builtin.apt:
-        name: "{{ php_packages }}"
-        state: present
-    - name: restart apache
-      service:
-        name: "{{ package }}"
-        state: restarted
-    - name: copy info.php
-      copy:
-        src: info.php
-        dest: /var/www/html/info.php
     - name: restart apache
       service:
         name: "{{ package }}"
