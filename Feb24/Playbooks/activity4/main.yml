@@ -43,5 +43,5 @@
     - ansible.builtin.debug:
         msg: "tomcat is downloaded and extracted to {{ home_dir  }}"
     - name: return motd to registered var
-      command: chmod +x /opt/tomcat/apache-tomcat-10.0.10/bin/*.sh
+      command: sudo chmod +x /opt/tomcat/apache-tomcat-10.0.10/bin/*.sh
       become: yes
