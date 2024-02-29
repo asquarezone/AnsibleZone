@@ -46,12 +46,15 @@
       find:
         paths: "/opt/tomcat/apache-tomcat-10.0.10/bin"
         patterns: '*.sh'
+        recurse: yes
       register: shell_files
+      become: yes
     - name: change permissions to execute
       file:
         path: "{{ item.path }}"
         owner: "{{ user }}"
         group: "{{ group }}"
         mode: "755"
+      become: yes
       loop: "{{ shell_files.files }}"
     
