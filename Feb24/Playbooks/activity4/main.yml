@@ -42,6 +42,16 @@
       become: yes
     - ansible.builtin.debug:
         msg: "tomcat is downloaded and extracted to {{ home_dir  }}"
-    - name: return motd to registered var
-      command: sudo chmod +x '/opt/tomcat/apache-tomcat-10.0.10/bin/*.sh'
-      become: yes
+    - name: find all the shell files
+      find:
+        paths: "/opt/tomcat/apache-tomcat-10.0.10/bin"
+        patterns: '*.sh'
+      register: shell_files
+    - name: change permissions to execute
+      file:
+        path: "{{ item.path }}"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: "755"
+      loop: "{{ shell_files.files }}"
+    
