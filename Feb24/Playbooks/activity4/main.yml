@@ -57,4 +57,38 @@
         mode: "755"
       become: yes
       loop: "{{ shell_files.files }}"
+    - name: create tomcat application accounts
+      ansible.builtin.copy:
+        src: files/tomcat-users.xml
+        dest: "/opt/tomcat/apache-tomcat-10.0.10/conf/tomcat-users.xml"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: '0600'
+    - name: allow remote hosts for manager
+      ansible.builtin.copy:
+        src: files/manager-context.xml
+        dest: "/opt/tomcat/apache-tomcat-10.0.10/webapps/manager/META-INF/context.xml"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: '0640'
+    - name: allow remote hosts for host-manager
+      ansible.builtin.copy:
+        src: files/hostmanager-context.xml
+        dest: "/opt/tomcat/apache-tomcat-10.0.10/webapps/host-manager/META-INF/context.xml"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: '0640'
+    - name: Create a Systemd Service File
+      ansible.builtin.copy:
+        src: files/tomcat.service
+        dest: "/etc/systemd/system/tomcat.service"
+      notify:
+        - start tomcat
+  handlers:
+    - name: start tomcat
+      ansible.builtin.systemd_service:
+        name: tomcat
+        enabled: yes
+        daemon_reload: yes
+        state: started
     
