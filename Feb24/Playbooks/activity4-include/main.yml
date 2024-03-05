@@ -1,0 +1,98 @@
+---
+- name: install tomcat 10
+  hosts: appserver
+  become: yes
+  tasks:
+    - ansible.builtin.include_tasks:
+        file: ubuntu.yaml
+      when: ansible_facts['os_family'] == 'Ubuntu'
+    - ansible.builtin.include_tasks:
+        file: centos.yaml
+      when: ansible_facts['os_family'] == 'RedHat'
+    - ansible.builtin.debug:
+        msg: "java is installed using package {{ java_package_name }}"
+    - name: create tomcat group
+      ansible.builtin.group:
+        name: "{{ group }}"
+        state: present
+    - ansible.builtin.debug:
+        msg: "group {{ group }} has been created"
+    - name: create tomcat user
+      ansible.builtin.user:
+        create_home: yes
+        group: "{{ group }}"
+        home: "{{ home_dir  }}"
+        name: "{{ user }}"
+        shell: "{{ user_shell }}"
+        system: true
+        state: present
+    - ansible.builtin.debug:
+        msg: "user {{ user }} has been created"
+    - name: download tomcat tar
+      ansible.builtin.unarchive:
+        src: "{{ tomcat_url }}"
+        dest: "{{ home_dir  }}"
+        owner: "{{ user }}"
+        remote_src: yes
+    - ansible.builtin.debug:
+        msg: "tomcat is downloaded and extracted to {{ home_dir  }}"
+    - name: find all the shell files
+      find:
+        paths: "/opt/tomcat/apache-tomcat-10.0.10/bin"
+        patterns: '*.sh'
+        recurse: yes
+      register: shell_files
+    - name: change permissions to execute
+      file:
+        path: "{{ item.path }}"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: "755"
+      loop: "{{ shell_files.files }}"
+    - name: create tomcat application accounts
+      ansible.builtin.template:
+        src: templates/tomcat-users.xml.j2
+        dest: "/opt/tomcat/apache-tomcat-10.0.10/conf/tomcat-users.xml"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: '0600'
+      notify:
+        - restart tomcat
+    - name: allow remote hosts for manager
+      ansible.builtin.template:
+        src: templates/manager-context.xml.j2
+        dest: "/opt/tomcat/apache-tomcat-10.0.10/webapps/manager/META-INF/context.xml"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: '0640'
+      notify:
+        - restart tomcat
+    - name: allow remote hosts for host-manager
+      ansible.builtin.template:
+        src: templates/hostmanager-context.xml.j2
+        dest: "/opt/tomcat/apache-tomcat-10.0.10/webapps/host-manager/META-INF/context.xml"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: '0640'
+      notify:
+        - restart tomcat
+    - name: Create a Systemd Service File
+      ansible.builtin.template:
+        src: templates/tomcat.service.j2
+        dest: "/etc/systemd/system/tomcat.service"
+      notify:
+        - start tomcat
+  handlers:
+    - name: start tomcat
+      ansible.builtin.systemd_service:
+        name: tomcat
+        enabled: yes
+        daemon_reload: yes
+        state: started
+    - name: restart tomcat
+      ansible.builtin.systemd_service:
+        name: tomcat
+        enabled: yes
+        daemon_reload: yes
+        state: restarted
+    

@@ -1,0 +1,22 @@
+[Unit]
+Description=Apache Tomcat 10 Web Application Server
+After=network.target
+
+ 
+[Service]
+Type=forking
+ 
+User={{ user }}
+Group={{ group }}
+ 
+Environment="JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64"
+Environment="CATALINA_HOME={{ home_dir_after_extract }}"
+Environment="CATALINA_BASE={{ home_dir_after_extract }}"
+Environment="CATALINA_PID={{ home_dir_after_extract }}/temp/tomcat.pid"
+Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+ 
+ExecStart={{ home_dir_after_extract }}/bin/startup.sh
+ExecStop={{ home_dir_after_extract }}/bin/shutdown.sh
+ 
+[Install]
+WantedBy=multi-user.target

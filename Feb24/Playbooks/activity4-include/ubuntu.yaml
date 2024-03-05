@@ -1,0 +1,8 @@
+- name: update packages and install java
+  ansible.builtin.apt:
+    name: openjdk-11-jdk
+    update_cache: yes
+    state: present
+  when: ansible_facts['distribution'] == "Ubuntu"
+- ansible.builtin.debug:
+    msg: "java is installed using package java-11-openjdk"
