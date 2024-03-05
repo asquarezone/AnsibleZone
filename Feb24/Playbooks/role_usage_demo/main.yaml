@@ -1,0 +1,6 @@
+---
+- name: install apache
+  hosts: all
+  become: yes
+  roles:
+    - role: buluma.httpd
