@@ -5,7 +5,7 @@
   tasks:
     - ansible.builtin.include_tasks:
         file: ubuntu.yaml
-      when: ansible_facts['os_family'] == 'Ubuntu'
+      when: ansible_facts['os_family'] == 'Debian'
     - ansible.builtin.include_tasks:
         file: centos.yaml
       when: ansible_facts['os_family'] == 'RedHat'
