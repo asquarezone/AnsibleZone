@@ -1,0 +1,14 @@
+---
+# handlers file for sample
+- name: start tomcat
+  ansible.builtin.systemd_service:
+    name: tomcat
+    enabled: yes
+    daemon_reload: yes
+    state: started
+- name: restart tomcat
+  ansible.builtin.systemd_service:
+    name: tomcat
+    enabled: yes
+    daemon_reload: yes
+    state: restarted
