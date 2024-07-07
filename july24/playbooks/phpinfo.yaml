@@ -1,0 +1,21 @@
+---
+- name: install php on apache server
+  hosts: all
+  become: yes
+  tasks:
+    - name: install apache and update packages
+      ansible.builtin.apt:
+        name: apache2
+        update_cache: yes
+        state: present
+    - name: install php modules
+      ansible.builtin.apt:
+        name:
+          - php
+          - php-fpm
+        state: present
+    - name: create info page
+      ansible.builtin.copy:
+        content: <?php phpinfo();?>
+        dest: /var/www/html/info.php
+        
