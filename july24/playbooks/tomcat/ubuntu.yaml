@@ -1,0 +1,11 @@
+---
+- name: install tomcat 10 on ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: update packages and install java 11
+      ansible.builtin.apt:
+        name: openjdk-11-jdk
+        update_cache: yes
+        state: present
+      
