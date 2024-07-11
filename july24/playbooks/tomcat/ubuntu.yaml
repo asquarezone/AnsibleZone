@@ -1,13 +1,7 @@
 ---
 - name: install tomcat 10 on ubuntu
-  hosts: all
+  hosts: ubuntu
   become: yes
-  vars:
-    java_package: openjdk-11-jdk
-    user_name: tomcat
-    group_name: tomcat
-    home_dir: /opt/tomcat
-    default_shell: /bin/false
   tasks:
     - name: update packages and install java 11
       ansible.builtin.apt:

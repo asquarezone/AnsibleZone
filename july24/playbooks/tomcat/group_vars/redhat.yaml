@@ -1,0 +1,5 @@
+java_package: java-11-openjdk-devel
+user_name: tomcat
+group_name: tomcat
+home_dir: /opt/tomcat
+default_shell: /bin/false
