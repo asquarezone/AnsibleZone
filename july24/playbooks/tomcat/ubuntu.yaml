@@ -20,7 +20,8 @@
         home: "{{ home_dir }}"
         shell: "{{ default_shell }}"
         state: present
-    - name: download tomcat
-      ansible.builtin.get_url:
-        url: "https://www-eu.apache.org/dist/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
-        dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    - name: download and extract tomcat
+      ansible.builtin.unarchive:
+        src: "https://www-eu.apache.org/dist/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+        dest: "{{ home_dir }}"
+        remote_src: yes
