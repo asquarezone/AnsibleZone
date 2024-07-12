@@ -45,5 +45,14 @@
       ansible.builtin.shell:
         cmd: "chmod +x /opt/tomcat/latest/bin/*.sh"
         executable: "/bin/bash"
+    - name: create a service file
+      ansible.builtin.copy:
+        src: tomcat.service
+        dest: /etc/systemd/system/tomcat.service
+    - name: enable and start tomcat
+      ansible.builtin.systemd_service:
+        name: tomcat.service
+        enabled: yes
+        state: started
 
         
