@@ -25,3 +25,17 @@
         src: "https://www-eu.apache.org/dist/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
         dest: "{{ home_dir }}"
         remote_src: yes
+    - name: create a symbolic link
+      ansible.builtin.file:
+        src: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
+        dest: "{{ home_dir }}/latest"
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        state: link
+    - name: change ownership of the directory
+      ansible.builtin.file:
+        src: "{{ home_dir }}"
+        state: directory
+        recurse: yes
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
