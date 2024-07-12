@@ -34,7 +34,7 @@
         state: link
     - name: change ownership of the directory
       ansible.builtin.file:
-        src: "{{ home_dir }}"
+        path: "{{ home_dir }}"
         state: directory
         recurse: yes
         owner: "{{ user_name }}"
