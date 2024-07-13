@@ -6,7 +6,7 @@
     - name: check if playbook is executed on supported distribution
       ansible.builtin.fail:
         msg: "This playbook is designed to run only on ubuntu"
-      when: ansible_facts['Distribution'] != 'Ubuntu'
+      when: ansible_facts['distribution'] != 'Ubuntu'
     - name: update packages and install java
       ansible.builtin.apt:
         name: "{{ java_package }}"
