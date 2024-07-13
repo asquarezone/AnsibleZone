@@ -3,6 +3,10 @@
   hosts: ubuntu
   become: yes
   tasks:
+    - name: check if playbook is executed on supported distribution
+      ansible.builtin.fail:
+        msg: "This playbook is designed to run only on ubuntu"
+      when: ansible_facts['Distribution'] != 'Ubuntu'
     - name: update packages and install java
       ansible.builtin.apt:
         name: "{{ java_package }}"
