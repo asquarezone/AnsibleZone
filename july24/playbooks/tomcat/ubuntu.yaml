@@ -51,7 +51,6 @@
         recurse: yes
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
-    
     - name: create a service file
       ansible.builtin.copy:
         src: tomcat.service
@@ -61,22 +60,14 @@
         name: tomcat.service
         enabled: yes
         state: started
-    - name: update users
+    - name: update configurations
       ansible.builtin.copy:
-        src: tomcat-users.xml
-        dest: "{{ home_dir }}/latest/conf/tomcat-users.xml"
-      notify:
-        - restart tomcat
-    - name: update manager context
-      ansible.builtin.copy:
-        src: manager_context.xml
-        dest: "{{ home_dir }}/latest/webapps/manager/META-INF/context.xml"
-      notify:
-        - restart tomcat
-    - name: update host manager context
-      ansible.builtin.copy:
-        src: hostmanager_context.xml
-        dest: "{{ home_dir }}/latest/webapps/host-manager/META-INF/context.xml"
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      loop:
+        - { src: "tomcat-users.xml", dest: "{{ home_dir }}/latest/conf/tomcat-users.xml" }
+        - { src: "manager_context.xml", dest: "{{ home_dir }}/latest/webapps/manager/META-INF/context.xml" }
+        - { src: "hostmanager_context.xml", dest: "{{ home_dir }}/latest/webapps/host-manager/META-INF/context.xml" }
       notify:
         - restart tomcat
   handlers:
