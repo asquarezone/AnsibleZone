@@ -3,4 +3,4 @@ user_name: tomcat
 group_name: tomcat
 home_dir: /opt/tomcat
 default_shell: /bin/false
-tomcat_version: "10.1.25"
+tomcat_version: "10.1.26"
