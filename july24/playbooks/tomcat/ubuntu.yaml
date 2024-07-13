@@ -52,8 +52,8 @@
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
     - name: create a service file
-      ansible.builtin.copy:
-        src: tomcat.service
+      ansible.builtin.template:
+        src: tomcat.service.j2
         dest: /etc/systemd/system/tomcat.service
     - name: enable and start tomcat
       ansible.builtin.systemd:
