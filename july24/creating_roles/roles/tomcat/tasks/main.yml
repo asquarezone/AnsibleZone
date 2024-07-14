@@ -1,0 +1,74 @@
+---
+- name: check if playbook is executed on supported distribution
+  ansible.builtin.fail:
+    msg: "This playbook is designed to run only on ubuntu"
+  when: ansible_facts['distribution'] != 'Ubuntu'
+- name: update packages and install java
+  ansible.builtin.apt:
+    name: "{{ java_package }}"
+    update_cache: yes
+    state: present
+- name: create a group tomcat
+  ansible.builtin.group:
+    name: "{{ group_name }}"
+    state: present
+- name: create a system user tomcat
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    create_home: true
+    group: "{{ group_name }}"
+    home: "{{ home_dir }}"
+    shell: "{{ default_shell }}"
+    state: present
+- name: find stats of tomcat folder
+  ansible.builtin.stat:
+    path: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
+  register: tomcat_folder_stats
+- name: print stats
+  debug:
+    var: tomcat_folder_stats.stat.exists
+- name: download and extract tomcat
+  ansible.builtin.unarchive:
+    src: "https://dlcdn.apache.org/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ home_dir }}"
+    owner: "{{ user_name }}"
+    group: "{{ group_name }}"
+    remote_src: yes
+  when: tomcat_folder_stats.stat.exists == false
+  notify:
+    - give execute permissions to shell files
+- name: create a symbolic link
+  ansible.builtin.file:
+    src: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
+    dest: "{{ home_dir }}/latest"
+    owner: "{{ user_name }}"
+    group: "{{ group_name }}"
+    state: link
+- name: change ownership of the directory
+  ansible.builtin.file:
+    path: "{{ home_dir }}"
+    state: directory
+    recurse: yes
+    owner: "{{ user_name }}"
+    group: "{{ group_name }}"
+- name: create a service file
+  ansible.builtin.template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat.service
+  notify:
+    - restart tomcat
+- name: enable and start tomcat
+  ansible.builtin.systemd:
+    name: tomcat.service
+    enabled: yes
+    state: started
+- name: update configurations
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - { src: "tomcat-users.xml", dest: "{{ home_dir }}/latest/conf/tomcat-users.xml" }
+    - { src: "manager_context.xml", dest: "{{ home_dir }}/latest/webapps/manager/META-INF/context.xml" }
+    - { src: "hostmanager_context.xml", dest: "{{ home_dir }}/latest/webapps/host-manager/META-INF/context.xml" }
+  notify:
+    - restart tomcat

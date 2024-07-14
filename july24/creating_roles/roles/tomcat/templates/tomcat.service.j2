@@ -1,0 +1,23 @@
+[Unit]
+Description=Tomcat 10 servlet container
+After=network.target
+
+[Service]
+Type=forking
+
+User={{ user_name }}
+Group={{ group_name }}
+
+Environment="JAVA_HOME={{ java_home }}"
+Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"
+
+Environment="CATALINA_BASE={{ home_dir }}/latest"
+Environment="CATALINA_HOME={{ home_dir }}/latest"
+Environment="CATALINA_PID={{ home_dir }}/latest/temp/tomcat.pid"
+Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+ExecStart={{ home_dir }}/latest/bin/startup.sh
+ExecStop={{ home_dir }}/latest/bin/shutdown.sh
+
+[Install]
+WantedBy=multi-user.target

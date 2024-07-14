@@ -1,0 +1,6 @@
+---
+- name: install tomcat 10
+  hosts: appserver
+  roles:
+    - role: tomcat
+      become: yes

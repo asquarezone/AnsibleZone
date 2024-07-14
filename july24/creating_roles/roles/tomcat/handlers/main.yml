@@ -1,0 +1,10 @@
+---
+# handlers file for skeleton
+- name: restart tomcat
+  ansible.builtin.systemd:
+    name: tomcat.service
+    state: restarted
+- name: give execute permissions to shell files
+  ansible.builtin.shell:
+    cmd: "chmod +x /opt/tomcat/latest/bin/*.sh"
+    executable: "/bin/bash"

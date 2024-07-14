@@ -1,0 +1,9 @@
+---
+# vars file for skeleton
+java_package: openjdk-11-jdk
+user_name: tomcat
+group_name: tomcat
+home_dir: /opt/tomcat
+default_shell: /bin/false
+tomcat_version: "10.1.26"
+java_home: /usr/lib/jvm/java-11-openjdk-amd64
