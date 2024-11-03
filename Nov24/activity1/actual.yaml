@@ -1,0 +1,27 @@
+---
+- name: deploy website
+  hosts: all
+  become: yes
+  tasks:
+    - name: install nginx and unzip
+      ansible.builtin.apt:
+        name: 
+          - nginx
+          - unzip
+        update_cache: yes
+        state: present
+    - name: Download website
+      ansible.builtin.get_url:
+        url: https://www.free-css.com/assets/files/free-css-templates/download/page295/antique-cafe.zip
+        dest: /tmp/antique-cafe.zip
+    - name: extract the file
+      ansible.builtin.unarchive:
+        src: /tmp/antique-cafe.zip
+        dest: /tmp
+        remote_src: yes
+    - name: copy to cafe
+      ansible.builtin.copy:
+        src: /tmp/2126_antique_cafe/
+        dest: /var/www/html/cafe
+        remote_src: true
+        
