@@ -1,0 +1,9 @@
+[ubuntu]
+node-1
+
+[redhat]
+node-2
+
+[website]
+node-1
+node-2

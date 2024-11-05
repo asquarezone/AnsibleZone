@@ -1,0 +1,14 @@
+---
+- name: install apache server on redhat
+  hosts: redhat
+  become: yes
+  tasks:
+    - name: install apache server on redhat
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+    - name: ensure apache service is running
+      ansible.builtin.systemd_service:
+        name: httpd
+        enabled: yes
+        state: started
