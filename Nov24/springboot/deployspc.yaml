@@ -1,0 +1,38 @@
+---
+- name: deploy spring petclinic
+  become: yes
+  hosts: appserver
+  gather_facts: yes
+  tasks:
+    - name: bail out if running on unsupported os
+      ansible.builtin.fail:
+        msg: "This playbook supports only ubuntu distribution"
+      when: ansible_facts['distribution'] != 'Ubuntu'
+    - name: install openjdk 17
+      ansible.builtin.apt:
+        name: openjdk-17-jdk
+        update_cache: yes
+        state: present
+    - name: create spc user
+      ansible.builtin.user:
+        name: spc
+        create_home: yes
+        home: '/var/lib/spc'
+        shell: '/bin/sh'
+        state: present
+    - name: download jar into spc home directory
+      ansible.builtin.get_url:
+        url: "https://referenceappslt.s3.ap-south-1.amazonaws.com/spring-petclinic-3.3.0-SNAPSHOT.jar"
+        dest: '/var/lib/spc/spring-petclinic-3.3.0-SNAPSHOT.jar'
+        owner: spc
+    - name: copy the service file
+      ansible.builtin.copy:
+        src: spc.service
+        dest: /usr/lib/systemd/system/spc.service
+    - name: reload daemon, enable and start spc
+      ansible.builtin.systemd_service:
+        name: spc
+        daemon_reload: yes
+        enabled: yes
+        state: started
+    
