@@ -8,6 +8,9 @@
       ansible.builtin.fail:
         msg: "This playbook supports only ubuntu and redhat distribution"
       when: ansible_facts['distribution'] != 'Ubuntu' and ansible_facts['distribution'] != 'RedHat'
+    - name: print info
+      ansible.builtin.debug:
+        msg: Java Package name is {{ java_package }}
     - name: install openjdk 17
       ansible.builtin.apt:
         name: "{{ java_package }}"
