@@ -10,11 +10,13 @@
       when: ansible_facts['distribution'] != 'Ubuntu' and ansible_facts['distribution'] != 'RedHat'
     - name: print info
       ansible.builtin.debug:
-        msg: Java Package name is {{ java_package }}
+        msg: Installing Java using Package {{ java_package }}
     - name: install openjdk 17
       ansible.builtin.package:
         name: "{{ java_package }}"
         state: present
+    - ansible.builtin.debug:
+        msg: "Creating user {{ username }}"
     - name: create spc user
       ansible.builtin.user:
         name: "{{ username }}"
@@ -22,11 +24,15 @@
         home: "{{ home_dir }}"
         shell: "{{ default_shell }}"
         state: present
+    - ansible.builtin.debug:
+        msg: "Downloading jar from {{ url }}"
     - name: download jar into spc home directory
       ansible.builtin.get_url:
         url: "{{ url }}"
         dest: "{{ destination }}"
         owner: "{{ username }}"
+    - ansible.builtin.debug:
+        msg: "creating the service file with name {{ service_name }} "
     - name: copy the service file
       ansible.builtin.copy:
         src: spc.service
