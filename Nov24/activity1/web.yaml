@@ -1,0 +1,11 @@
+# ansible playbook to install apache
+---
+- name: Install apache
+  hosts: all
+  become: true
+  tasks:
+    - name: Install apache
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes

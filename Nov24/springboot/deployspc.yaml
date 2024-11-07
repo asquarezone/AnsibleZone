@@ -38,8 +38,8 @@
         msg: "creating the service file with name {{ service_name }} "
         verbosity: 1
     - name: copy the service file
-      ansible.builtin.copy:
-        src: spc.service
+      ansible.builtin.template:
+        src: spc.service.j2
         dest: "/usr/lib/systemd/system/{{ service_name }}.service"
     - name: reload daemon, enable and start spc
       ansible.builtin.systemd_service:

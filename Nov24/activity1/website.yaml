@@ -17,6 +17,6 @@
         remote_src: yes
     - name: rename to cafe
       ansible.builtin.copy:
-        src: /var/www/html/2126_antique_cafe
+        src: /var/www/html/2126_antique_cafe/
         dest: /var/www/html/cafe
         remote_src: true
