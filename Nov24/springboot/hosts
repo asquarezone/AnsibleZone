@@ -1,3 +1,13 @@
 [appserver]
 172.31.5.225 java_package=openjdk-17-jdk
 172.31.11.110 java_package=java-17-openjdk
+
+[appserver:vars]
+username=spc
+home_dir=/var/lib/spc
+default_shell=/bin/sh
+url=https://referenceappslt.s3.ap-south-1.amazonaws.com/spring-petclinic-3.3.0-SNAPSHOT.jar
+destination=/var/lib/spc/spring-petclinic-3.3.0-SNAPSHOT.jar
+service_name=spc
+
+
