@@ -11,12 +11,14 @@
     - name: print info
       ansible.builtin.debug:
         msg: Installing Java using Package {{ java_package }}
+        verbosity: 1
     - name: install openjdk 17
       ansible.builtin.package:
         name: "{{ java_package }}"
         state: present
     - ansible.builtin.debug:
         msg: "Creating user {{ username }}"
+        verbosity: 1
     - name: create spc user
       ansible.builtin.user:
         name: "{{ username }}"
@@ -26,6 +28,7 @@
         state: present
     - ansible.builtin.debug:
         msg: "Downloading jar from {{ url }}"
+        verbosity: 1
     - name: download jar into spc home directory
       ansible.builtin.get_url:
         url: "{{ url }}"
@@ -33,6 +36,7 @@
         owner: "{{ username }}"
     - ansible.builtin.debug:
         msg: "creating the service file with name {{ service_name }} "
+        verbosity: 1
     - name: copy the service file
       ansible.builtin.copy:
         src: spc.service
