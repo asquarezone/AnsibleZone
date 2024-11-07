@@ -6,13 +6,19 @@
   tasks:
     - name: bail out if running on unsupported os
       ansible.builtin.fail:
-        msg: "This playbook supports only ubuntu distribution"
-      when: ansible_facts['distribution'] != 'Ubuntu'
+        msg: "This playbook supports only ubuntu and redhat distribution"
+      when: ansible_facts['distribution'] != 'Ubuntu' or ansible_facts['distribution'] != 'RedHat'
     - name: install openjdk 17
       ansible.builtin.apt:
         name: openjdk-17-jdk
         update_cache: yes
         state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: install openjdk 17 on redhat
+      ansible.builtin.dnf:
+        name: java-17-openjdk
+        state: present
+      when: ansible_facts['os_family'] == "RedHat"
     - name: create spc user
       ansible.builtin.user:
         name: spc
