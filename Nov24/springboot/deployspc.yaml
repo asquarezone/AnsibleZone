@@ -12,16 +12,9 @@
       ansible.builtin.debug:
         msg: Java Package name is {{ java_package }}
     - name: install openjdk 17
-      ansible.builtin.apt:
-        name: "{{ java_package }}"
-        update_cache: yes
-        state: present
-      when: ansible_facts['os_family'] == "Debian"
-    - name: install openjdk 17 on redhat
-      ansible.builtin.dnf:
+      ansible.builtin.package:
         name: "{{ java_package }}"
         state: present
-      when: ansible_facts['os_family'] == "RedHat"
     - name: create spc user
       ansible.builtin.user:
         name: spc
