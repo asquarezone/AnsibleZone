@@ -19,4 +19,10 @@
         dest: "{{ home_dir }}"
         remote_src: yes
         owner: "{{ user }}"
+    - name: ensure directories are present
+      ansible.builtin.file:
+        path: "{{ home_dir }}/{{ item }}"
+        owner: "{{ user }}"
+        state: directory
+      loop: "{{ folders }}"
     
