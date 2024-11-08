@@ -29,6 +29,13 @@
       ansible.builtin.template:
         src: nopCommerce.service.j2
         dest: /etc/systemd/system/nopCommerce.service
+      notify:
+        - enable and start nopCommerce service
+    - name: ensure service is runnning
+      ansible.builtin.systemd_service:
+        name: nopCommerce
+        state: started
+  handlers:
     - name: enable and start nopCommerce service
       ansible.builtin.systemd_service:
         name: nopCommerce
