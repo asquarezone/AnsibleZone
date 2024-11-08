@@ -1,0 +1,22 @@
+---
+- name: install and configure nop commerce
+  hosts: app
+  become: yes
+  tasks:
+    - name: install dotnet sdk and other packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        update_cache: yes
+        state: present
+      loop: "{{ packages }}"
+    - name: create a nop user
+      ansible.builtin.user:
+        name: "{{ user }}"
+        home: "{{ home_dir }}"
+    - name: download and extract zip file
+      ansible.builtin.unarchive:
+        src: "{{ nop_zip_url }}"
+        dest: "{{ home_dir }}"
+        remote_src: yes
+        owner: "{{ user }}"
+    
