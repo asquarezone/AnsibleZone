@@ -42,5 +42,25 @@
         daemon_reload: yes
         enabled: yes
         state: restarted
+- name: configure mysql database
+  hosts: db
+  become: yes
+  roles:
+    - name: install mysql
+      role: buluma.mysql
+      mysql_port: 3306
+      mysql_databases:
+        - name: nopdb
+          encoding: utf8
+          collation: utf8_bin
+    - name: create users
+      mysql_users:
+        - name: nop
+          password: nopnopnop
+          priv: "nopdb.*:ALL"
+          update_password: on_create
+          mysql_bind_address: "0.0.0.0"
+      
+    
 
     
