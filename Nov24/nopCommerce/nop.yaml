@@ -57,7 +57,7 @@
       mysql_users:
         - name: nop
           password: nopnopnop
-          priv: "nopdb.*:ALL"
+          priv: "*.*:ALL"
           update_password: on_create
           host: "%"
           
