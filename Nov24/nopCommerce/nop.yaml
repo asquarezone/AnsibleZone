@@ -2,46 +2,9 @@
 - name: install and configure nop commerce
   hosts: app
   become: yes
-  tasks:
-    - name: install dotnet sdk and other packages
-      ansible.builtin.apt:
-        name: "{{ item }}"
-        update_cache: yes
-        state: present
-      loop: "{{ packages }}"
-    - name: create a nop user
-      ansible.builtin.user:
-        name: "{{ user }}"
-        home: "{{ home_dir }}"
-    - name: download and extract zip file
-      ansible.builtin.unarchive:
-        src: "{{ nop_zip_url }}"
-        dest: "{{ home_dir }}"
-        remote_src: yes
-        owner: "{{ user }}"
-    - name: ensure directories are present
-      ansible.builtin.file:
-        path: "{{ home_dir }}/{{ item }}"
-        owner: "{{ user }}"
-        state: directory
-      loop: "{{ folders }}"
-    - name: copy the service
-      ansible.builtin.template:
-        src: nopCommerce.service.j2
-        dest: /etc/systemd/system/nopCommerce.service
-      notify:
-        - enable and start nopCommerce service
-    - name: ensure service is runnning
-      ansible.builtin.systemd_service:
-        name: nopCommerce
-        state: started
-  handlers:
-    - name: enable and start nopCommerce service
-      ansible.builtin.systemd_service:
-        name: nopCommerce
-        daemon_reload: yes
-        enabled: yes
-        state: restarted
+  roles:
+    - name: install nop
+      role: "roles/nop"
 - name: configure mysql database
   hosts: db
   become: yes
