@@ -49,6 +49,7 @@
     - name: install mysql
       role: buluma.mysql
       mysql_port: 3306
+      mysql_bind_address: "0.0.0.0"
       mysql_databases:
         - name: nopdb
           encoding: utf8
@@ -58,7 +59,8 @@
           password: nopnopnop
           priv: "nopdb.*:ALL"
           update_password: on_create
-          mysql_bind_address: "0.0.0.0"
+          host: "%"
+          
       
     
 
