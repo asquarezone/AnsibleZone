@@ -60,7 +60,7 @@ resource "aws_instance" "ansible" {
     Name = "lt-spc"
   }
   provisioner "local-exec" {
-    command = "${self.public_ip} ansible_ssh_private_key_file=~/.ssh/id_rsa > hosts"
+    command = "echo ${self.public_ip} ansible_ssh_private_key_file=~/.ssh/id_rsa > hosts"
   }
 }
 
