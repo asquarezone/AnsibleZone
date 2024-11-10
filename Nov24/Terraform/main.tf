@@ -69,7 +69,7 @@ resource "null_resource" "deploy" {
       build_number = timestamp()
     }
     provisioner "local-exec" {
-        command = "ansible-playbook -i hosts playbook/deployspc.yml"
+        command = "ansible-playbook -i hosts ./playbook/deployspc.yaml"
       
     }
 
