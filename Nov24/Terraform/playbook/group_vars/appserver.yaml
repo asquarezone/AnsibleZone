@@ -1,0 +1,7 @@
+username: spc
+home_dir: /var/lib/spc
+default_shell: /bin/sh
+url: https://referenceappslt.s3.ap-south-1.amazonaws.com/spring-petclinic-3.3.0-SNAPSHOT.jar
+destination: /var/lib/spc/spring-petclinic-3.3.0-SNAPSHOT.jar
+service_name: spc
+java_package: openjdk-17-jdk
