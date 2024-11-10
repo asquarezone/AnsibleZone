@@ -73,5 +73,7 @@ resource "null_resource" "deploy" {
       
     }
 
+    depends_on = [ aws_instance.ansible ]
+
   
 }
