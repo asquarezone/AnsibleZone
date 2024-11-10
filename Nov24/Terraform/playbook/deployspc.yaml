@@ -1,7 +1,7 @@
 ---
 - name: deploy spring petclinic
   become: yes
-  hosts: appserver
+  hosts: all
   gather_facts: yes
   tasks:
     - name: bail out if running on unsupported os
